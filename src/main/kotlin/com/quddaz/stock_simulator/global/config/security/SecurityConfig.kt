@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.config
+package com.quddaz.stock_simulator.global.config.security
 
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean

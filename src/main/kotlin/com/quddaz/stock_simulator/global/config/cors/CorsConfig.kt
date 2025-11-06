@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.config
+package com.quddaz.stock_simulator.global.config.cors
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
