@@ -7,41 +7,28 @@ data class ResponseTemplate<T>(
     val results: T? = null
 ) {
     companion object {
-        val EMPTY_RESPONSE = ResponseTemplate(
-            isSuccess = true,
-            code = "REQUEST_OK",
-            message = "요청이 승인되었습니다.",
-            results = emptyMap<String, Any>()
-        )
-
-        val JSON_AUTH_ERROR = ResponseTemplate(
-            isSuccess = false,
-            code = "JSON_AUTH_ERROR",
-            message = "로그인 후 다시 접근해주시기 바랍니다.",
-            results = emptyMap<String, Any>()
-        )
-
-        val JSON_ROLE_ERROR = ResponseTemplate(
-            isSuccess = false,
-            code = "JSON_ROLE_ERROR",
-            message = "가진 권한으로는 실행할 수 없는 기능입니다.",
-            results = emptyMap<String, Any>()
-        )
-
-        fun <T> from(dto: T): ResponseTemplate<T> =
+        fun <T> success(
+            results: T,
+            code: String = "REQUEST_OK",
+            message: String = "요청이 성공적으로 처리되었습니다."
+        ): ResponseTemplate<T> =
             ResponseTemplate(
                 isSuccess = true,
-                code = "REQUEST_OK",
-                message = "request succeeded",
-                results = dto
+                code = code,
+                message = message,
+                results = results
             )
 
-        fun <T> fail(dto: T): ResponseTemplate<T> =
+        fun fail(
+            message: String,
+            code: String = "ERROR",
+            results: Any? = null
+        ): ResponseTemplate<Any> =
             ResponseTemplate(
                 isSuccess = false,
-                code = "Error",
-                message = dto.toString(),
-                results = null
+                code = code,
+                message = message,
+                results = results
             )
     }
 }
