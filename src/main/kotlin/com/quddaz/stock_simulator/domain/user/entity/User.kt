@@ -18,6 +18,10 @@ class User(
     @Column(name = "social_id", nullable = false)
     val socialId: String,
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    val role: Role,
+
     @Column(nullable = false)
     var money: Long = 0L
 ) {
