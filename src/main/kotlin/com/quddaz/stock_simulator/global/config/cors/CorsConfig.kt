@@ -15,7 +15,6 @@ class CorsConfig(
     @Value("\${cors.allowed.origins}")
     private val allowedOrigins: Array<String>
 ) {
-
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val config = CorsConfiguration().apply {
