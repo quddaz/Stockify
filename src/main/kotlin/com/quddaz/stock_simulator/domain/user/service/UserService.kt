@@ -11,4 +11,7 @@ class UserService(
 ){
     fun findBySocialId(socialId: String) =
         userRepository.findBySocialId(socialId) ?: throw UserDomainException(UserErrorCode.USER_NOT_FOUND)
+
+    fun findById(id: Long) =
+        userRepository.findById(id).orElseThrow { UserDomainException(UserErrorCode.USER_NOT_FOUND) }
 }
