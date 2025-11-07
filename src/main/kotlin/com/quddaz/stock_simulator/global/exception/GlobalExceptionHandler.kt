@@ -2,7 +2,6 @@ package com.quddaz.stock_simulator.global.exception
 
 import com.quddaz.stock_simulator.global.exception.errorcode.GlobalErrorCode
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
