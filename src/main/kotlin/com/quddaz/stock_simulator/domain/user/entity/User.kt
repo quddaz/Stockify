@@ -1,6 +1,7 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
 import jakarta.persistence.*
+
 @Entity
 @Table(name = "users")
 class User(
