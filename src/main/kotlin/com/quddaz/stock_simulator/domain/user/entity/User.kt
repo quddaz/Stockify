@@ -1,5 +1,6 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
+import com.quddaz.stock_simulator.domain.oauth.format.Oauth2Response
 import jakarta.persistence.*
 
 @Entity
@@ -38,4 +39,5 @@ class User(
         if (this.money - amount < 0) throw IllegalArgumentException("금액은 0보다 작을 수 없습니다.")
         this.money -= amount
     }
+
 }

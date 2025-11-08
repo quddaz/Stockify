@@ -16,7 +16,7 @@ class CustomOAuth2User(
 ): OAuth2User {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return setOf(SimpleGrantedAuthority("ROLE_${role.name}"))
+        return setOf(SimpleGrantedAuthority(role.value))
     }
 
     override fun getAttributes(): Map<String, Any> {
@@ -32,8 +32,6 @@ class CustomOAuth2User(
     override fun getName(): String {
         return id.toString()
     }
-
-
 
     // 디버깅용
     override fun toString(): String {

@@ -1,6 +1,7 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
-enum class Role(){
-    USER,
-    ADMIN
+enum class Role(val value: String) {
+    ADMIN("ROLE_ADMIN"),
+    USER("ROLE_USER"),
+    ;
 }
