@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     private val userRepository: UserRepository
-){
+) {
     fun findBySocialId(socialId: String) =
         userRepository.findBySocialId(socialId) ?: throw UserDomainException(UserErrorCode.USER_NOT_FOUND)
 

@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
-
 @Configuration
 class CorsConfig(
     @Value("\${cors.allowed.origins}")

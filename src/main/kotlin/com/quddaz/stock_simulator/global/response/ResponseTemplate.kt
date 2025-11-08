@@ -11,10 +11,12 @@ data class ResponseTemplate<T>(
 ) {
     companion object {
         fun <T> success(data: T): ResponseTemplate<T> =
-            ResponseTemplate(true, HttpStatus.OK.value() , "SUCCESS", data)
+            ResponseTemplate(true, HttpStatus.OK.value(), "SUCCESS", data)
 
         fun <T> fail(errorCode: ErrorCode, data: T? = null): ResponseTemplate<T> =
-            ResponseTemplate(false, errorCode.httpStatus.value() , errorCode.message, data)
+            ResponseTemplate(false, errorCode.httpStatus.value(), errorCode.message, data)
+
+        val UNIT_SUCCESS = success(Unit)
 
         val ROLE_ERROR = ResponseTemplate<Unit>(
             isSuccess = false,

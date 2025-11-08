@@ -1,9 +1,12 @@
 package com.quddaz.stock_simulator.domain.oauth.service
 
+import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Header
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
@@ -36,7 +39,7 @@ class JwtTokenProvider(
     /**
      * AccessToken 생성
      */
-    fun createAccessToken(userId: Long, role: String): String {
+    fun createAccessToken(userId: Long, role: Role): String {
         val now = Date().time
         val accessValidity = Date(now + jwtProperties.accessTokenExpiration)
 
@@ -45,7 +48,7 @@ class JwtTokenProvider(
             .setExpiration(accessValidity)
             .setIssuer(jwtProperties.issuer)
             .setSubject(userId.toString())
-            .addClaims(mapOf(MEMBER_ROLE to role))
+            .claim(MEMBER_ROLE, role.toString())
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
             .signWith(key, SignatureAlgorithm.HS512)
             .compact()
@@ -54,7 +57,7 @@ class JwtTokenProvider(
     /**
      * RefreshToken 생성
      */
-    fun createRefreshToken(userId: Long, role: String): Cookie {
+    fun createRefreshToken(userId: Long, role: Role): Cookie {
         val now = Date().time
         val refreshValidity = Date(now + jwtProperties.refreshTokenExpiration)
 
@@ -63,7 +66,7 @@ class JwtTokenProvider(
             .setExpiration(refreshValidity)
             .setIssuer(jwtProperties.issuer)
             .setSubject(userId.toString())
-            .addClaims(mapOf(MEMBER_ROLE to role))
+            .claim(MEMBER_ROLE, role.toString())
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
             .signWith(key, SignatureAlgorithm.HS512)
             .compact()
@@ -103,7 +106,7 @@ class JwtTokenProvider(
 
         log.info("in getMember() socialId: $id")
 
-        return userService.findById(id);
+        return userService.findById(id)
     }
 
     /**

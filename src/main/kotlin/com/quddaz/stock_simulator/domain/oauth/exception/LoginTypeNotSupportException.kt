@@ -4,4 +4,4 @@ import com.quddaz.stock_simulator.global.exception.errorcode.ErrorCode
 
 class LoginTypeNotSupportException(
     val errorCode: ErrorCode
-): RuntimeException(errorCode.message)
+) : RuntimeException(errorCode.message)

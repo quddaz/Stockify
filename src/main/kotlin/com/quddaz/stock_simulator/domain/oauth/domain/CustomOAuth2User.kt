@@ -12,8 +12,8 @@ class CustomOAuth2User(
     val socialId: String,
     val email: String,
     val username: String,
-    val role : Role
-): OAuth2User {
+    val role: Role
+) : OAuth2User {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return setOf(SimpleGrantedAuthority(role.value))

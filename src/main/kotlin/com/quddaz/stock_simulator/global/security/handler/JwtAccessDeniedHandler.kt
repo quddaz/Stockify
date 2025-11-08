@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component
 @Component
 class JwtAccessDeniedHandler(
     private val objectMapper: ObjectMapper
-): AccessDeniedHandler{
+) : AccessDeniedHandler {
     override fun handle(
         request: HttpServletRequest,
         response: HttpServletResponse,

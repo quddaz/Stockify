@@ -1,6 +1,5 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
-import com.quddaz.stock_simulator.domain.oauth.format.Oauth2Response
 import jakarta.persistence.*
 
 @Entity
