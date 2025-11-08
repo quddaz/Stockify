@@ -11,12 +11,12 @@ class CustomOAuth2User(
     val id: Long,
     val socialId: String,
     val email: String,
-    val name: String,
-    val role : Role
-): OAuth2User {
+    val username: String,
+    val role: Role
+) : OAuth2User {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return setOf(SimpleGrantedAuthority("ROLE_${role.name}"))
+        return setOf(SimpleGrantedAuthority(role.value))
     }
 
     override fun getAttributes(): Map<String, Any> {
@@ -33,8 +33,6 @@ class CustomOAuth2User(
         return id.toString()
     }
 
-
-
     // 디버깅용
     override fun toString(): String {
         return "CustomOAuth2User(id=$id, email='$email', name='$name', role=$role)"
@@ -46,7 +44,7 @@ class CustomOAuth2User(
                 id = user.id ?: throw IllegalStateException("User ID가 null입니다."),
                 socialId = user.socialId,
                 email = user.email,
-                name = user.name,
+                username = user.name,
                 role = user.role // User의 role 필드
             )
         }

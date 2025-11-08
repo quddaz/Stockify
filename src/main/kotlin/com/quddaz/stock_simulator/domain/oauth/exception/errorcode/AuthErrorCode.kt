@@ -9,4 +9,5 @@ enum class AuthErrorCode(
 ) : ErrorCode {
     INVALID_OAUTH_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid OAuth token."),
     UNSUPPORTED_OAUTH_PROVIDER(HttpStatus.BAD_REQUEST, "Unsupported OAuth provider."),
+    NOT_EXISTING_OAUTH_TOKEN(HttpStatus.UNAUTHORIZED, "OAuth token does not exist.")
 }

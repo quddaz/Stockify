@@ -14,5 +14,5 @@ enum class GlobalErrorCode(
 
     // 요청 관련 에러
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "BAD_REQUEST"),
-    NOT_FOUND(HttpStatus.NOT_FOUND, "NOT_FOUND");
+    NOT_FOUND(HttpStatus.NOT_FOUND, "NOT_FOUND"),
 }
