@@ -3,6 +3,8 @@ package com.quddaz.stock_simulator.global.config.security
 import com.quddaz.stock_simulator.domain.oauth.service.CustomOAuth2UserService
 import com.quddaz.stock_simulator.global.security.filter.JwtAuthenticationFilter
 import com.quddaz.stock_simulator.global.security.handler.CustomOAuth2SuccessHandler
+import com.quddaz.stock_simulator.global.security.handler.JwtAccessDeniedHandler
+import com.quddaz.stock_simulator.global.security.handler.JwtAuthenticationEntryPoint
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,7 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val customOAuth2UserService: CustomOAuth2UserService,
-    private val customOAuth2SuccessHandler: CustomOAuth2SuccessHandler
+    private val customOAuth2SuccessHandler: CustomOAuth2SuccessHandler,
+    private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+    private val jwtAccessDeniedHandler: JwtAccessDeniedHandler
 ) {
 
     private val WHITE_LIST = arrayOf(
@@ -49,6 +53,10 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling {
+                it.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(jwtAccessDeniedHandler)
+            }
             .oauth2Login { oauth2 ->
                 oauth2
                     .successHandler(customOAuth2SuccessHandler) // OAuth2 로그인 성공 후 처리

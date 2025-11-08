@@ -15,5 +15,19 @@ data class ResponseTemplate<T>(
 
         fun <T> fail(errorCode: ErrorCode, data: T? = null): ResponseTemplate<T> =
             ResponseTemplate(false, errorCode.httpStatus.value() , errorCode.message, data)
+
+        val ROLE_ERROR = ResponseTemplate<Unit>(
+            isSuccess = false,
+            code = HttpStatus.FORBIDDEN.value(),
+            message = "NOT AUTHORIZED ROLE",
+            results = null
+        )
+
+        val AUTHENTICATION_ERROR = ResponseTemplate<Unit>(
+            isSuccess = false,
+            code = HttpStatus.UNAUTHORIZED.value(),
+            message = "NOT AUTHENTICATED USER",
+            results = null
+        )
     }
 }
