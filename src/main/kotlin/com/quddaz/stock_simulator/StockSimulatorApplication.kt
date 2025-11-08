@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class StockSimulatorApplication
 
 fun main(args: Array<String>) {
-	runApplication<StockSimulatorApplication>(*args)
+    runApplication<StockSimulatorApplication>(*args)
 }
