@@ -11,7 +11,7 @@ class CustomOAuth2User(
     val id: Long,
     val socialId: String,
     val email: String,
-    val name: String,
+    val username: String,
     val role : Role
 ): OAuth2User {
 
@@ -44,7 +44,7 @@ class CustomOAuth2User(
                 id = user.id ?: throw IllegalStateException("User ID가 null입니다."),
                 socialId = user.socialId,
                 email = user.email,
-                name = user.name,
+                username = user.name,
                 role = user.role // User의 role 필드
             )
         }

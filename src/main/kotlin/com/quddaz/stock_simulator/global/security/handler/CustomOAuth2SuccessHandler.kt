@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.security
+package com.quddaz.stock_simulator.global.security.handler
 
 import com.quddaz.stock_simulator.domain.oauth.domain.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.oauth.service.JwtTokenProvider

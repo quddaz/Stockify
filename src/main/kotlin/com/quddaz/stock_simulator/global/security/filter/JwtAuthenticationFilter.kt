@@ -1,8 +1,9 @@
-package com.quddaz.stock_simulator.global.security
+package com.quddaz.stock_simulator.global.security.filter
 
 import com.quddaz.stock_simulator.domain.oauth.service.JwtTokenProvider
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
+import com.quddaz.stock_simulator.global.security.AuthenticationMaker
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -19,7 +20,6 @@ class JwtAuthenticationFilter(
 
     companion object {
         private val log = LoggerFactory.getLogger(JwtAuthenticationFilter::class.java)
-
     }
 
     override fun doFilterInternal(
