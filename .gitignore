@@ -42,3 +42,7 @@ out/
 ### yaml ###
 src/main/resources/application.yaml
 application.yaml
+
+### data ###
+src/main/resources/data/companies.yaml
+src/main/resources/data/events.yaml
