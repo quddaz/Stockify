@@ -1,5 +1,12 @@
 package com.quddaz.stock_simulator.global.initializer
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import com.quddaz.stock_simulator.domain.company.domain.Company
+import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
+import com.quddaz.stock_simulator.domain.events.domain.Event
+import com.quddaz.stock_simulator.domain.events.repository.EventRepository
 import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
@@ -10,7 +17,14 @@ import jakarta.annotation.PostConstruct
 @BaseDataInit
 class BaseDataInitializer(
     private val userRepository: UserRepository,
+    private val eventRepository: EventRepository,
+    private val companyRepository: CompanyRepository,
 ) {
+    companion object {
+        private const val COMPANIES_YAML = "/data/companies.yaml"
+        private const val EVENTS_YAML = "/data/events.yaml"
+    }
+    private val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
     @PostConstruct
     fun init() {
@@ -19,10 +33,21 @@ class BaseDataInitializer(
         initTestAdminUser()
     }
 
+    private fun <T> loadYamlList(path: String, clazz: Class<Array<T>>): List<T> {
+        val stream = javaClass.getResourceAsStream(path) ?: return emptyList()
+        return objectMapper.readValue(stream, clazz).toList()
+    }
+
     private fun initCompany() {
+        if (companyRepository.count() > 0) return
+        val companies = loadYamlList(COMPANIES_YAML, Array<Company>::class.java)
+        companyRepository.saveAll(companies)
     }
 
     private fun initEvents() {
+        if (eventRepository.count() > 0) return
+        val events = loadYamlList(EVENTS_YAML, Array<Event>::class.java)
+        eventRepository.saveAll(events)
     }
 
     private fun initTestAdminUser() {
@@ -33,6 +58,7 @@ class BaseDataInitializer(
                     email = "admin@example.com",
                     socialType = SocialType.GOOGLE,
                     socialId = "admin-social-id",
+                    money = 10_000_000L,
                     role = Role.ADMIN
                 )
             )
