@@ -24,7 +24,7 @@ class CustomOAuth2User(
             "id" to id,
             "socialId" to socialId,
             "email" to email,
-            "name" to name,
+            "name" to username,
             "role" to role
         )
     }
@@ -35,7 +35,7 @@ class CustomOAuth2User(
 
     // 디버깅용
     override fun toString(): String {
-        return "CustomOAuth2User(id=$id, email='$email', name='$name', role=$role)"
+        return "CustomOAuth2User(id=$id, email='$email', name='$username', role=$role)"
     }
 
     companion object {
