@@ -32,7 +32,10 @@ CREATE TABLE company
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     name          VARCHAR(255) NOT NULL,
     description   TEXT,
-    current_price BIGINT       NOT NULL
+    current_price BIGINT       NOT NULL,
+    totalshares   BIGINT       NOT NULL,
+    created_at    DATETIME     NOT NULL,
+    modified_at   DATETIME     NOT NULL
 );
 
 CREATE TABLE event
