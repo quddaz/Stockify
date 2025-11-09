@@ -8,10 +8,11 @@ class Company(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var name: String,
 
-    var description: String? = null,
+    @Column(nullable = false)
+    var description: String,
 
     @Column(nullable = false)
     var currentPrice: Long
