@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class CustomOAuth2SuccessHandler(
     private val jwtTokenProvider: JwtTokenProvider,
     private val jwtProperties: JwtProperties,
-    @Value("\${oauth2.redirect-uri}") private val redirectUri: String
+    @Value("\${custom.oauth2.redirect-uri}") private val redirectUri: String
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
