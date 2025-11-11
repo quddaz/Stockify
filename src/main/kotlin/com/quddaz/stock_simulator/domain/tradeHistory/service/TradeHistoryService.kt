@@ -13,4 +13,9 @@ class TradeHistoryService(
         val portfolio = tradeHistoryRepository.findPortfolioByUser(userId)
         return PortfolioResponse(portfolio)
     }
+
+    // 전체 거래 기록 삭제 (장 초기화용)
+    fun deleteAllTradeHistories() {
+        tradeHistoryRepository.deleteAll()
+    }
 }

@@ -2,8 +2,10 @@ package com.quddaz.stock_simulator.global.initializer
 
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.events.service.EventService
+import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
@@ -14,6 +16,7 @@ class GameDataInitializer(
     private val userService: UserService,
     private val eventService: EventService,
     private val companyService: CompanyService,
+    private val tradeHistoryService: TradeHistoryService,
 
     @Value("\${data.companies-yaml-path}")
     private val companiesYaml: String,
@@ -52,7 +55,7 @@ class GameDataInitializer(
 
     /** 동적 데이터 초기화 */
     private fun clearDynamicData() {
-
+        tradeHistoryService.deleteAllTradeHistories()
     }
 
 }
