@@ -4,6 +4,7 @@ import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
+import com.quddaz.stock_simulator.global.log.Loggable
 import io.jsonwebtoken.Header
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -22,11 +23,10 @@ class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
     private val userService: UserService
 
-) {
+): Loggable {
     private lateinit var key: Key
 
     companion object {
-        private val log = LoggerFactory.getLogger(JwtTokenProvider::class.java)
         private const val MEMBER_ROLE = "role"
     }
 

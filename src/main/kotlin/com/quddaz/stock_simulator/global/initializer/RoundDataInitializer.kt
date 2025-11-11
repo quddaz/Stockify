@@ -11,6 +11,7 @@ import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
+import com.quddaz.stock_simulator.global.log.Loggable
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
@@ -20,13 +21,13 @@ class RoundDataInitializer(
     private val userRepository: UserRepository,
     private val eventRepository: EventRepository,
     private val companyRepository: CompanyRepository,
-) {
+) : Loggable {
     companion object {
         private const val COMPANIES_YAML = "/data/companies.yaml"
         private const val EVENTS_YAML = "/data/events.yaml"
     }
 
-    private val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
+    private val objectMapper: ObjectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
     /** 서버 시작 시 1회 실행 */
     @EventListener(ApplicationReadyEvent::class)
@@ -39,11 +40,6 @@ class RoundDataInitializer(
         initializeRoundDefaults()
     }
 
-    private fun initializeBaseData() {
-        initCompanies()
-        initEvents()
-        initAdminUser()
-    }
 
     private fun initializeRoundDefaults() {
         initEvents()
@@ -54,6 +50,12 @@ class RoundDataInitializer(
     private fun clearDynamicData() {
         eventRepository.deleteAll()
         // TODO: 기타 라운드 초기화 데이터 삭제
+    }
+
+    private fun initializeBaseData() {
+        initCompanies()
+        initEvents()
+        initAdminUser()
     }
 
     private fun <T> loadYamlList(path: String, clazz: Class<Array<T>>): List<T> {
