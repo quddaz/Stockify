@@ -1,7 +1,5 @@
 package com.quddaz.stock_simulator.domain.oauth.controller
 
-import com.quddaz.stock_simulator.domain.oauth.exception.TokenNotValidException
-import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.oauth.service.AuthService
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
@@ -25,7 +23,7 @@ class AuthController(
         response: HttpServletResponse
     ): ResponseEntity<ResponseTemplate<*>> {
 
-        val tokenResponse = authService.reissueAccessToken(refreshToken, response)
+        val tokenResponse = authService.reissueAccessToken(refreshToken)
 
         response.addCookie(tokenResponse.refreshToken)
         response.setHeader(jwtProperties.header, "${jwtProperties.scheme} ${tokenResponse.accessToken}")
