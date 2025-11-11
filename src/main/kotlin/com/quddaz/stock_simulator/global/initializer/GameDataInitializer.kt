@@ -6,6 +6,7 @@ import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryServic
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
@@ -26,10 +27,10 @@ class GameDataInitializer(
     @Value("\${data.admin-email}")
     private val adminEmail: String
 
-) : Loggable {
-    /** 애플리케이션 시작 시 초기화 */
-    @EventListener(ApplicationReadyEvent::class)
-    fun onApplicationReady() {
+) : Loggable, CommandLineRunner {
+
+    /** 서버 시작 후 초기화 작업 수행 */
+    override fun run(vararg args: String?) {
         userService.initAdminUser(adminEmail, initialUserMoney)
         eventService.initEvents(eventsYaml)
         companyService.initCompanies(companiesYaml)
@@ -50,11 +51,13 @@ class GameDataInitializer(
     private fun initDefaultData() {
         companyService.initCompanies(companiesYaml)
         userService.resetAllUserMoney(initialUserMoney)
+        TODO ("포트폴리오는 초기화하지 않으며 계속 데이터를 쌓아가면서 진행")
     }
 
     /** 동적 데이터 초기화 */
     private fun clearDynamicData() {
         tradeHistoryService.deleteAllTradeHistories()
     }
+
 
 }
