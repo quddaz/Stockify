@@ -15,19 +15,19 @@ class TradeHistory(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    var user: User,
+    val user: User,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
-    var company: Company,
+    val company: Company,
 
     @Column(name = "share_count", nullable = false)
-    var shareCount: Long,
+    val shareCount: Long,
 
     @Column(name = "price", nullable = false)
-    var price: Long,
+    val price: Long,
 
     @CreatedDate
     @Column(name = "record_at", nullable = false)
-    var record_at : LocalDateTime
+    val record_at : LocalDateTime
 )

@@ -14,14 +14,14 @@ class Company(
     var id: Long? = null,
 
     @Column(name = "name", nullable = false, unique = true)
-    var name: String,
+    val name: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sector", nullable = false)
-    var sector: Sector,
+    val sector: Sector,
 
     @Column(name = "description", nullable = false)
-    var description: String,
+    val description: String,
 
     @Column(name = "current_price", nullable = false)
     var currentPrice: Long,
