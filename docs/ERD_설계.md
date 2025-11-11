@@ -7,7 +7,7 @@
 | **user**          | OAuth를 통해 인증된 사용자 계정 정보 (이메일 포함) |
 | **company**       | 시뮬레이션 대상 기업, 현재 주가 및 변동성 포함      |
 | **trade_history** | 사용자가 구매한 기업의 주식                  |
-| **price_history** | 각 기업의 시간대별 주가 변동 로그              |
+| **event_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
 | **ranking**       | 사용자별 수익률 및 순위 정보                 |
 
@@ -46,7 +46,7 @@ CREATE TABLE event
     description TEXT NOT NULL
 );
 
-CREATE TABLE price_history
+CREATE TABLE event_history
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
     company_id     BIGINT   NOT NULL,
