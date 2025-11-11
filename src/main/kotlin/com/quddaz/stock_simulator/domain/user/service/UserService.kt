@@ -20,7 +20,7 @@ class UserService(
         userRepository.findById(id).orElseThrow { UserDomainException(UserErrorCode.USER_NOT_FOUND) }
 
 
-    //* 관리자 유저 초기화 *//
+    /** 관리자 유저 초기화 */
     fun initAdminUser(email: String, money: Long) {
         if (!userRepository.existsByEmail(email)) {
             userRepository.save(
