@@ -1,6 +1,6 @@
-package com.quddaz.stock_simulator.domain.tradeHistory.domain
+package com.quddaz.stock_simulator.domain.tradeHistory.entity
 
-import com.quddaz.stock_simulator.domain.company.domain.Company
+import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.user.entity.User
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate

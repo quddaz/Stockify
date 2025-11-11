@@ -1,7 +1,7 @@
 package com.quddaz.stock_simulator.domain.tradeHistory.repository
 
-import com.quddaz.stock_simulator.domain.company.domain.QCompany.company
-import com.quddaz.stock_simulator.domain.tradeHistory.domain.QTradeHistory
+import com.quddaz.stock_simulator.domain.company.entity.QCompany.company
+import com.quddaz.stock_simulator.domain.tradeHistory.entity.QTradeHistory
 import com.quddaz.stock_simulator.domain.tradeHistory.dto.PortfolioDto
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory

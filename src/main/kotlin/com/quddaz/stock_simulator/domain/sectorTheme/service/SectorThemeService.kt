@@ -1,7 +1,7 @@
 package com.quddaz.stock_simulator.domain.sectorTheme.service
 
-import com.quddaz.stock_simulator.domain.company.domain.Sector
-import com.quddaz.stock_simulator.domain.sectorTheme.domain.SectorTheme
+import com.quddaz.stock_simulator.domain.company.entity.Sector
+import com.quddaz.stock_simulator.domain.sectorTheme.entity.SectorTheme
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.repository.SectorThemeRepository
 

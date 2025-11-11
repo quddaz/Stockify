@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.domain.sectorTheme.domain
+package com.quddaz.stock_simulator.domain.sectorTheme.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime

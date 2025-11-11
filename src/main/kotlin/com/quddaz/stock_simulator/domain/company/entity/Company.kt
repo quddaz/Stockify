@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.domain.company.domain
+package com.quddaz.stock_simulator.domain.company.entity
 
 import com.quddaz.stock_simulator.global.entity.BaseTimeEntity
 import jakarta.persistence.*

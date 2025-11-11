@@ -1,7 +1,7 @@
 package com.quddaz.stock_simulator.domain.events.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.quddaz.stock_simulator.domain.events.domain.Event
+import com.quddaz.stock_simulator.domain.events.entity.Event
 import com.quddaz.stock_simulator.domain.events.repository.EventRepository
 import org.springframework.stereotype.Service
 

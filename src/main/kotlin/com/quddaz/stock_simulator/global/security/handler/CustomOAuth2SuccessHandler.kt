@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.global.security.handler
 
-import com.quddaz.stock_simulator.domain.oauth.domain.CustomOAuth2User
+import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.oauth.service.JwtTokenProvider
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
 import jakarta.servlet.http.HttpServletRequest

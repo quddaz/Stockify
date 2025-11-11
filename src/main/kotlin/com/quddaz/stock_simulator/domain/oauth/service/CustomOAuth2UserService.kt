@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.domain.oauth.service
 
-import com.quddaz.stock_simulator.domain.oauth.domain.CustomOAuth2User
+import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.oauth.exception.LoginTypeNotSupportException
 import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.oauth.format.GoogleResponse

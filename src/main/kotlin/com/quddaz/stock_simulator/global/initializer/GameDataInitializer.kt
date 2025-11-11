@@ -40,5 +40,4 @@ class GameDataInitializer(
 
         log.info("Server initialized: Admin, companies, and first round ready.")
     }
-
 }

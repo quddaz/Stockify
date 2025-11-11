@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.domain.oauth.domain
+package com.quddaz.stock_simulator.domain.oauth.entity
 
 import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.User

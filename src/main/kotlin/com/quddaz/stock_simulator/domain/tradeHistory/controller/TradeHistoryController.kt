@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.domain.tradeHistory.controller
 
-import com.quddaz.stock_simulator.domain.oauth.domain.CustomOAuth2User
+import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
 import com.quddaz.stock_simulator.global.exception.GlobalException
 import com.quddaz.stock_simulator.global.exception.errorcode.GlobalErrorCode

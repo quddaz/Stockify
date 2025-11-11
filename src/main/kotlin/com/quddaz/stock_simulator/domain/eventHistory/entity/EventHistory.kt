@@ -1,7 +1,7 @@
-package com.quddaz.stock_simulator.domain.eventHistory.domain
+package com.quddaz.stock_simulator.domain.eventHistory.entity
 
-import com.quddaz.stock_simulator.domain.company.domain.Company
-import com.quddaz.stock_simulator.domain.events.domain.Event
+import com.quddaz.stock_simulator.domain.company.entity.Company
+import com.quddaz.stock_simulator.domain.events.entity.Event
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime

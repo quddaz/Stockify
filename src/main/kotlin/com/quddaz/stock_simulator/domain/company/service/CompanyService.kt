@@ -1,7 +1,7 @@
 package com.quddaz.stock_simulator.domain.company.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.quddaz.stock_simulator.domain.company.domain.Company
+import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import org.springframework.stereotype.Service
 
