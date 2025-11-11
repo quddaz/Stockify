@@ -5,8 +5,6 @@ import com.quddaz.stock_simulator.domain.oauth.exception.LoginTypeNotSupportExce
 import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.oauth.format.GoogleResponse
 import com.quddaz.stock_simulator.domain.oauth.format.Oauth2Response
-import com.quddaz.stock_simulator.domain.user.entity.QUser.user
-import com.quddaz.stock_simulator.domain.user.repository.UserRepository
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
@@ -38,7 +36,6 @@ class CustomOAuth2UserService(
 
     private fun saveOrUpdate(oauthResponse: Oauth2Response): CustomOAuth2User {
         val user = userService.findBySocialId(oauthResponse.getProviderId())
-            ?: userService.save(oauthResponse.toUser())
 
         return CustomOAuth2User.from(user)
     }

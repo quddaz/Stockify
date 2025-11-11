@@ -1,6 +1,5 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
-import com.quddaz.stock_simulator.global.entity.BaseTimeEntity
 import jakarta.persistence.*
 
 @Entity

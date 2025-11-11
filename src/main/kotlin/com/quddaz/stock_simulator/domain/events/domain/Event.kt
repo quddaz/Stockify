@@ -9,7 +9,7 @@ class Event(
     @Column(name = "event_type", nullable = false)
     val eventType: EventType,
 
-    @Column(name = "impact_rate",nullable = false)
+    @Column(name = "impact_rate", nullable = false)
     val impactRate: Double,
 
     @Column(nullable = false)

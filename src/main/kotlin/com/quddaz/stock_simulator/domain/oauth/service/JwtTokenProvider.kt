@@ -12,7 +12,6 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.Cookie
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
@@ -23,7 +22,7 @@ class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
     private val userService: UserService
 
-): Loggable {
+) : Loggable {
     private lateinit var key: Key
 
     companion object {
