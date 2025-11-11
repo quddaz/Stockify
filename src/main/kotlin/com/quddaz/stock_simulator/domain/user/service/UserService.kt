@@ -1,5 +1,7 @@
 package com.quddaz.stock_simulator.domain.user.service
 
+import com.quddaz.stock_simulator.domain.user.entity.QUser.user
+import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.exception.UserDomainException
 import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
@@ -12,6 +14,8 @@ class UserService(
     fun findBySocialId(socialId: String) =
         userRepository.findBySocialId(socialId) ?: throw UserDomainException(UserErrorCode.USER_NOT_FOUND)
 
+    fun save(user : User) =
+        userRepository.save(user)
     fun findById(id: Long) =
         userRepository.findById(id).orElseThrow { UserDomainException(UserErrorCode.USER_NOT_FOUND) }
 }

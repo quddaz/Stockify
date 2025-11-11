@@ -36,9 +36,7 @@ class JwtTokenProvider(
         this.key = Keys.hmacShaKeyFor(keyBytes)
     }
 
-    /**
-     * AccessToken 생성
-     */
+    /** AccessToken 생성 */
     fun createAccessToken(userId: Long, role: Role): String {
         val now = Date().time
         val accessValidity = Date(now + jwtProperties.accessTokenExpiration)
@@ -54,9 +52,7 @@ class JwtTokenProvider(
             .compact()
     }
 
-    /**
-     * RefreshToken 생성
-     */
+    /** RefreshToken 생성 */
     fun createRefreshToken(userId: Long, role: Role): Cookie {
         val now = Date().time
         val refreshValidity = Date(now + jwtProperties.refreshTokenExpiration)
@@ -74,9 +70,7 @@ class JwtTokenProvider(
         return createCookie(refreshToken)
     }
 
-    /**
-     * 토큰 유효성 검사
-     */
+    /** 토큰 유효성 검사 */
     fun validateToken(token: String): Boolean {
         return try {
             log.info("now date: {}", Date())

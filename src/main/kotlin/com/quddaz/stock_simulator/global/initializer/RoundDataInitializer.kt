@@ -22,9 +22,12 @@ class RoundDataInitializer(
     private val eventRepository: EventRepository,
     private val companyRepository: CompanyRepository,
 ) : Loggable {
+
     companion object {
         private const val COMPANIES_YAML = "/data/companies.yaml"
         private const val EVENTS_YAML = "/data/events.yaml"
+        private const val INITIAL_USER_MONEY = 10_000_000L
+        private const val ADMIN_EMAIL = "admin@example.com"
     }
 
     private val objectMapper: ObjectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
@@ -32,62 +35,60 @@ class RoundDataInitializer(
     /** 서버 시작 시 1회 실행 */
     @EventListener(ApplicationReadyEvent::class)
     fun onApplicationReady() {
-        initializeBaseData()
+        initAdminUser()
+        initCompanies()
+        resetRoundData() // 첫 라운드 초기화
+        log.info("Server started: Admin user and companies initialized, first round ready.")
     }
 
+    /** 라운드 시작 시 호출 */
     fun resetRoundData() {
         clearDynamicData()
-        initializeRoundDefaults()
-    }
-
-
-    private fun initializeRoundDefaults() {
         initEvents()
-        // TODO: 기타 라운드 초기화 데이터
-
+        log.info("Round data reset: Events reloaded and user money reset.")
     }
 
+    /** 라운드 단위로 초기화해야 하는 데이터 삭제 */
     private fun clearDynamicData() {
-        eventRepository.deleteAll()
-        // TODO: 기타 라운드 초기화 데이터 삭제
+        userRepository.setAllUserDefaultMoney(INITIAL_USER_MONEY)
+        // TODO : 주식 보유 내역 초기화 등 추가 작업 필요
     }
 
-    private fun initializeBaseData() {
-        initCompanies()
-        initEvents()
-        initAdminUser()
+    /** 관리자 유저 초기화 (서버 시작 시 1회) */
+    private fun initAdminUser() {
+        if (!userRepository.existsByEmail(ADMIN_EMAIL)) {
+            userRepository.save(
+                User(
+                    name = "admin",
+                    email = ADMIN_EMAIL,
+                    socialType = SocialType.GOOGLE,
+                    socialId = "admin-social-id",
+                    money = INITIAL_USER_MONEY,
+                    role = Role.ADMIN
+                )
+            )
+            log.info("Admin user created: $ADMIN_EMAIL")
+        }
     }
 
-    private fun <T> loadYamlList(path: String, clazz: Class<Array<T>>): List<T> {
-        val stream = javaClass.getResourceAsStream(path) ?: return emptyList()
-        return objectMapper.readValue(stream, clazz).toList()
-    }
-
+    /** 회사 초기화 (서버 시작 시 1회) */
     private fun initCompanies() {
         if (companyRepository.count() > 0) companyRepository.deleteAll()
         val companies = loadYamlList(COMPANIES_YAML, Array<Company>::class.java)
         companyRepository.saveAll(companies)
+        log.info("${companies.size} companies initialized from YAML.")
     }
 
+    /** 이벤트 초기화 (라운드 시작 시) */
     private fun initEvents() {
-        if (eventRepository.count() > 0) eventRepository.deleteAll()
         val events = loadYamlList(EVENTS_YAML, Array<Event>::class.java)
         eventRepository.saveAll(events)
+        log.info("${events.size} events loaded from YAML.")
     }
 
-    private fun initAdminUser() {
-        if (!userRepository.existsByEmail("admin@example.com")) {
-            userRepository.save(
-                User(
-                    name = "admin",
-                    email = "admin@example.com",
-                    socialType = SocialType.GOOGLE,
-                    socialId = "admin-social-id",
-                    money = 10_000_000L,
-                    role = Role.ADMIN
-                )
-            )
-        }
+    /** YAML 파일 로딩 유틸 */
+    private fun <T> loadYamlList(path: String, clazz: Class<Array<T>>): List<T> {
+        val stream = javaClass.getResourceAsStream(path) ?: return emptyList()
+        return objectMapper.readValue(stream, clazz).toList()
     }
 }
-
