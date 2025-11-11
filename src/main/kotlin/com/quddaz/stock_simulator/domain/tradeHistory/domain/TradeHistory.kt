@@ -3,6 +3,8 @@ package com.quddaz.stock_simulator.domain.tradeHistory.domain
 import com.quddaz.stock_simulator.domain.company.domain.Company
 import com.quddaz.stock_simulator.domain.user.entity.User
 import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "trade_history")
@@ -23,5 +25,9 @@ class TradeHistory(
     var shareCount: Long,
 
     @Column(name = "price", nullable = false)
-    var price: Long
+    var price: Long,
+
+    @CreatedDate
+    @Column(name = "record_at", nullable = false)
+    var record_at : LocalDateTime
 )

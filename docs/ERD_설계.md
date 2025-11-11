@@ -56,11 +56,12 @@ CREATE TABLE event_history
     company_id     BIGINT   NOT NULL,
     event_id       BIGINT NULL,
     recorded_price BIGINT   NOT NULL,
-    price          BIGINT   NOT NULL,
+    changed_price  BIGINT   NOT NULL,
+    change_rate    DOUBLE   NOT NULL,
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
-    INDEX          idx_recorded_at (recorded_at)
+    INDEX idx_recorded_at (recorded_at)
 );
 
 CREATE TABLE trade_history
