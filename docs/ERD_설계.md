@@ -10,6 +10,7 @@
 | **event_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
 | **ranking**       | 사용자별 수익률 및 순위 정보                 |
+| **sectorTheme**   | 격동하는 장을 저장합니다.                   |
 
 
 ## 2. 테이블 DDL
@@ -31,9 +32,12 @@ CREATE TABLE company
 (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     name          VARCHAR(255) NOT NULL,
+    sector        VARCHAR(255) NOT NULL,
     description   TEXT,
     current_price BIGINT       NOT NULL,
     totalshares   BIGINT       NOT NULL,
+    positive_rate DOUBLE NOT NULL DEFAULT 1.0,
+    negative_rate DOUBLE NOT NULL DEFAULT 1.0,
     created_at    DATETIME     NOT NULL,
     modified_at   DATETIME     NOT NULL
 );
@@ -43,7 +47,7 @@ CREATE TABLE event
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     type        ENUM('POSITIVE', 'NEGATIVE') NOT NULL,
     impact_rate DOUBLE NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT   NOT NULL,
     weight      BIGINT NOT NULL,
 );
 
@@ -51,9 +55,9 @@ CREATE TABLE event_history
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
     company_id     BIGINT   NOT NULL,
-    event_id       BIGINT NULL,       
-    recorded_price BIGINT   NOT NULL, 
-    price          BIGINT   NOT NULL, 
+    event_id       BIGINT NULL,
+    recorded_price BIGINT   NOT NULL,
+    price          BIGINT   NOT NULL,
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
@@ -62,11 +66,11 @@ CREATE TABLE event_history
 
 CREATE TABLE trade_history
 (
-    id             BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id        BIGINT NOT NULL,
-    company_id     BIGINT NOT NULL,
-    share_count   BIGINT NOT NULL,
-    price  BIGINT NOT NULL,
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id     BIGINT NOT NULL,
+    company_id  BIGINT NOT NULL,
+    share_count BIGINT NOT NULL,
+    price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
@@ -78,6 +82,16 @@ CREATE TABLE ranking
     profit_rate DOUBLE NOT NULL,
     rank_no INT    NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE sector_theme
+(
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    sector_name VARCHAR(50) NOT NULL,
+    positive_rate DOUBLE NOT NULL,
+    negative_rate DOUBLE NOT NULL,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    INDEX idx_updated_at (updated_at DESC)
 );
 
 ```

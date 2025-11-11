@@ -2,9 +2,11 @@ package com.quddaz.stock_simulator.global.initializer
 
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.events.service.EventService
+import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
 import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
+import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.context.event.ApplicationReadyEvent
@@ -17,6 +19,7 @@ class GameDataInitializer(
     private val eventService: EventService,
     private val companyService: CompanyService,
     private val tradeHistoryService: TradeHistoryService,
+    private val SectorThemeService: SectorThemeService,
 
     @Value("\${data.companies-yaml-path}")
     private val companiesYaml: String,
