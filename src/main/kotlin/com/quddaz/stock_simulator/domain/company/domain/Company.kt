@@ -8,21 +8,26 @@ import kotlin.math.roundToLong
 @Entity
 @Table(name = "company")
 class Company(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     var id: Long? = null,
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     var name: String,
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sector", nullable = false)
+    var sector: Sector,
+
+    @Column(name = "description", nullable = false)
     var description: String,
 
-    @Column(nullable = false)
+    @Column(name = "current_price", nullable = false)
     var currentPrice: Long,
 
-    @Column(nullable = false)
+    @Column(name = "total_shares", nullable = false)
     var totalShares: Long
-
 ) : BaseTimeEntity() {
     fun updatePrice(rate: Double) {
         this.currentPrice = max(0L, (this.currentPrice * (1 + rate)).roundToLong())

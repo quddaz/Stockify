@@ -18,8 +18,7 @@ class GameDataInitializer(
     private val userService: UserService,
     private val eventService: EventService,
     private val companyService: CompanyService,
-    private val tradeHistoryService: TradeHistoryService,
-    private val SectorThemeService: SectorThemeService,
+    private val sectorThemeService: SectorThemeService,
 
     @Value("\${data.companies-yaml-path}")
     private val companiesYaml: String,
@@ -37,30 +36,9 @@ class GameDataInitializer(
         userService.initAdminUser(adminEmail, initialUserMoney)
         eventService.initEvents(eventsYaml)
         companyService.initCompanies(companiesYaml)
+        sectorThemeService.setDefaultSectorTheme()
 
         log.info("Server initialized: Admin, companies, and first round ready.")
     }
-
-    /** 라운드 초기화 */
-    fun resetRoundData() {
-        //TODO: 라운드 초기화 시 필요한 다른 데이터 초기화 로직 추가(포트폴리오, 변동내역)
-
-        initDefaultData()
-
-        log.info("Round data reset: company reloaded and user money & dynamicData reset.")
-    }
-
-    /** 기본 데이터 초기화 */
-    private fun initDefaultData() {
-        companyService.initCompanies(companiesYaml)
-        userService.resetAllUserMoney(initialUserMoney)
-        TODO ("포트폴리오는 초기화하지 않으며 계속 데이터를 쌓아가면서 진행")
-    }
-
-    /** 동적 데이터 초기화 */
-    private fun clearDynamicData() {
-        tradeHistoryService.deleteAllTradeHistories()
-    }
-
 
 }

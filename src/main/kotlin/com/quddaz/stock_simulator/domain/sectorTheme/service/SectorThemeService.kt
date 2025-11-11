@@ -28,4 +28,15 @@ class SectorThemeService(
 
         sectorThemeRepository.save(sectorTheme)
     }
+
+    @Transactional
+    fun setDefaultSectorTheme() {
+        val sectorTheme = SectorTheme(
+            sectorName = Sector.COMMON.toString(),
+            positiveRate = Sector.COMMON.positiveRate,
+            negativeRate = Sector.COMMON.negativeRate
+        )
+
+        sectorThemeRepository.save(sectorTheme)
+    }
 }
