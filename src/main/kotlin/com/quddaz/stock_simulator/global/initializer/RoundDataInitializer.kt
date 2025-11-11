@@ -11,14 +11,12 @@ import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
-import com.quddaz.stock_simulator.global.util.BaseDataInit
-import jakarta.annotation.PostConstruct
+import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.context.event.EventListener
+import org.springframework.stereotype.Component
 
-/**
- * 서버 시작 시 기본 데이터를 초기화하는 클래스
- */
-@BaseDataInit
-class BaseDataInitializer(
+@Component
+class RoundDataInitializer(
     private val userRepository: UserRepository,
     private val eventRepository: EventRepository,
     private val companyRepository: CompanyRepository,
@@ -27,13 +25,35 @@ class BaseDataInitializer(
         private const val COMPANIES_YAML = "/data/companies.yaml"
         private const val EVENTS_YAML = "/data/events.yaml"
     }
+
     private val objectMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
-    @PostConstruct
-    fun init() {
-        initCompany()
+    /** 서버 시작 시 1회 실행 */
+    @EventListener(ApplicationReadyEvent::class)
+    fun onApplicationReady() {
+        initializeBaseData()
+    }
+
+    fun resetRoundData() {
+        clearDynamicData()
+        initializeRoundDefaults()
+    }
+
+    private fun initializeBaseData() {
+        initCompanies()
         initEvents()
-        initTestAdminUser()
+        initAdminUser()
+    }
+
+    private fun initializeRoundDefaults() {
+        initEvents()
+        // TODO: 기타 라운드 초기화 데이터
+
+    }
+
+    private fun clearDynamicData() {
+        eventRepository.deleteAll()
+        // TODO: 기타 라운드 초기화 데이터 삭제
     }
 
     private fun <T> loadYamlList(path: String, clazz: Class<Array<T>>): List<T> {
@@ -41,7 +61,7 @@ class BaseDataInitializer(
         return objectMapper.readValue(stream, clazz).toList()
     }
 
-    private fun initCompany() {
+    private fun initCompanies() {
         if (companyRepository.count() > 0) companyRepository.deleteAll()
         val companies = loadYamlList(COMPANIES_YAML, Array<Company>::class.java)
         companyRepository.saveAll(companies)
@@ -53,7 +73,7 @@ class BaseDataInitializer(
         eventRepository.saveAll(events)
     }
 
-    private fun initTestAdminUser() {
+    private fun initAdminUser() {
         if (!userRepository.existsByEmail("admin@example.com")) {
             userRepository.save(
                 User(
@@ -68,3 +88,4 @@ class BaseDataInitializer(
         }
     }
 }
+
