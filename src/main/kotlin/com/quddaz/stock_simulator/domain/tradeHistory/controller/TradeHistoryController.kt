@@ -21,8 +21,9 @@ class TradeHistoryController(
 
     @GetMapping("/portfolio")
     @Operation(summary = "포트폴리오 조회", description = "유저의 포트폴리오를 조회합니다")
-    fun getPortfolio(@AuthenticationPrincipal customOAuth2User: CustomOAuth2User?
-    ): ResponseEntity<ResponseTemplate<*>>{
+    fun getPortfolio(
+        @AuthenticationPrincipal customOAuth2User: CustomOAuth2User?
+    ): ResponseEntity<ResponseTemplate<*>> {
         val userId = customOAuth2User?.id
             ?: throw GlobalException(GlobalErrorCode.NOT_FOUND_USER)
         val portfolioResponse = tradeHistoryService.getPortfolioByUser(userId)

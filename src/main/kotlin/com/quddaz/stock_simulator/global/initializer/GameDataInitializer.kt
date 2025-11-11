@@ -5,7 +5,6 @@ import com.quddaz.stock_simulator.domain.events.service.EventService
 import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
-import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
@@ -27,7 +26,7 @@ class GameDataInitializer(
     @Value("\${data.admin-email}")
     private val adminEmail: String
 
-): Loggable {
+) : Loggable {
     /** 애플리케이션 시작 시 초기화 */
     @EventListener(ApplicationReadyEvent::class)
     fun onApplicationReady() {
