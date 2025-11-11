@@ -3,10 +3,10 @@
 ## 1. 주요 테이블 구조
 
 | 테이블               | 설명                               |
-| ----------------- | -------------------------------- |
+|-------------------|----------------------------------|
 | **user**          | OAuth를 통해 인증된 사용자 계정 정보 (이메일 포함) |
 | **company**       | 시뮬레이션 대상 기업, 현재 주가 및 변동성 포함      |
-| **portfolio**     | 사용자가 보유한 각 기업의 주식 수량 및 평균 매입가    |
+| **trade_history** | 사용자가 구매한 기업의 주식                  |
 | **price_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
 | **ranking**       | 사용자별 수익률 및 순위 정보                 |
@@ -59,13 +59,13 @@ CREATE TABLE price_history
     INDEX          idx_recorded_at (recorded_at)
 );
 
-CREATE TABLE portfolio
+CREATE TABLE trade_history
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id        BIGINT NOT NULL,
     company_id     BIGINT NOT NULL,
-    stock_quantity INT    NOT NULL,
-    average_price  BIGINT NOT NULL,
+    share_count   BIGINT NOT NULL,
+    price  BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
