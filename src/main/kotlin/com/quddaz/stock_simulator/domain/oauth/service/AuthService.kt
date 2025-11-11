@@ -1,5 +1,6 @@
 package com.quddaz.stock_simulator.domain.oauth.service
 
+import com.quddaz.stock_simulator.domain.oauth.dto.TokenResponse
 import com.quddaz.stock_simulator.domain.oauth.exception.TokenNotValidException
 import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.user.entity.Role
@@ -15,7 +16,7 @@ class AuthService(
     private val jwtProperties: JwtProperties
 ) {
 
-    fun reissueAccessToken(refreshToken: String?, response: HttpServletResponse) {
+    fun reissueAccessToken(refreshToken: String?, response: HttpServletResponse): TokenResponse {
         val token = refreshToken ?: throw TokenNotValidException(AuthErrorCode.NOT_EXISTING_OAUTH_TOKEN)
 
         if (!jwtTokenProvider.validateToken(token)) {
@@ -28,8 +29,10 @@ class AuthService(
         val newAccessToken = jwtTokenProvider.createAccessToken(userId, user.role)
         val newRefreshTokenCookie = jwtTokenProvider.createRefreshToken(userId, user.role)
 
-        response.addCookie(newRefreshTokenCookie)
-        response.setHeader(jwtProperties.header, "${jwtProperties.scheme} $newAccessToken")
+        return TokenResponse(
+            accessToken = newAccessToken,
+            refreshToken = newRefreshTokenCookie
+        )
     }
 
     fun generateAccessToken(userId: Long): String {

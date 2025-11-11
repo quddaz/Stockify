@@ -3,6 +3,7 @@ package com.quddaz.stock_simulator.domain.oauth.controller
 import com.quddaz.stock_simulator.domain.oauth.exception.TokenNotValidException
 import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.oauth.service.AuthService
+import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.servlet.http.HttpServletResponse
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val jwtProperties: JwtProperties
 ) {
 
     @GetMapping("/reissue")
@@ -23,7 +25,10 @@ class AuthController(
         response: HttpServletResponse
     ): ResponseEntity<ResponseTemplate<*>> {
 
-        authService.reissueAccessToken(refreshToken, response)
+        val tokenResponse = authService.reissueAccessToken(refreshToken, response)
+
+        response.addCookie(tokenResponse.refreshToken)
+        response.setHeader(jwtProperties.header, "${jwtProperties.scheme} ${tokenResponse.accessToken}")
 
         return ResponseEntity
             .status(HttpStatus.OK)
