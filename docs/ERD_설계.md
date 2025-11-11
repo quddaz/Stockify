@@ -43,7 +43,8 @@ CREATE TABLE event
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     type        ENUM('POSITIVE', 'NEGATIVE') NOT NULL,
     impact_rate DOUBLE NOT NULL,
-    description TEXT NOT NULL
+    description TEXT NOT NULL,
+    weight      BIGINT NOT NULL,
 );
 
 CREATE TABLE event_history

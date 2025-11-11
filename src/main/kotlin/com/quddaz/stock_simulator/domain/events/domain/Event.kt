@@ -13,7 +13,10 @@ class Event(
     val impactRate: Double,
 
     @Column(nullable = false)
-    val description: String
+    val description: String,
+
+    @Column(name = "weight", nullable = false)
+    val weight: Int
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
