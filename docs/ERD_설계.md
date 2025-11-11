@@ -9,7 +9,6 @@
 | **trade_history** | 사용자가 구매한 기업의 주식                  |
 | **event_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
-| **ranking**       | 사용자별 수익률 및 순위 정보                 |
 | **sectorTheme**   | 격동하는 장을 저장합니다.                   |
 
 
@@ -73,15 +72,6 @@ CREATE TABLE trade_history
     price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id)
-);
-
-CREATE TABLE ranking
-(
-    id      BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    profit_rate DOUBLE NOT NULL,
-    rank_no INT    NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE sector_theme
