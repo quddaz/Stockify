@@ -80,3 +80,29 @@ CREATE TABLE ranking
 );
 
 ```
+
+## 3. 쿼리 예시
+
+- 특정 사용자의 포트폴리오 조회
+
+계산식 설명:
+- 평균 매입가: (Σ 매수 수량 × 단가) ÷ Σ 매수 수량
+- 미실현 손익: (현재가 × 총 보유량) - Σ (매수 수량 × 단가)
+- 총 보유량: Σ 매수 수량
+```sql
+SELECT
+    c.id AS company_id,
+    c.name AS company_name,
+    SUM(t.share_count) AS share_count,  -- 총 보유량
+    SUM(t.share_count * t.price) / SUM(t.share_count) AS average_price,  -- 평균 매입가
+    c.current_price AS current_price,
+    (c.current_price * SUM(t.share_count)) - SUM(t.share_count * t.price) AS unrealized_pl  -- 미실현 손익
+FROM
+    trade_history t
+JOIN
+    company c ON t.company_id = c.id
+WHERE
+    t.user_id = :userId
+GROUP BY
+    c.id, c.name, c.current_price;
+```
