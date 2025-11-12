@@ -13,17 +13,17 @@ class User(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "social_type", nullable = false, length = 20)
-    val socialType: SocialType,
+    var socialType: SocialType,
 
     @Column(name = "social_id", nullable = false)
-    val socialId: String,
+    var socialId: String,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    val role: Role,
+    var role: Role,
 
     @Column(nullable = false)
-    var money: Long = 0L
+    var money: Long = 10_000_000L
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

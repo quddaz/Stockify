@@ -4,6 +4,7 @@ import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
+import com.quddaz.stock_simulator.global.log.Loggable
 import io.jsonwebtoken.Header
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -11,7 +12,6 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.Cookie
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
@@ -22,11 +22,10 @@ class JwtTokenProvider(
     private val jwtProperties: JwtProperties,
     private val userService: UserService
 
-) {
+) : Loggable {
     private lateinit var key: Key
 
     companion object {
-        private val log = LoggerFactory.getLogger(JwtTokenProvider::class.java)
         private const val MEMBER_ROLE = "role"
     }
 
@@ -36,9 +35,7 @@ class JwtTokenProvider(
         this.key = Keys.hmacShaKeyFor(keyBytes)
     }
 
-    /**
-     * AccessToken 생성
-     */
+    /** AccessToken 생성 */
     fun createAccessToken(userId: Long, role: Role): String {
         val now = Date().time
         val accessValidity = Date(now + jwtProperties.accessTokenExpiration)
@@ -54,9 +51,7 @@ class JwtTokenProvider(
             .compact()
     }
 
-    /**
-     * RefreshToken 생성
-     */
+    /** RefreshToken 생성 */
     fun createRefreshToken(userId: Long, role: Role): Cookie {
         val now = Date().time
         val refreshValidity = Date(now + jwtProperties.refreshTokenExpiration)
@@ -74,9 +69,7 @@ class JwtTokenProvider(
         return createCookie(refreshToken)
     }
 
-    /**
-     * 토큰 유효성 검사
-     */
+    /** 토큰 유효성 검사 */
     fun validateToken(token: String): Boolean {
         return try {
             log.info("now date: {}", Date())

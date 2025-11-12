@@ -1,0 +1,23 @@
+- name: "TestCorp1"
+  sector: "IT"
+  description: "Test IT company"
+  currentPrice: 1000
+  totalShares: 1000
+  positiveRate: 1.2
+  negativeRate: 1.3
+
+- name: "TestCorp2"
+  sector: "FINANCE"
+  description: "Test Finance company"
+  currentPrice: 2000
+  totalShares: 500
+  positiveRate: 1.1
+  negativeRate: 1.2
+
+- name: "TestCorp3"
+  sector: "BIO"
+  description: "Test Health company"
+  currentPrice: 1500
+  totalShares: 800
+  positiveRate: 1.3
+  negativeRate: 1.1
