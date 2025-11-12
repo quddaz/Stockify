@@ -18,7 +18,7 @@ class EventHistoryService(
         val changePrice = newPrice - oldPrice
 
         val history = EventHistory(
-            event = event ?: Event.getDefaultEvent(),
+            event = event,
             company = company,
             recordPrice = oldPrice,
             changePrice = changePrice,

@@ -2,6 +2,7 @@ package com.quddaz.stock_simulator.domain.events.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.quddaz.stock_simulator.domain.events.entity.Event
+import com.quddaz.stock_simulator.domain.events.entity.EventType
 import com.quddaz.stock_simulator.domain.events.repository.EventRepository
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,9 @@ class EventService(
         val events = objectMapper.readValue(stream, Array<Event>::class.java).toList()
         eventRepository.saveAll(events)
     }
-
+    fun getDefaultEvent(): Event {
+        return eventRepository.findByEventType(EventType.NONE)
+    }
 
     /** 가중치 기반 무작위 이벤트 선택 */
     fun getWeightedRandomEvent(): Event {
@@ -30,7 +33,7 @@ class EventService(
             accumulated += event.weight
             if (rand < accumulated) return event
         }
-        return Event.getDefaultEvent()
+        return getDefaultEvent()
     }
 
     /** LongRange에서 무작위 Long 값 생성 */

@@ -13,9 +13,9 @@ class EventHistory(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @JoinColumn(name = "event_id", nullable = false)
+    @JoinColumn(name = "event_id", nullable = true)
     @ManyToOne(fetch = FetchType.LAZY)
-    val event: Event,
+    val event: Event?,
 
     @JoinColumn(name = "company_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
