@@ -21,4 +21,15 @@ class Event(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+    companion object{
+        fun getDefaultEvent(): Event {
+            return Event(
+                eventType = EventType.NONE,
+                impactRate = 0.0,
+                description = "No Event",
+                weight = 0L
+            )
+        }
+    }
 }

@@ -3,11 +3,14 @@ package com.quddaz.stock_simulator.domain.company.service
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
+import com.quddaz.stock_simulator.domain.eventHistory.repository.EventHistoryRepository
+import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
 import org.springframework.stereotype.Service
 
 @Service
 class CompanyService(
     private val companyRepository: CompanyRepository,
+    private val eventHistoryService: EventHistoryService,
     private val objectMapper: ObjectMapper
 ) {
 
@@ -18,4 +21,5 @@ class CompanyService(
         val companies = objectMapper.readValue(stream, Array<Company>::class.java).toList()
         companyRepository.saveAll(companies)
     }
+
 }
