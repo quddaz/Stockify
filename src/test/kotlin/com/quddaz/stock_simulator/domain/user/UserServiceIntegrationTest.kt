@@ -5,12 +5,15 @@ import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
 import com.quddaz.stock_simulator.domain.user.service.UserService
+import jakarta.persistence.EntityManager
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -43,10 +46,10 @@ class UserServiceIntegrationTest(
     @Test
     fun `모든 유저 자금 초기화`() {
         // given
-        val user1 = userRepository.save(
+        userRepository.save(
             User("user1", "user1@test.com", SocialType.GOOGLE, "id1", Role.USER, money = 1_000L)
         )
-        val user2 = userRepository.save(
+        userRepository.save(
             User("user2", "user2@test.com", SocialType.GOOGLE, "id2", Role.USER, money = 2_000L)
         )
 
@@ -55,7 +58,7 @@ class UserServiceIntegrationTest(
 
         // then
         val users = userRepository.findAll()
-        assert(users.all { it.money == initialMoney })
+        assertEquals(users.get(0).money, initialMoney)
     }
 
     @Test

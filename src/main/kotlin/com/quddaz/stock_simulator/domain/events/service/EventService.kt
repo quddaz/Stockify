@@ -13,6 +13,7 @@ class EventService(
 ) {
     /** 이벤트 초기화 */
     fun initEvents(yamlPath: String) {
+        if (eventRepository.count() > 0) return
         val stream = javaClass.getResourceAsStream(yamlPath) ?: return
         val events = objectMapper.readValue(stream, Array<Event>::class.java).toList()
         eventRepository.saveAll(events)

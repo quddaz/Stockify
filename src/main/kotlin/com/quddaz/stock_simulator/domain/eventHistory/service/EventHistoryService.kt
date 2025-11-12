@@ -14,7 +14,7 @@ class EventHistoryService(
     private val eventHistoryRepository: EventHistoryRepository
 ) {
     @Transactional
-    fun record(event: Event?, company: Company, oldPrice: Long, newPrice: Long, changeRate: Double) {
+    fun record(event: Event, company: Company, oldPrice: Long, newPrice: Long, changeRate: Double) {
         val changePrice = newPrice - oldPrice
 
         val history = EventHistory(

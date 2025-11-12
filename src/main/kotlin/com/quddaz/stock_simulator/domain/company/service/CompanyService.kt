@@ -13,7 +13,7 @@ class CompanyService(
 
     /** 회사 초기화 */
     fun initCompanies(yamlPath: String) {
-        if (companyRepository.count() > 0) companyRepository.deleteAll()
+        if (companyRepository.count() > 0) return
         val stream = javaClass.getResourceAsStream(yamlPath) ?: return
         val companies = objectMapper.readValue(stream, Array<Company>::class.java).toList()
         companyRepository.saveAll(companies)
