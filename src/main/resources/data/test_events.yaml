@@ -1,0 +1,20 @@
+- eventType: POSITIVE
+  impactRate: 0.05
+  weight: 5
+  description: "정부가 경기부양 정책 발표"
+- eventType: NEGATIVE
+  impactRate: -0.04
+  weight: 4
+  description: "글로벌 경제 지표 악화"
+- eventType: POSITIVE
+  impactRate: 0.03
+  weight: 3
+  description: "기술 기업의 혁신 제품 출시 소식"
+- eventType: NEGATIVE
+  impactRate: -0.05
+  weight: 5
+  description: "중대 금융 스캔들 발생"
+- eventType: NONE
+  impactRate: 0.0
+  weight: 200
+  description: "이벤트 없음"

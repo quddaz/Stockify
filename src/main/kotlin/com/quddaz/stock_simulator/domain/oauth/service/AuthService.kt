@@ -1,21 +1,19 @@
 package com.quddaz.stock_simulator.domain.oauth.service
 
+import com.quddaz.stock_simulator.domain.oauth.dto.TokenResponse
 import com.quddaz.stock_simulator.domain.oauth.exception.TokenNotValidException
 import com.quddaz.stock_simulator.domain.oauth.exception.errorcode.AuthErrorCode
 import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.exception.UserDomainException
 import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode
-import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 
 @Service
 class AuthService(
-    private val jwtTokenProvider: JwtTokenProvider,
-    private val jwtProperties: JwtProperties
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
 
-    fun reissueAccessToken(refreshToken: String?, response: HttpServletResponse) {
+    fun reissueAccessToken(refreshToken: String?): TokenResponse {
         val token = refreshToken ?: throw TokenNotValidException(AuthErrorCode.NOT_EXISTING_OAUTH_TOKEN)
 
         if (!jwtTokenProvider.validateToken(token)) {
@@ -28,8 +26,10 @@ class AuthService(
         val newAccessToken = jwtTokenProvider.createAccessToken(userId, user.role)
         val newRefreshTokenCookie = jwtTokenProvider.createRefreshToken(userId, user.role)
 
-        response.addCookie(newRefreshTokenCookie)
-        response.setHeader(jwtProperties.header, "${jwtProperties.scheme} $newAccessToken")
+        return TokenResponse(
+            accessToken = newAccessToken,
+            refreshToken = newRefreshTokenCookie
+        )
     }
 
     fun generateAccessToken(userId: Long): String {

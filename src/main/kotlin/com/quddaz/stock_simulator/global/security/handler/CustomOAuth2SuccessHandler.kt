@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.global.security.handler
 
-import com.quddaz.stock_simulator.domain.oauth.domain.CustomOAuth2User
+import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.oauth.service.JwtTokenProvider
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
 import jakarta.servlet.http.HttpServletRequest
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class CustomOAuth2SuccessHandler(
     private val jwtTokenProvider: JwtTokenProvider,
     private val jwtProperties: JwtProperties,
-    @Value("\${oauth2.redirect-uri}") private val redirectUri: String
+    @Value("\${custom.oauth2.redirect-uri}") private val redirectUri: String
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
