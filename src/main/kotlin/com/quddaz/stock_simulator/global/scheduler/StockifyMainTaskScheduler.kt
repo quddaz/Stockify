@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 @Component
 class StockifyMainTaskScheduler(
     private val tasks: List<PrioritizedTask>,
-    @Qualifier("stockityScheduler") private val scheduler: TaskScheduler
 ) : Loggable {
 
     @Scheduled(cron = "0 */5 * * * *")

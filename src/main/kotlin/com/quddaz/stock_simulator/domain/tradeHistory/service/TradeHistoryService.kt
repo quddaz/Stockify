@@ -14,8 +14,5 @@ class TradeHistoryService(
         return PortfolioResponse(portfolio)
     }
 
-    // 전체 거래 기록 삭제 (장 초기화용)
-    fun deleteAllTradeHistories() {
-        tradeHistoryRepository.deleteAll()
-    }
+    fun getRankingTop10(defaultMoney : Long) = tradeHistoryRepository.findRankingTop10(defaultMoney)
 }

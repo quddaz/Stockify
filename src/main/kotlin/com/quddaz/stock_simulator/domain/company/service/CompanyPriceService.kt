@@ -15,12 +15,12 @@ class CompanyPriceService(
         return companyRepository.findAll()
     }
 
-    fun calculateRate(company: Company, theme: SectorThemeDTO?, baseRate: Double): Double {
+    fun calculateRate(company: Company, theme: SectorThemeDTO, baseRate: Double): Double {
         if (baseRate >= 0) {
-            val positiveRate = company.positiveRate * (theme?.positiveRate ?: 1.0)
+            val positiveRate = company.positiveRate * theme.positiveRate
             return baseRate * positiveRate
         }
-        val negativeRate = company.negativeRate * (theme?.negativeRate ?: 1.0)
+        val negativeRate = company.negativeRate * theme.negativeRate
         return baseRate * negativeRate
     }
 

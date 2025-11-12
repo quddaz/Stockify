@@ -15,8 +15,6 @@ class TradeHistoryRepositoryCustomImpl(
     private val jpaQueryFactory: JPAQueryFactory,
 ) : TradeHistoryRepositoryCustom {
 
-    private val INITIAL_MONEY: Long = 10_000_000L
-
     override fun findPortfolioByUser(userId: Long): List<PortfolioDto> {
         val trade = QTradeHistory.tradeHistory
         return jpaQueryFactory
@@ -40,7 +38,7 @@ class TradeHistoryRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findRankingTop10(): List<UserRankingDTO> {
+    override fun findRankingTop10(defaultMoney : Long): List<UserRankingDTO> {
         val trade = QTradeHistory.tradeHistory
         val user = QUser.user
         val company = QCompany.company
@@ -52,8 +50,8 @@ class TradeHistoryRepositoryCustomImpl(
                     user.name,
                     user.money.add(trade.shareCount.multiply(company.currentPrice)), // 총 자산
                     user.money.add(trade.shareCount.multiply(company.currentPrice)) // 수익률
-                        .subtract(INITIAL_MONEY)
-                        .divide(INITIAL_MONEY.toDouble())
+                        .subtract(defaultMoney)
+                        .divide(defaultMoney.toDouble())
                 )
             )
             .from(trade)

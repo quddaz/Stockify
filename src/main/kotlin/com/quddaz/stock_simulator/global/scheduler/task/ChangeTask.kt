@@ -5,9 +5,12 @@ import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
+import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.util.logging.Logger
 
 @Component
 @Order(4)
@@ -15,14 +18,16 @@ class ChangeTask(
     private val companyPriceService: CompanyPriceService,
     private val sectorThemeService: SectorThemeService,
     private val eventHistoryService: EventHistoryService
-) : PrioritizedTask {
-    override fun canExecute(time: java.time.LocalDateTime): Boolean {
+) : PrioritizedTask, Loggable {
+    override fun canExecute(time: LocalDateTime): Boolean {
         return time.minute % 5 == 0
     }
 
     override fun execute() {
         val theme = sectorThemeService.getCurrentSectorThemes()
         companyPriceService.getAllCompanies().forEach { processCompany(it, theme) }
+
+        log.info("ChangeTask start executing")
     }
 
     private fun processCompany(company: Company, theme: SectorThemeDTO) {

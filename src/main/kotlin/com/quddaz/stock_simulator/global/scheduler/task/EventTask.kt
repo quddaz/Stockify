@@ -6,6 +6,7 @@ import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryServic
 import com.quddaz.stock_simulator.domain.events.service.EventService
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
+import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
@@ -17,7 +18,7 @@ class EventTask(
     private val sectorThemeService: SectorThemeService,
     private val eventHistoryService: EventHistoryService,
     private val eventService: EventService
-) : PrioritizedTask {
+) : PrioritizedTask, Loggable {
     override fun canExecute(time: java.time.LocalDateTime): Boolean {
         return time.minute % 15 == 0
     }
@@ -25,6 +26,7 @@ class EventTask(
     override fun execute() {
         val theme = sectorThemeService.getCurrentSectorThemes()
         companyPriceService.getAllCompanies().forEach { processCompany(it, theme) }
+        log.info("EventTask start executing")
     }
 
     private fun processCompany(company: Company, theme: SectorThemeDTO) {
