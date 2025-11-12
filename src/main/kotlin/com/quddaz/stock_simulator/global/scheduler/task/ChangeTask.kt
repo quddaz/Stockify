@@ -3,6 +3,7 @@ package com.quddaz.stock_simulator.global.scheduler.task
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
+import com.quddaz.stock_simulator.domain.events.entity.Event
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
 import com.quddaz.stock_simulator.global.log.Loggable
@@ -33,7 +34,9 @@ class ChangeTask(
         val baseRate = (-5..5).random().toDouble() * 0.01 // -5% ~ +5%
         val rate = companyPriceService.calculateRate(company, theme, baseRate)
         val oldPrice = company.currentPrice
+        val defaultEvent = Event.getDefaultEvent()
+
         companyPriceService.updatePrice(company, rate)
-        eventHistoryService.record(null, company, oldPrice, company.currentPrice, rate)
+        eventHistoryService.record(defaultEvent , company, oldPrice, company.currentPrice, rate)
     }
 }
