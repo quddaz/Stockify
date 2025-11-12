@@ -25,7 +25,7 @@ class SectorThemeServiceIntegrationTest(
     }
 
     @Test
-    fun `기본 섹터 테마 저장 및 조회 테스트`() {
+    fun `기본 섹터 테마 저장 및 조회`() {
         // given & when
         sectorThemeService.setDefaultSectorTheme()
 
@@ -37,7 +37,7 @@ class SectorThemeServiceIntegrationTest(
     }
 
     @Test
-    fun `랜덤 섹터 테마 저장 및 조회 테스트`() {
+    fun `랜덤 섹터 테마 저장 및 조회 `() {
         // given & when
         sectorThemeService.setRandomSectorThemes()
 

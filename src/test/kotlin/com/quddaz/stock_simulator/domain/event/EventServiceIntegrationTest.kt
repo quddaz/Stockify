@@ -30,7 +30,7 @@ class EventServiceIntegrationTest(
     }
 
     @Test
-    fun `이벤트 초기화 및 랜덤 메소드 테스트`() {
+    fun `이벤트 초기화 및 랜덤 메소드 `() {
         // given
         eventService.initEvents("/data/test_events.yaml")
 

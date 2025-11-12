@@ -29,7 +29,7 @@ class CompanyPriceServiceTest {
     }
 
     @Test
-    fun `calculateRate 양수 baseRate 계산`() {
+    fun `변동률 양수 계산`() {
         // given
         val company = Company(
             id = 1L,
@@ -53,7 +53,7 @@ class CompanyPriceServiceTest {
     }
 
     @Test
-    fun `calculateRate 음수 baseRate 계산`() {
+    fun `변동률 음수 계산`() {
         // given
         val company = Company(
             id = 1L,
@@ -77,7 +77,7 @@ class CompanyPriceServiceTest {
     }
 
     @Test
-    fun `updatePrice 검증`() {
+    fun `가격 업데이트 검증`() {
         // given
         val company = Company(
             id = 1L,
