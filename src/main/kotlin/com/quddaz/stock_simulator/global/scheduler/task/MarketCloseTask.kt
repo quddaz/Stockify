@@ -1,5 +1,7 @@
 package com.quddaz.stock_simulator.global.scheduler.task
 
+import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
+import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
 import org.springframework.core.annotation.Order
@@ -7,7 +9,10 @@ import org.springframework.stereotype.Component
 
 @Component
 @Order(1)
-class MarketCloseTask : PrioritizedTask, Loggable {
+class MarketCloseTask(
+    private val tradeHistoryService: TradeHistoryService,
+    private val userService: UserService
+) : PrioritizedTask, Loggable {
 
     override fun canExecute(time: java.time.LocalDateTime): Boolean {
         // 매 2시간마다 정각에 실행
@@ -15,6 +20,6 @@ class MarketCloseTask : PrioritizedTask, Loggable {
     }
 
     override fun execute() {
-        //TODO 시장 마감 작업 구현(랭킹, 사용자 초기 자금 초기화)
+
     }
 }

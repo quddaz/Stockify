@@ -113,3 +113,21 @@ WHERE
 GROUP BY
     c.id, c.name, c.current_price;
 ```
+
+- 장 마감 시 랭킹 조회
+- 계산식 설명:
+- 총 자산 = 보유 현금 + Σ (보유 주식 수량 × 현재 주가)
+- 수익률 = (총 자산 - 초기 자본금) ÷ 초기 자본금
+- 초기 자본금은 10,000,000원으로 가정
+```sql
+SELECT
+    u.name AS username,
+    u.money + SUM(th.share_count * c.current_price) AS total_assets,
+    (u.money + SUM(th.share_count * c.current_price) - 10000000) / 10000000.0 AS profit_rate
+FROM trade_history th
+JOIN users u ON th.user_id = u.id
+JOIN company c ON th.company_id = c.id
+GROUP BY u.id, u.name, u.money
+ORDER BY total_assets DESC
+LIMIT 10;
+```
