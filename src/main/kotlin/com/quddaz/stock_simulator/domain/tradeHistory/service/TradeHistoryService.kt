@@ -14,5 +14,5 @@ class TradeHistoryService(
         return PortfolioResponse(portfolio)
     }
 
-    fun getRankingTop10(defaultMoney : Long) = tradeHistoryRepository.findRankingTop10(defaultMoney)
+    fun getRankingTop10(defaultMoney: Long) = tradeHistoryRepository.findRankingTop10(defaultMoney)
 }

@@ -22,7 +22,7 @@ class Event(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    companion object{
+    companion object {
         fun getDefaultEvent(): Event {
             return Event(
                 eventType = EventType.NONE,

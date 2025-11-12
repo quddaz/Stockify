@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.quddaz.stock_simulator.domain.events.entity.Event
 import com.quddaz.stock_simulator.domain.events.repository.EventRepository
 import org.springframework.stereotype.Service
-import kotlin.random.Random
 
 @Service
 class EventService(
@@ -17,7 +16,6 @@ class EventService(
         val events = objectMapper.readValue(stream, Array<Event>::class.java).toList()
         eventRepository.saveAll(events)
     }
-
 
 
     /** 가중치 기반 무작위 이벤트 선택 */

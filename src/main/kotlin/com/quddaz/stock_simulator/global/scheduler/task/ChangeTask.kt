@@ -10,7 +10,6 @@ import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
-import java.util.logging.Logger
 
 @Component
 @Order(4)

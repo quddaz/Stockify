@@ -38,7 +38,7 @@ class TradeHistoryRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findRankingTop10(defaultMoney : Long): List<UserRankingDTO> {
+    override fun findRankingTop10(defaultMoney: Long): List<UserRankingDTO> {
         val trade = QTradeHistory.tradeHistory
         val user = QUser.user
         val company = QCompany.company
