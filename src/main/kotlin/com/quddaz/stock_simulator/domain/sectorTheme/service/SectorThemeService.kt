@@ -18,13 +18,17 @@ class SectorThemeService(
     }
 
     @Transactional
-    fun setSectorTheme(sector: Sector) {
+    fun setRandomSectorThemes() {
+        val sector = Sector.random()
+        setSectorTheme(sector)
+    }
+
+    private fun setSectorTheme(sector: Sector) {
         val sectorTheme = SectorTheme(
             sectorName = sector.toString(),
             positiveRate = sector.positiveRate,
             negativeRate = sector.negativeRate
         )
-
         sectorThemeRepository.save(sectorTheme)
     }
 
