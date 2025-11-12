@@ -6,5 +6,4 @@ import org.springframework.stereotype.Service
 @Service
 class EventHistoryService(
     private val eventHistoryRepository: EventHistoryRepository
-) {
-}
+)

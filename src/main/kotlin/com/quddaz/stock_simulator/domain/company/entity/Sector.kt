@@ -15,6 +15,7 @@ enum class Sector(
     CONSTRUCTION("건설", 1.1, 1.1),
     FINANCE("금융", 0.9, 0.9),
     COMMON("일반", 1.0, 1.0);
+
     companion object {
         fun random(): Sector = entries.random()
     }

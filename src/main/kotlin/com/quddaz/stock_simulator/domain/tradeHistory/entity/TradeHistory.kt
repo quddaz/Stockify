@@ -29,5 +29,5 @@ class TradeHistory(
 
     @CreatedDate
     @Column(name = "record_at", nullable = false)
-    val record_at : LocalDateTime
+    val record_at: LocalDateTime
 )

@@ -72,7 +72,8 @@ CREATE TABLE trade_history
     share_count BIGINT NOT NULL,
     price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (company_id) REFERENCES company (id)
+    FOREIGN KEY (company_id) REFERENCES company (id),
+    CREATE INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
 );
 
 CREATE TABLE sector_theme

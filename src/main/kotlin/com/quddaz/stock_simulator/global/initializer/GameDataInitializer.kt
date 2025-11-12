@@ -3,14 +3,10 @@ package com.quddaz.stock_simulator.global.initializer
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.events.service.EventService
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
-import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
-import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.CommandLineRunner
-import org.springframework.boot.context.event.ApplicationReadyEvent
-import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component

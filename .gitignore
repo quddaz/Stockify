@@ -46,3 +46,6 @@ application.yaml
 ### data ###
 src/main/resources/data/companies.yaml
 src/main/resources/data/events.yaml
+
+
+docs/느낀점.md

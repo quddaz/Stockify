@@ -15,23 +15,22 @@ class EventHistory(
 
     @JoinColumn(name = "event_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    val event : Event,
+    val event: Event,
 
     @JoinColumn(name = "company_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    val company : Company,
+    val company: Company,
 
     @Column(name = "record_price", nullable = false)
-    val recordPrice : Long,
+    val recordPrice: Long,
 
     @Column(name = "change_price", nullable = false)
-    val changePrice : Long,
+    val changePrice: Long,
 
     @Column(name = "change_rate", nullable = false)
-    val changeRate : Double,
+    val changeRate: Double,
 
     @CreatedDate
     @Column(name = "record_at", nullable = false)
-    val record_at : LocalDateTime
-) {
-}
+    val record_at: LocalDateTime
+)

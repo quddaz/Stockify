@@ -4,5 +4,4 @@ data class SectorThemeDTO(
     val sectorName: String,
     val positiveRate: Double,
     val negativeRate: Double
-) {
-}
+)

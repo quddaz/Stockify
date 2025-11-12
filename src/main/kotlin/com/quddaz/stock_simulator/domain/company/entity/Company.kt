@@ -30,10 +30,10 @@ class Company(
     var totalShares: Long,
 
     @Column(name = "positive_late", nullable = false)
-    val positiveRate : Double,
+    val positiveRate: Double,
 
     @Column(name = "negative_late", nullable = false)
-    val negativeRate : Double
+    val negativeRate: Double
 ) : BaseTimeEntity() {
     fun updatePrice(rate: Double) {
         this.currentPrice = max(0L, (this.currentPrice * (1 + rate)).roundToLong())

@@ -12,7 +12,7 @@ class Event(
     @Column(name = "impact_rate", nullable = false)
     val impactRate: Double,
 
-    @Column(name = "description",nullable = false)
+    @Column(name = "description", nullable = false)
     val description: String,
 
     @Column(name = "weight", nullable = false)
