@@ -5,7 +5,6 @@ import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
 import com.quddaz.stock_simulator.global.scheduler.TaskGroup
-import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component

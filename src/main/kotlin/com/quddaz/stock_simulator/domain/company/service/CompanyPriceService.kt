@@ -37,6 +37,7 @@ class CompanyPriceService(
     fun getCompanyStockInfo(): List<CompanyStockInfoDTO> {
         return companyRepository.findAllCompanyStockInfo()
     }
+
     @CachePut("companyStockInfo")
     fun setCompanyStockInfo(): List<CompanyStockInfoDTO> {
         return companyRepository.findAllCompanyStockInfo()

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class UserService(
     private val userRepository: UserRepository,
-    private val em : EntityManager
+    private val em: EntityManager
 ) {
     fun findBySocialId(socialId: String) =
         userRepository.findBySocialId(socialId) ?: throw UserDomainException(UserErrorCode.USER_NOT_FOUND)

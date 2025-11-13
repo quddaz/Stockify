@@ -6,7 +6,6 @@ import com.quddaz.stock_simulator.domain.tradeHistory.repository.TradeHistoryRep
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.CachePut
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,6 +29,7 @@ class TradeHistoryService(
         val cache = cacheManager.getCache(rankingCacheName) ?: return null
         return cache.get(rankingCacheKey)?.get() as? List<UserRankingDTO>
     }
+
     @CachePut("rankingTop10")
     fun updateRankingTop10(defaultMoney: Long) = tradeHistoryRepository.findRankingTop10(defaultMoney)
 }

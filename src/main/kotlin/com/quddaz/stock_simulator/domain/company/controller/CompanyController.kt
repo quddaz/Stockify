@@ -2,7 +2,6 @@ package com.quddaz.stock_simulator.domain.company.controller
 
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
-import com.sun.tools.javac.code.Kinds.KindSelector.VAL
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,5 +24,4 @@ class CompanyController(
             )
         )
     }
-
 }

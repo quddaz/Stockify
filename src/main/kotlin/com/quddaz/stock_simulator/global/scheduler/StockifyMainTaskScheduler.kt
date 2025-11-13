@@ -1,7 +1,6 @@
 package com.quddaz.stock_simulator.global.scheduler
 
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
-import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.global.log.Loggable
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
