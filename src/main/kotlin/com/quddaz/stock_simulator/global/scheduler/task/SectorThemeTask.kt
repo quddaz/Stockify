@@ -3,6 +3,7 @@ package com.quddaz.stock_simulator.global.scheduler.task
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
+import com.quddaz.stock_simulator.global.scheduler.TaskGroup
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Component
 class SectorThemeTask(
     private val sectorThemeService: SectorThemeService
 ) : PrioritizedTask, Loggable {
+
+    override val task: TaskGroup = TaskGroup.SECTOR_THEME
+
+    override val taskGroup: List<TaskGroup> = listOf(TaskGroup.MARKET_CLOSE, TaskGroup.SECTOR_THEME)
     override fun canExecute(time: java.time.LocalDateTime): Boolean {
 
         return time.minute % 30 == 0
@@ -21,5 +26,4 @@ class SectorThemeTask(
         sectorThemeService.setRandomSectorThemes()
         log.info("SectorThemeTask start executing")
     }
-
 }
