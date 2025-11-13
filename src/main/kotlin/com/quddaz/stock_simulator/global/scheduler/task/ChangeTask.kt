@@ -22,7 +22,7 @@ class ChangeTask(
     private val eventService: EventService
 ) : PrioritizedTask, Loggable {
 
-    override val task: TaskGroup = TaskGroup.CHANGE
+    override val mainTask: TaskGroup = TaskGroup.CHANGE
 
     override val taskGroup: List<TaskGroup> = listOf(TaskGroup.CHANGE)
 

@@ -15,7 +15,7 @@ class MarketCloseTask(
     private val userService: UserService
 ) : PrioritizedTask, Loggable {
 
-    override val task: TaskGroup = TaskGroup.MARKET_CLOSE
+    override val mainTask: TaskGroup = TaskGroup.MARKET_CLOSE
 
     override val taskGroup: List<TaskGroup> = listOf(TaskGroup.MARKET_CLOSE)
 

@@ -15,24 +15,34 @@ class StockifyMainTaskScheduler(
         val now = LocalDateTime.now()
         log.info("스케줄러 실행 $now")
 
-        // 현재 시간에 실행 가능한 Task 필터링
-        val executableTasks = tasks.filter { it.canExecute(now) }
+        val executableTasks = filterExecutableTasks(now)
         if (executableTasks.isEmpty()) return
 
-        // 첫 번째로 히트한 Task의 메인 그룹
-        val mainGroup = executableTasks.first().task
+        val mainGroup = getMainGroup(executableTasks)
         log.info("실행되는 메인 테스크 그룹: $mainGroup")
 
-        // 같은 메인 그룹에 속한 Task만 실행
-        val tasksToRun = executableTasks.filter { it.task == mainGroup }
+        executeGroupTasks(executableTasks, mainGroup)
+    }
 
-        tasksToRun.forEach { task ->
-            try {
-                log.info("테스크 실행: ${task.task}")
-                task.execute()
-            } catch (e: Exception) {
-                log.error("스케줄러 테스크 실행 에러 ${task.task}", e)
+    private fun filterExecutableTasks(time: LocalDateTime): List<PrioritizedTask> =
+        tasks.filter { it.canExecute(time) }
+
+    private fun getMainGroup(executableTasks: List<PrioritizedTask>): TaskGroup =
+        executableTasks.first().mainTask
+
+    private fun executeGroupTasks(
+        executableTasks: List<PrioritizedTask>,
+        mainGroup: TaskGroup
+    ) {
+        executableTasks
+            .filter { it.mainTask == mainGroup }
+            .forEach { task ->
+                try {
+                    log.info("테스크 실행: ${task.mainTask}")
+                    task.execute()
+                } catch (e: Exception) {
+                    log.error("스케줄러 테스크 실행 에러 ${task.mainTask}", e)
+                }
             }
-        }
     }
 }

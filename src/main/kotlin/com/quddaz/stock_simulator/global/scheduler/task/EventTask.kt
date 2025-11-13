@@ -21,7 +21,7 @@ class EventTask(
     private val eventService: EventService
 ) : PrioritizedTask, Loggable {
 
-    override val task: TaskGroup = TaskGroup.EVENT
+    override val mainTask: TaskGroup = TaskGroup.EVENT
 
     override val taskGroup: List<TaskGroup> = listOf(TaskGroup.MARKET_CLOSE, TaskGroup.SECTOR_THEME, TaskGroup.EVENT)
     override fun canExecute(time: java.time.LocalDateTime): Boolean {

@@ -14,7 +14,7 @@ class SectorThemeTask(
     private val sectorThemeService: SectorThemeService
 ) : PrioritizedTask, Loggable {
 
-    override val task: TaskGroup = TaskGroup.SECTOR_THEME
+    override val mainTask: TaskGroup = TaskGroup.SECTOR_THEME
 
     override val taskGroup: List<TaskGroup> = listOf(TaskGroup.MARKET_CLOSE, TaskGroup.SECTOR_THEME)
     override fun canExecute(time: java.time.LocalDateTime): Boolean {
