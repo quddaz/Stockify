@@ -25,7 +25,7 @@ class StockifyMainTaskScheduler(
         log.info("실행되는 메인 테스크 그룹: $mainGroup")
 
         executeGroupTasks(executableTasks, mainGroup)
-        companyPriceService.setAllCompanyPrices()
+        companyPriceService.setCompanyStockInfo()
     }
 
     private fun filterExecutableTasks(time: LocalDateTime): List<PrioritizedTask> =

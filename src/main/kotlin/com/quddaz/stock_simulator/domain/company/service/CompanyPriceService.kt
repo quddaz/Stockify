@@ -33,12 +33,12 @@ class CompanyPriceService(
         companyRepository.save(company)
     }
 
-    @Cacheable("companyPrices")
-    fun getAllCompanyPrices(): List<CompanyStockInfoDTO> {
+    @Cacheable("companyStockInfo")
+    fun getCompanyStockInfo(): List<CompanyStockInfoDTO> {
         return companyRepository.findAllCompanyStockInfo()
     }
-    @CachePut("companyPrices")
-    fun setAllCompanyPrices(): List<CompanyStockInfoDTO> {
+    @CachePut("companyStockInfo")
+    fun setCompanyStockInfo(): List<CompanyStockInfoDTO> {
         return companyRepository.findAllCompanyStockInfo()
     }
 }
