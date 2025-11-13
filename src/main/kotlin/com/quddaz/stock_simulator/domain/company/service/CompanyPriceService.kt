@@ -1,8 +1,11 @@
 package com.quddaz.stock_simulator.domain.company.service
 
+import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -28,5 +31,14 @@ class CompanyPriceService(
     fun updatePrice(company: Company, rate: Double) {
         company.updatePrice(rate)
         companyRepository.save(company)
+    }
+
+    @Cacheable("companyPrices")
+    fun getAllCompanyPrices(): List<CompanyStockInfoDTO> {
+        return companyRepository.findAllCompanyStockInfo()
+    }
+    @CachePut("companyPrices")
+    fun setAllCompanyPrices(): List<CompanyStockInfoDTO> {
+        return companyRepository.findAllCompanyStockInfo()
     }
 }

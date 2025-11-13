@@ -1,5 +1,7 @@
 package com.quddaz.stock_simulator.global.scheduler
 
+import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
+import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.global.log.Loggable
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -8,6 +10,7 @@ import java.time.LocalDateTime
 @Component
 class StockifyMainTaskScheduler(
     private val tasks: List<PrioritizedTask>,
+    private val companyPriceService: CompanyPriceService
 ) : Loggable {
 
     @Scheduled(cron = "0 */5 * * * *")
@@ -22,6 +25,7 @@ class StockifyMainTaskScheduler(
         log.info("실행되는 메인 테스크 그룹: $mainGroup")
 
         executeGroupTasks(executableTasks, mainGroup)
+        companyPriceService.setAllCompanyPrices()
     }
 
     private fun filterExecutableTasks(time: LocalDateTime): List<PrioritizedTask> =
