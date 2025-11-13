@@ -8,6 +8,7 @@ import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.PrioritizedTask
+import com.quddaz.stock_simulator.global.scheduler.TaskGroup
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -20,6 +21,11 @@ class ChangeTask(
     private val eventHistoryService: EventHistoryService,
     private val eventService: EventService
 ) : PrioritizedTask, Loggable {
+
+    override val mainTask: TaskGroup = TaskGroup.CHANGE
+
+    override val taskGroup: List<TaskGroup> = listOf(TaskGroup.CHANGE)
+
     override fun canExecute(time: LocalDateTime): Boolean {
         return time.minute % 5 == 0
     }

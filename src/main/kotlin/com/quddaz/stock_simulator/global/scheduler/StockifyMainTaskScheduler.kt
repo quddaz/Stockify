@@ -13,12 +13,36 @@ class StockifyMainTaskScheduler(
     @Scheduled(cron = "0 */5 * * * *")
     fun runScheduledTasks() {
         val now = LocalDateTime.now()
-        log.info("Scheduled task executed at $now")
+        log.info("스케줄러 실행 $now")
 
-        for (task in tasks) {
-            if (task.canExecute(now)) {
-                task.execute()
+        val executableTasks = filterExecutableTasks(now)
+        if (executableTasks.isEmpty()) return
+
+        val mainGroup = getMainGroup(executableTasks)
+        log.info("실행되는 메인 테스크 그룹: $mainGroup")
+
+        executeGroupTasks(executableTasks, mainGroup)
+    }
+
+    private fun filterExecutableTasks(time: LocalDateTime): List<PrioritizedTask> =
+        tasks.filter { it.canExecute(time) }
+
+    private fun getMainGroup(executableTasks: List<PrioritizedTask>): TaskGroup =
+        executableTasks.first().mainTask
+
+    private fun executeGroupTasks(
+        executableTasks: List<PrioritizedTask>,
+        mainGroup: TaskGroup
+    ) {
+        executableTasks
+            .filter { it.mainTask == mainGroup }
+            .forEach { task ->
+                try {
+                    log.info("테스크 실행: ${task.mainTask}")
+                    task.execute()
+                } catch (e: Exception) {
+                    log.error("스케줄러 테스크 실행 에러 ${task.mainTask}", e)
+                }
             }
-        }
     }
 }
