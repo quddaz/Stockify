@@ -61,7 +61,7 @@ dependencies {
 	kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 
 	// Swagger / OpenAPI
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 	// Actuator + Prometheus
 	implementation("org.springframework.boot:spring-boot-starter-actuator")

@@ -13,6 +13,7 @@ class StockUpdatePublisher(
     private val messagingTemplate: SimpMessagingTemplate
 ) : Loggable {
 
+    /** 주식 가격 업데이트 정보를 WebSocket을 통해 구독자에게 전송 */
     fun publishStockUpdate() {
         val companyStockInfo = try {
             companyPriceService.setCompanyStockInfoCache()
@@ -26,6 +27,7 @@ class StockUpdatePublisher(
         }
     }
 
+    /** 시장 마감 알림을 WebSocket을 통해 구독자에게 전송 */
     fun publishMarketClose(mainGroup: TaskGroup) {
         if (mainGroup == TaskGroup.MARKET_CLOSE) {
             messagingTemplate.convertAndSend("/topic/market_close", "MARKET_CLOSE")
