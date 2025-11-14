@@ -31,4 +31,13 @@ class TradeHistoryController(
             .status(HttpStatus.OK)
             .body(ResponseTemplate.success(portfolioResponse))
     }
+
+    @GetMapping("/ranking")
+    @Operation(summary = "랭킹 Top 10 조회", description = "랭킹 Top 10을 캐쉬로 조회합니다")
+    fun getRankingTop10(): ResponseEntity<ResponseTemplate<*>> {
+        val rankingTop10 = tradeHistoryService.getRankingTop10FromCache()
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(ResponseTemplate.success(rankingTop10))
+    }
 }

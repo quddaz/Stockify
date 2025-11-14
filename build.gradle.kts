@@ -78,6 +78,9 @@ dependencies {
 
 	// Mockito Kotlin 확장
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+
+	// Cache
+	implementation("org.springframework.boot:spring-boot-starter-cache")
 }
 
 kotlin {

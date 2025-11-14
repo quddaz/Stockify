@@ -4,36 +4,47 @@ import com.quddaz.stock_simulator.domain.company.entity.Sector
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import com.quddaz.stock_simulator.domain.sectorTheme.entity.SectorTheme
 import com.quddaz.stock_simulator.domain.sectorTheme.repository.SectorThemeRepository
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
 class SectorThemeService(
-    private val sectorThemeRepository: SectorThemeRepository
-) {
+    private val sectorThemeRepository: SectorThemeRepository,
 
+    ) {
+
+    @Cacheable("currentSectorThemes")
     fun getCurrentSectorThemes(): SectorThemeDTO {
         return sectorThemeRepository.getCurrentSectorTheme()
     }
 
     @Transactional
-    fun setRandomSectorThemes() {
+    @CachePut("currentSectorThemes")
+    fun setRandomSectorThemes(): SectorThemeDTO {
         val sector = Sector.random()
-        setSectorTheme(sector)
+        val sectorTheme = setSectorTheme(sector)
+        return SectorThemeDTO(
+            sectorName = sectorTheme.sectorName,
+            positiveRate = sectorTheme.positiveRate,
+            negativeRate = sectorTheme.negativeRate
+        )
     }
 
-    private fun setSectorTheme(sector: Sector) {
+    private fun setSectorTheme(sector: Sector): SectorTheme {
         val sectorTheme = SectorTheme(
             sectorName = sector.toString(),
             positiveRate = sector.positiveRate,
             negativeRate = sector.negativeRate
         )
-        sectorThemeRepository.save(sectorTheme)
+        return sectorThemeRepository.save(sectorTheme)
     }
 
     @Transactional
-    fun setDefaultSectorTheme() {
+    @CachePut("currentSectorThemes")
+    fun setDefaultSectorTheme(): SectorThemeDTO {
         val sectorTheme = SectorTheme(
             sectorName = Sector.COMMON.toString(),
             positiveRate = Sector.COMMON.positiveRate,
@@ -41,5 +52,11 @@ class SectorThemeService(
         )
 
         sectorThemeRepository.save(sectorTheme)
+
+        return SectorThemeDTO(
+            sectorName = sectorTheme.sectorName,
+            positiveRate = sectorTheme.positiveRate,
+            negativeRate = sectorTheme.negativeRate
+        )
     }
 }
