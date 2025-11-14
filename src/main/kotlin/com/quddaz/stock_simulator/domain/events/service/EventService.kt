@@ -18,6 +18,7 @@ class EventService(
         val events = objectMapper.readValue(stream, Array<Event>::class.java).toList()
         eventRepository.saveAll(events)
     }
+
     fun getDefaultEvent(): Event {
         return eventRepository.findByEventType(EventType.NONE)
     }

@@ -84,7 +84,7 @@ class TradeHistoryServiceIntegrationTest (
         }
 
         // when
-        val top10 = tradeHistoryService.getRankingTop10(defaultMoney = 10_000_000L)
+        val top10 = tradeHistoryService.updateRankingTop10(defaultMoney = 10_000_000L)
 
         // then
         assert(top10.size == 10)
