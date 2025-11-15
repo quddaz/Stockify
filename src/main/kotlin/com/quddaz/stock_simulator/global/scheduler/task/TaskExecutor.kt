@@ -9,7 +9,7 @@ class TaskExecutor : Loggable {
 
     fun executeGroupTasks(executableTasks: List<PrioritizedTask>, mainGroup: TaskGroup) {
         executableTasks
-            .filter { it.mainTask == mainGroup }
+            .filter { it.contains(mainGroup)}
             .forEach { task ->
                 retry(times = 3, delayMs = 1000) {
                     log.info("테스크 실행: ${task.mainTask}")
