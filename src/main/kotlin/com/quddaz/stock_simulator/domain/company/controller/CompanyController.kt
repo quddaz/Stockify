@@ -17,7 +17,7 @@ class CompanyController(
     @GetMapping("/info")
     @Operation(summary = "회사 주식 정보 조회", description = "모든 회사의 주식 정보 캐쉬로 조회합니다.")
     fun getCompanyStockInfo(): ResponseEntity<ResponseTemplate<*>> {
-        val companyStockInfoDTO = companyPriceService.getCompanyStockInfo()
+        val companyStockInfoDTO = companyPriceService.getCompanyStockInfoCache()
         return ResponseEntity.ok(
             ResponseTemplate.success(
                 data = companyStockInfoDTO

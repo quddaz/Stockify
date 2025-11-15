@@ -33,7 +33,8 @@ class CompanyRepositoryCustomImpl(
                     eventHistory.recordPrice,
                     eventHistory.changePrice,
                     ((eventHistory.changePrice.subtract(eventHistory.recordPrice))
-                        .divide(eventHistory.recordPrice)).castToNum(Double::class.java)
+                        .divide(eventHistory.recordPrice)).castToNum(Double::class.java).abs(),
+                    company.sector.stringValue()
                 )
             )
             .from(eventHistory)
