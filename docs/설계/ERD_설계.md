@@ -114,18 +114,16 @@ CREATE TABLE sector_theme
 SELECT
     c.id AS company_id,
     c.name AS company_name,
-    SUM(t.share_count) AS share_count,  -- 총 보유량
-    SUM(t.share_count * t.price) / SUM(t.share_count) AS average_price,  -- 평균 매입가
-    c.current_price AS current_price,
-    (c.current_price * SUM(t.share_count)) - SUM(t.share_count * t.price) AS unrealized_pl  -- 미실현 손익
+    p.quantity AS share_count,                       -- 총 보유량
+    p.average_price AS average_price,                -- 평균 매입가
+    c.current_price AS current_price,                -- 현재가
+    (c.current_price * p.quantity) - (p.average_price * p.quantity) AS unrealized_pl  -- 미실현 손익
 FROM
-    trade_history t
-JOIN
-    company c ON t.company_id = c.id
+    user_position p
+        JOIN
+    company c ON p.company_id = c.id
 WHERE
-    t.user_id = :userId
-GROUP BY
-    c.id, c.name, c.current_price;
+    p.user_id = :userId;
 ```
 
 - 장 마감 시 랭킹 조회
@@ -136,12 +134,17 @@ GROUP BY
 ```sql
 SELECT
     u.name AS username,
-    u.money + SUM(th.share_count * c.current_price) AS total_assets,
-    (u.money + SUM(th.share_count * c.current_price) - 10000000) / 10000000.0 AS profit_rate
-FROM trade_history th
-JOIN users u ON th.user_id = u.id
-JOIN company c ON th.company_id = c.id
-GROUP BY u.id, u.name, u.money
-ORDER BY total_assets DESC
-LIMIT 10;
+    u.money + COALESCE(SUM(p.quantity * c.current_price), 0) AS total_assets,
+    (u.money + COALESCE(SUM(p.quantity * c.current_price), 0) - 10000000) / 10000000.0 AS profit_rate
+FROM
+    users u
+        LEFT JOIN
+    user_position p ON u.id = p.user_id
+        LEFT JOIN
+    company c ON p.company_id = c.id
+GROUP BY
+    u.id, u.name, u.money
+ORDER BY
+    total_assets DESC
+    LIMIT 10;
 ```
