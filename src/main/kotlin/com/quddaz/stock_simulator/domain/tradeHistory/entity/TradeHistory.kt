@@ -22,7 +22,7 @@ class TradeHistory(
     val company: Company,
 
     @Column(name = "share_count", nullable = false)
-    val shareCount: Long,
+    val quantity: Long,
 
     @Column(name = "price", nullable = false)
     val price: Long,

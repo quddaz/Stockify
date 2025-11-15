@@ -70,7 +70,7 @@ CREATE TABLE trade_history
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id     BIGINT NOT NULL,
     company_id  BIGINT NOT NULL,
-    share_count BIGINT NOT NULL,
+    quantity BIGINT NOT NULL,
     price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id),

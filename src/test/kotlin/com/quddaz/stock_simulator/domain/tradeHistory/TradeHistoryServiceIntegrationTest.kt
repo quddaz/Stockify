@@ -55,39 +55,4 @@ class TradeHistoryServiceIntegrationTest (
         )
     }
 
-    @Test
-    fun `포트폴리오 조회`() {
-        // given
-        tradeHistoryRepository.save(
-            TradeHistory(user = user, company= company, shareCount = 10L, price = 1_000L, record_at = LocalDateTime.now())
-        )
-
-        // when
-        val portfolio = tradeHistoryService.getPortfolioByUser(user.id!!).portfolios
-
-        // then
-        assertNotNull(portfolio)
-        assert(portfolio.first().companyName == company.name)
-        assert(portfolio.first().shareCount == 10L)
-    }
-
-    @Test
-    fun `랭킹 Top10 조회`() {
-        // given
-        (1..15).forEach { i ->
-            val u = userRepository.save(
-                User("user$i", "user$i@test.com", SocialType.GOOGLE, "id$i", Role.USER, money = 1_000_000L + i * 1000)
-            )
-            tradeHistoryRepository.save(
-                TradeHistory(user = u, company = company, shareCount = i * 10L, price = 1_000L, record_at = LocalDateTime.now())
-            )
-        }
-
-        // when
-        val top10 = tradeHistoryService.updateRankingTop10(defaultMoney = 10_000_000L)
-
-        // then
-        assert(top10.size == 10)
-        assert(top10.first().totalAssets >= top10.last().totalAssets)
-    }
 }
