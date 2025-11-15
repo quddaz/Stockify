@@ -6,7 +6,8 @@
 |-------------------|----------------------------------|
 | **user**          | OAuth를 통해 인증된 사용자 계정 정보 (이메일 포함) |
 | **company**       | 시뮬레이션 대상 기업, 현재 주가 및 변동성 포함      |
-| **trade_history** | 사용자가 구매한 기업의 주식                  |
+| **trade_history** | 사용자의 주식 거래 기록                    |
+| **user_position** | 사용자가 구매한 기업 주식을 저장               |
 | **event_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
 | **sectorTheme**   | 격동하는 장을 저장합니다.                   |
@@ -57,11 +58,11 @@ CREATE TABLE event_history
     event_id       BIGINT NULL,
     recorded_price BIGINT   NOT NULL,
     changed_price  BIGINT   NOT NULL,
-    change_rate    DOUBLE   NOT NULL,
+    change_rate DOUBLE NOT NULL,
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
-    INDEX idx_recorded_at (recorded_at)
+    INDEX          idx_recorded_at (recorded_at)
 );
 
 CREATE TABLE trade_history
@@ -73,8 +74,21 @@ CREATE TABLE trade_history
     price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id),
-    CREATE INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
+    CREATE      INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
 );
+
+CREATE TABLE user_position
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    company_id    BIGINT NOT NULL,
+    quantity      BIGINT NOT NULL,
+    average_price BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (company_id) REFERENCES company (id),
+    UNIQUE (user_id, company_id)
+);
+
 
 CREATE TABLE sector_theme
 (
@@ -83,7 +97,7 @@ CREATE TABLE sector_theme
     positive_rate DOUBLE NOT NULL,
     negative_rate DOUBLE NOT NULL,
     updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    INDEX idx_updated_at (updated_at DESC)
+        INDEX idx_updated_at (updated_at DESC)
 );
 
 ```
