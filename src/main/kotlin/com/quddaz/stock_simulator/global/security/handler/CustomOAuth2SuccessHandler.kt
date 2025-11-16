@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component
 class CustomOAuth2SuccessHandler(
     private val jwtTokenProvider: JwtTokenProvider,
     private val jwtProperties: JwtProperties,
-    @Value("\${custom.oauth2.redirect-uri}") private val redirectUri: String
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
@@ -30,6 +29,6 @@ class CustomOAuth2SuccessHandler(
 
         response.addCookie(refreshTokenCookie)
         response.setHeader(jwtProperties.header, "${jwtProperties.scheme} $accessToken")
-        response.sendRedirect(redirectUri)
+        response.sendRedirect("http://localhost:3000/login/callback?accessToken=$accessToken")
     }
 }

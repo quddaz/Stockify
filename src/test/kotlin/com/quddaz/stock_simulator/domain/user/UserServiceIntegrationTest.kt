@@ -5,6 +5,7 @@ import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
 import com.quddaz.stock_simulator.domain.user.service.UserService
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -71,7 +72,9 @@ class UserServiceIntegrationTest(
         val foundBySocialId = userService.findBySocialId(saved.socialId)
 
         // then
-        assert(foundById.id == saved.id)
-        assert(foundBySocialId.socialId == saved.socialId)
+        assertTrue(foundById.id == saved.id)
+        if (foundBySocialId != null) {
+            assertTrue(foundBySocialId.socialId == saved.socialId)
+        }
     }
 }

@@ -1,7 +1,8 @@
 package com.quddaz.stock_simulator.global.config.websocket
 
-import com.quddaz.stock_simulator.global.security.JwtHandshakeInterceptor
+import com.quddaz.stock_simulator.global.security.JwtChannelInterceptor
 import org.springframework.context.annotation.Configuration
+import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
@@ -10,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 class WebSocketConfig(
-    private val jwtHandshakeInterceptor: JwtHandshakeInterceptor
+    private val jwtChannelInterceptor: JwtChannelInterceptor
 ) : WebSocketMessageBrokerConfigurer {
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
@@ -20,8 +21,10 @@ class WebSocketConfig(
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws")
-            .addInterceptors(jwtHandshakeInterceptor)
-            .setAllowedOriginPatterns("*")
+            .setAllowedOriginPatterns("http://localhost:3000")
             .withSockJS()
+    }
+    override fun configureClientInboundChannel(registration: ChannelRegistration) {
+        registration.interceptors(jwtChannelInterceptor)
     }
 }

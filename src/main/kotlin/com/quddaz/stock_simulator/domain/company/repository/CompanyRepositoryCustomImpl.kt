@@ -43,10 +43,10 @@ class CompanyRepositoryCustomImpl(
                 Projections.constructor(
                     CompanyStockInfoDTO::class.java,
                     company.name,
-                    eventHistory.recordPrice,
-                    eventHistory.changePrice,
-                    ((eventHistory.changePrice.subtract(eventHistory.recordPrice))
-                        .divide(eventHistory.recordPrice)).castToNum(Double::class.java).abs(),
+                    eventHistory.recordPrice, // previousPrice
+                    eventHistory.recordPrice.add(eventHistory.changePrice), // currentPrice
+                    ((eventHistory.recordPrice.add(eventHistory.changePrice))
+                        .divide(eventHistory.recordPrice).castToNum(Double::class.java)), // changeRate
                     company.sector.stringValue()
                 )
             )

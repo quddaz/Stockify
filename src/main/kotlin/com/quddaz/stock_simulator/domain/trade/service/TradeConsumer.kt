@@ -24,7 +24,6 @@ class TradeConsumer(
             is TradeEvent.SellEvent -> handleSell(event)
             is TradeEvent.SchedulerEvent -> handleScheduler(event)
         }
-
     }
 
     private fun handleBuy(event: TradeEvent.BuyEvent) {
