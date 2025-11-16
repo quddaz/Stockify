@@ -5,6 +5,9 @@ import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
 import com.quddaz.stock_simulator.domain.position.exception.errorCode.UserPositionErrorCode
 import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
+import com.quddaz.stock_simulator.domain.trade.entity.Trade
+import com.quddaz.stock_simulator.domain.trade.entity.TradeType
+import com.quddaz.stock_simulator.domain.trade.repository.TradeRepository
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 class TradeService(
     private val userService: UserService,
     private val companyService: CompanyService,
-    private val positionRepository: UserPositionRepository
+    private val positionRepository: UserPositionRepository,
+    private val tradeRepository: TradeRepository
 ) {
 
     @Transactional
@@ -46,6 +50,15 @@ class TradeService(
         if (position.id == null) {
             positionRepository.save(position)
         }
+
+        val trade = Trade(
+            user = user,
+            company = company,
+            quantity = quantity,
+            price = company.currentPrice,
+            type = TradeType.BUY
+        )
+        tradeRepository.save(trade)
     }
 
     @Transactional
@@ -71,5 +84,14 @@ class TradeService(
         if (position.quantity == 0L) {
             positionRepository.delete(position)
         }
+
+        val trade = Trade(
+            user = user,
+            company = company,
+            quantity = quantity,
+            price = price,
+            type = TradeType.SELL
+        )
+        tradeRepository.save(trade)
     }
 }
