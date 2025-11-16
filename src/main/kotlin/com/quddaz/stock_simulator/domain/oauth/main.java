@@ -3,7 +3,6 @@ package com.quddaz.stock_simulator.domain.oauth;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.val;
 
 import java.security.Key;
 

@@ -2,13 +2,14 @@ package com.quddaz.stock_simulator.domain.position.service
 
 import com.quddaz.stock_simulator.domain.position.dto.UserRankingDTO
 import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
-import com.querydsl.core.types.dsl.NumberPath
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.CachePut
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class UserPositionService(
     private val userPositionRepository: UserPositionRepository,
     private val cacheManager: CacheManager,

@@ -1,5 +1,7 @@
 package com.quddaz.stock_simulator.domain.company.entity
 
+import com.quddaz.stock_simulator.domain.company.exception.CompanySharesException
+import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErrorCode
 import com.quddaz.stock_simulator.global.entity.BaseTimeEntity
 import jakarta.persistence.*
 import kotlin.math.max
@@ -8,11 +10,6 @@ import kotlin.math.roundToLong
 @Entity
 @Table(name = "company")
 class Company(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    var id: Long? = null,
-
     @Column(name = "name", nullable = false, unique = true)
     val name: String,
 
@@ -35,7 +32,19 @@ class Company(
     @Column(name = "negative_late", nullable = false)
     val negativeRate: Double
 ) : BaseTimeEntity() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
     fun updatePrice(rate: Double) {
         this.currentPrice = max(0L, (this.currentPrice * (1 + rate)).roundToLong())
+    }
+
+    fun decreaseShares(amount: Long) {
+        if(amount > totalShares) throw CompanySharesException(CompanyErrorCode.NOT_ENOUGH_SHARES)
+        totalShares -= amount
+    }
+
+    fun increaseShares(amount: Long) {
+        totalShares += amount
     }
 }

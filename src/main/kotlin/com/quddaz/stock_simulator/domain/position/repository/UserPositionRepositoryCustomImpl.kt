@@ -40,7 +40,7 @@ class UserPositionRepositoryCustomImpl(
         return PortfolioResponse(result)
     }
 
-    override fun findRankings(defaultMoney: Long): UserRankingResponse{
+    override fun findRankings(defaultMoney: Long): UserRankingResponse {
         val u = QUser.user
         val p = QUserPosition.userPosition
         val c = QCompany.company

@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface TradeHistoryRepository : JpaRepository<TradeHistory, Long>, TradeHistoryRepositoryCustom
+interface TradeHistoryRepository : JpaRepository<TradeHistory, Long>

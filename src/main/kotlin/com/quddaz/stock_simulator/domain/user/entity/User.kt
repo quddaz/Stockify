@@ -1,10 +1,13 @@
 package com.quddaz.stock_simulator.domain.user.entity
 
+import com.quddaz.stock_simulator.domain.user.exception.UserDomainException
+import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
 class User(
+
     @Column(nullable = false)
     var name: String,
 
@@ -25,6 +28,7 @@ class User(
     @Column(nullable = false)
     var money: Long = 10_000_000L
 ) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -34,9 +38,13 @@ class User(
         this.email = newEmail
     }
 
-    fun buyStock(amount: Long) {
-        if (this.money - amount < 0) throw IllegalArgumentException("금액은 0보다 작을 수 없습니다.")
-        this.money -= amount
+    fun spend(amount: Long) {
+        if(amount > money) throw UserDomainException(UserErrorCode.USER_MONEY_INSUFFICIENT)
+        money -= amount
+    }
+
+    fun earn(amount: Long) {
+        money += amount
     }
 
 }

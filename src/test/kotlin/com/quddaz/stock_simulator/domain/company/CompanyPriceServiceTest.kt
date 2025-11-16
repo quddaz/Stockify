@@ -11,11 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.whenever
+import org.springframework.boot.test.context.SpringBootTest
 import kotlin.math.roundToLong
 import kotlin.test.Test
 
 
 @ExtendWith(MockitoExtension::class)
+@SpringBootTest
 class CompanyPriceServiceTest {
 
     @Mock

@@ -9,9 +9,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "trade_history")
 class TradeHistory(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -30,4 +27,8 @@ class TradeHistory(
     @CreatedDate
     @Column(name = "record_at", nullable = false)
     val record_at: LocalDateTime
-)
+){
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
+}

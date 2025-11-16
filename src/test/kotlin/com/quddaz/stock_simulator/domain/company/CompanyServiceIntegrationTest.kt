@@ -3,7 +3,6 @@ package com.quddaz.stock_simulator.domain.company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
-import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
