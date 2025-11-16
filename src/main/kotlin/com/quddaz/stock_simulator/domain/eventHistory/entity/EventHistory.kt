@@ -29,7 +29,7 @@ class EventHistory(
     @CreatedDate
     @Column(name = "record_at", nullable = false)
     val record_at: LocalDateTime
-){
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null

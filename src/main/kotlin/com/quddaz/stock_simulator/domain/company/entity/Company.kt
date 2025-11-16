@@ -40,7 +40,7 @@ class Company(
     }
 
     fun decreaseShares(amount: Long) {
-        if(amount > totalShares) throw CompanyDomainException(CompanyErrorCode.NOT_ENOUGH_SHARES)
+        if (amount > totalShares) throw CompanyDomainException(CompanyErrorCode.NOT_ENOUGH_SHARES)
         totalShares -= amount
     }
 

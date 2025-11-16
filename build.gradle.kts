@@ -32,6 +32,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+
 	// WebSocket + STOMP
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 
@@ -80,6 +81,9 @@ dependencies {
 
 	// Cache
 	implementation("org.springframework.boot:spring-boot-starter-cache")
+
+	// Kafka
+	implementation("org.springframework.kafka:spring-kafka")
 }
 
 kotlin {

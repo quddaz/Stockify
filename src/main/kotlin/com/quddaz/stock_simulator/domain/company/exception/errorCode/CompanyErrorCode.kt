@@ -4,12 +4,11 @@ import com.quddaz.stock_simulator.global.exception.errorcode.ErrorCode
 import org.springframework.http.HttpStatus
 
 enum class CompanyErrorCode(
-    override val httpStatus : HttpStatus,
+    override val httpStatus: HttpStatus,
     override val message: String
 ) : ErrorCode {
     NOT_ENOUGH_SHARES(HttpStatus.BAD_REQUEST, "NOT_ENOUGH_SHARES"),
     COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "COMPANY_NOT_FOUND")
-
 
 
 }

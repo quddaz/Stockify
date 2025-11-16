@@ -12,9 +12,10 @@ class CompanyService(
     private val companyRepository: CompanyRepository,
     private val objectMapper: ObjectMapper
 ) {
-    fun findById(id : Long) = companyRepository.findById(id) ?: throw CompanyDomainException(CompanyErrorCode.COMPANY_NOT_FOUND)
+    fun findById(id: Long) =
+        companyRepository.findById(id)
 
-    fun findByIdForUpdate(id : Long) = companyRepository.findByIdForUpdate(id)
+    fun findByIdForUpdate(id: Long) = companyRepository.findByIdForUpdate(id)
 
     /** 회사 초기화 */
     fun initCompanies(yamlPath: String) {

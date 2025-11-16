@@ -30,7 +30,7 @@ data class UserPosition(
 
     @Column(name = "average_price", nullable = false)
     var averagePrice: Long
-){
+) {
     fun buy(quantityToBuy: Long, price: Long) {
         val totalQuantity = quantity + quantityToBuy
         averagePrice = ((averagePrice * quantity) + (price * quantityToBuy)) / totalQuantity
@@ -38,7 +38,7 @@ data class UserPosition(
     }
 
     fun sell(quantityToSell: Long): Long {
-        if(quantityToSell > quantity) throw UserPositionDomainException(UserPositionErrorCode.INSUFFICIENT_SHARES)
+        if (quantityToSell > quantity) throw UserPositionDomainException(UserPositionErrorCode.INSUFFICIENT_SHARES)
         quantity -= quantityToSell
         return quantityToSell
     }

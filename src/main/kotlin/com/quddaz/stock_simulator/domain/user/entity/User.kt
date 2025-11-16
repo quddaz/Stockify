@@ -39,7 +39,7 @@ class User(
     }
 
     fun spend(amount: Long) {
-        if(amount > money) throw UserDomainException(UserErrorCode.USER_MONEY_INSUFFICIENT)
+        if (amount > money) throw UserDomainException(UserErrorCode.USER_MONEY_INSUFFICIENT)
         money -= amount
     }
 
