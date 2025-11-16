@@ -10,18 +10,19 @@ import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Repository
 
 @Repository
 class CompanyRepositoryCustomImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ) : CompanyRepositoryCustom {
-    override fun findByIdForUpdate(id: Long): Company {
+    override fun findByNameForUpdate(companyName : String) : Company {
         val company = QCompany.company
 
         return jpaQueryFactory
             .selectFrom(company)
-            .where(company.id.eq(id))
+            .where(company.name.eq(companyName))
             .setLockMode(LockModeType.PESSIMISTIC_WRITE)
             .fetchOne()
             ?: throw CompanyDomainException(CompanyErrorCode.COMPANY_NOT_FOUND)

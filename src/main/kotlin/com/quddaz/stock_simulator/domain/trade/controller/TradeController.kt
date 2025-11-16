@@ -6,6 +6,7 @@ import com.quddaz.stock_simulator.domain.trade.dto.TradeSellRequest
 import com.quddaz.stock_simulator.domain.trade.service.TradeProducer
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
 import io.swagger.v3.oas.annotations.Operation
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,7 +23,7 @@ class TradeController(
     @Operation(summary = "주식 매수 요청", description = "로그인한 유저가 주식을 매수 요청합니다.")
     fun buy(
         @AuthenticationPrincipal customOAuth2User: CustomOAuth2User, // 로그인 유저 정보
-        @RequestBody request: TradeBuyRequest
+        @Valid @RequestBody request: TradeBuyRequest
     ): ResponseEntity<ResponseTemplate<*>> {
         val userId = customOAuth2User.id
         tradeProducer.sendBuy(
@@ -38,7 +39,7 @@ class TradeController(
     @Operation(summary = "주식 매도 요청", description = "로그인한 유저가 주식을 매도 요청합니다.")
     fun sell(
         @AuthenticationPrincipal customOAuth2User: CustomOAuth2User, // 로그인 유저 정보
-        @RequestBody request: TradeSellRequest
+        @Valid @RequestBody request: TradeSellRequest
     ): ResponseEntity<ResponseTemplate<*>> {
         val userId = customOAuth2User.id
         tradeProducer.sendSell(

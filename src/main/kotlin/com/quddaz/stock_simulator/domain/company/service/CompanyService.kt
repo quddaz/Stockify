@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 
 @Service
@@ -13,7 +14,7 @@ class CompanyService(
 ) {
     private val yamlMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
-    fun findByIdForUpdate(id: Long) = companyRepository.findByIdForUpdate(id)
+    fun findByNameForUpdate(companyName: String) = companyRepository.findByNameForUpdate(companyName)
 
     /** 회사 초기화 */
     fun initCompanies(yamlPath: String) {

@@ -18,7 +18,7 @@ class Trade(
     @JoinColumn(name = "company_id", nullable = false)
     val company: Company,
 
-    @Column(name = "share_count", nullable = false)
+    @Column(name = "quantity", nullable = false)
     val quantity: Long,
 
     @Column(name = "price", nullable = false)

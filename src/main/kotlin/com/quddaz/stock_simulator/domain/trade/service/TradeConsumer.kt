@@ -27,12 +27,12 @@ class TradeConsumer(
     }
 
     private fun handleBuy(event: TradeEvent.BuyEvent) {
-        tradeService.buy(event.userId, event.stockId, event.quantity)
+        tradeService.buy(event.userId, event.companyName, event.quantity)
         stockUpdatePublisher.publishTradeUpdate(event.userId, event)
     }
 
     private fun handleSell(event: TradeEvent.SellEvent) {
-        tradeService.sell(event.userId, event.stockId, event.quantity, event.price)
+        tradeService.sell(event.userId, event.companyName, event.quantity, event.price)
         stockUpdatePublisher.publishTradeUpdate(event.userId, event)
     }
 

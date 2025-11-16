@@ -15,12 +15,12 @@ class TradeProducer(
         rabbitTemplate.convertAndSend(queueName, event)
     }
 
-    fun sendBuy(userId: Long, stockId: Long, quantity: Long, price: Long) {
-        send(TradeEvent.BuyEvent(userId, stockId, quantity, price))
+    fun sendBuy(userId: Long, companyName: String, quantity: Long, price: Long) {
+        send(TradeEvent.BuyEvent(userId, companyName, quantity, price))
     }
 
-    fun sendSell(userId: Long, stockId: Long, quantity: Long, price: Long) {
-        send(TradeEvent.SellEvent(userId, stockId, quantity, price))
+    fun sendSell(userId: Long, companyName: String, quantity: Long, price: Long) {
+        send(TradeEvent.SellEvent(userId, companyName, quantity, price))
     }
 
     fun sendScheduler(taskMainGroup: TaskGroup) {

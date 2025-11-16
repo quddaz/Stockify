@@ -22,9 +22,9 @@ class TradeService(
 ) {
 
     @Transactional
-    fun buy(userId: Long, companyId: Long, quantity: Long) {
+    fun buy(userId: Long, companyName: String, quantity: Long) {
         val user = userService.findById(userId)
-        val company = companyService.findByIdForUpdate(companyId)
+        val company = companyService.findByNameForUpdate(companyName)
 
         val totalCost = quantity * company.currentPrice
 
@@ -35,7 +35,7 @@ class TradeService(
         company.decreaseShares(quantity)
 
         // 포지션 락 + 조회
-        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, companyId)
+        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, company.id!!)
             ?: UserPosition(
                 user = user,
                 company = company,
@@ -62,12 +62,12 @@ class TradeService(
     }
 
     @Transactional
-    fun sell(userId: Long, companyId: Long, quantity: Long, price: Long) {
+    fun sell(userId: Long, companyName: String, quantity: Long, price: Long) {
         val user = userService.findById(userId)
-        val company = companyService.findByIdForUpdate(companyId)
+        val company = companyService.findByNameForUpdate(companyName)
 
         // 포지션 락 + 조회
-        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, companyId)
+        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, company.id!!)
             ?: throw UserPositionDomainException(UserPositionErrorCode.POSITION_NOT_FOUND)
 
         // 매도
