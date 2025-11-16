@@ -11,7 +11,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 class WebSocketConfig : WebSocketMessageBrokerConfigurer {
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
-        config.enableSimpleBroker("/topic") // 서버 → 클라
+        config.enableSimpleBroker("/topic", "/queue") // 브로드캐스트 + 개인 메시지
+        config.setUserDestinationPrefix("/user") // 개인 메시지 접두사
     }
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
