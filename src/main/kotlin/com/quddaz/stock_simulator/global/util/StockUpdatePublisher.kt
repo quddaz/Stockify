@@ -2,6 +2,7 @@ package com.quddaz.stock_simulator.global.util
 
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
+import com.quddaz.stock_simulator.domain.trade.dto.TradeEvent
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.task.TaskGroup
 import org.springframework.messaging.simp.SimpMessagingTemplate
@@ -32,5 +33,13 @@ class StockUpdatePublisher(
         if (mainGroup == TaskGroup.MARKET_CLOSE) {
             messagingTemplate.convertAndSend("/topic/market_close", "MARKET_CLOSE")
         }
+    }
+
+    fun publishTradeUpdate(userId: Long, event: TradeEvent) {
+        messagingTemplate.convertAndSendToUser(
+            userId.toString(),
+            "/queue/trade-result",
+            event
+        )
     }
 }
