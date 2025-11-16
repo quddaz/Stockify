@@ -9,10 +9,6 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "event_history")
 class EventHistory(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
     @JoinColumn(name = "event_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     val event: Event,
@@ -33,4 +29,8 @@ class EventHistory(
     @CreatedDate
     @Column(name = "record_at", nullable = false)
     val record_at: LocalDateTime
-)
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
+}

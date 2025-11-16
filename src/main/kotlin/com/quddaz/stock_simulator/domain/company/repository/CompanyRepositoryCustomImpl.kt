@@ -1,18 +1,31 @@
 package com.quddaz.stock_simulator.domain.company.repository
 
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
+import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.entity.QCompany
+import com.quddaz.stock_simulator.domain.company.exception.CompanyDomainException
+import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErrorCode
 import com.quddaz.stock_simulator.domain.eventHistory.entity.QEventHistory
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Repository
 
 @Repository
 class CompanyRepositoryCustomImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ) : CompanyRepositoryCustom {
+    override fun findByIdForUpdate(id: Long): Company {
+        val company = QCompany.company
 
+        return jpaQueryFactory
+            .selectFrom(company)
+            .where(company.id.eq(id))
+            .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+            .fetchOne()
+            ?: throw CompanyDomainException(CompanyErrorCode.COMPANY_NOT_FOUND)
+    }
 
     override fun findAllCompanyStockInfo(): List<CompanyStockInfoDTO> {
         val company = QCompany.company
@@ -33,7 +46,8 @@ class CompanyRepositoryCustomImpl(
                     eventHistory.recordPrice,
                     eventHistory.changePrice,
                     ((eventHistory.changePrice.subtract(eventHistory.recordPrice))
-                        .divide(eventHistory.recordPrice)).castToNum(Double::class.java)
+                        .divide(eventHistory.recordPrice)).castToNum(Double::class.java).abs(),
+                    company.sector.stringValue()
                 )
             )
             .from(eventHistory)

@@ -6,7 +6,8 @@
 |-------------------|----------------------------------|
 | **user**          | OAuth를 통해 인증된 사용자 계정 정보 (이메일 포함) |
 | **company**       | 시뮬레이션 대상 기업, 현재 주가 및 변동성 포함      |
-| **trade_history** | 사용자가 구매한 기업의 주식                  |
+| **trade** | 사용자의 주식 거래 기록                    |
+| **user_position** | 사용자가 구매한 기업 주식을 저장               |
 | **event_history** | 각 기업의 시간대별 주가 변동 로그              |
 | **event**         | 시장 사건(뉴스, 정책 등) 정보 및 영향도         |
 | **sectorTheme**   | 격동하는 장을 저장합니다.                   |
@@ -57,24 +58,37 @@ CREATE TABLE event_history
     event_id       BIGINT NULL,
     recorded_price BIGINT   NOT NULL,
     changed_price  BIGINT   NOT NULL,
-    change_rate    DOUBLE   NOT NULL,
+    change_rate DOUBLE NOT NULL,
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
-    INDEX idx_recorded_at (recorded_at)
+    INDEX          idx_recorded_at (recorded_at)
 );
 
-CREATE TABLE trade_history
+CREATE TABLE trade
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id     BIGINT NOT NULL,
     company_id  BIGINT NOT NULL,
-    share_count BIGINT NOT NULL,
+    quantity BIGINT NOT NULL,
     price       BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id),
-    CREATE INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
+    CREATE      INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
 );
+
+CREATE TABLE user_position
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    company_id    BIGINT NOT NULL,
+    quantity      BIGINT NOT NULL,
+    average_price BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (company_id) REFERENCES company (id),
+    UNIQUE (user_id, company_id)
+);
+
 
 CREATE TABLE sector_theme
 (
@@ -83,7 +97,7 @@ CREATE TABLE sector_theme
     positive_rate DOUBLE NOT NULL,
     negative_rate DOUBLE NOT NULL,
     updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    INDEX idx_updated_at (updated_at DESC)
+        INDEX idx_updated_at (updated_at DESC)
 );
 
 ```
@@ -100,18 +114,16 @@ CREATE TABLE sector_theme
 SELECT
     c.id AS company_id,
     c.name AS company_name,
-    SUM(t.share_count) AS share_count,  -- 총 보유량
-    SUM(t.share_count * t.price) / SUM(t.share_count) AS average_price,  -- 평균 매입가
-    c.current_price AS current_price,
-    (c.current_price * SUM(t.share_count)) - SUM(t.share_count * t.price) AS unrealized_pl  -- 미실현 손익
+    p.quantity AS share_count,                       -- 총 보유량
+    p.average_price AS average_price,                -- 평균 매입가
+    c.current_price AS current_price,                -- 현재가
+    (c.current_price * p.quantity) - (p.average_price * p.quantity) AS unrealized_pl  -- 미실현 손익
 FROM
-    trade_history t
-JOIN
-    company c ON t.company_id = c.id
+    user_position p
+        JOIN
+    company c ON p.company_id = c.id
 WHERE
-    t.user_id = :userId
-GROUP BY
-    c.id, c.name, c.current_price;
+    p.user_id = :userId;
 ```
 
 - 장 마감 시 랭킹 조회
@@ -122,12 +134,17 @@ GROUP BY
 ```sql
 SELECT
     u.name AS username,
-    u.money + SUM(th.share_count * c.current_price) AS total_assets,
-    (u.money + SUM(th.share_count * c.current_price) - 10000000) / 10000000.0 AS profit_rate
-FROM trade_history th
-JOIN users u ON th.user_id = u.id
-JOIN company c ON th.company_id = c.id
-GROUP BY u.id, u.name, u.money
-ORDER BY total_assets DESC
-LIMIT 10;
+    u.money + COALESCE(SUM(p.quantity * c.current_price), 0) AS total_assets,
+    (u.money + COALESCE(SUM(p.quantity * c.current_price), 0) - 10000000) / 10000000.0 AS profit_rate
+FROM
+    users u
+        LEFT JOIN
+    user_position p ON u.id = p.user_id
+        LEFT JOIN
+    company c ON p.company_id = c.id
+GROUP BY
+    u.id, u.name, u.money
+ORDER BY
+    total_assets DESC
+    LIMIT 10;
 ```
