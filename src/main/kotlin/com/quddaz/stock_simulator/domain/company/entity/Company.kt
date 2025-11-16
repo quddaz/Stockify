@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.domain.company.entity
 
-import com.quddaz.stock_simulator.domain.company.exception.CompanySharesException
+import com.quddaz.stock_simulator.domain.company.exception.CompanyDomainException
 import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErrorCode
 import com.quddaz.stock_simulator.global.entity.BaseTimeEntity
 import jakarta.persistence.*
@@ -40,7 +40,7 @@ class Company(
     }
 
     fun decreaseShares(amount: Long) {
-        if(amount > totalShares) throw CompanySharesException(CompanyErrorCode.NOT_ENOUGH_SHARES)
+        if(amount > totalShares) throw CompanyDomainException(CompanyErrorCode.NOT_ENOUGH_SHARES)
         totalShares -= amount
     }
 

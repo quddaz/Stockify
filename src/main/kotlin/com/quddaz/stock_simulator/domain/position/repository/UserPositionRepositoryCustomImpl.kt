@@ -6,9 +6,11 @@ import com.quddaz.stock_simulator.domain.position.dto.PortfolioResponse
 import com.quddaz.stock_simulator.domain.position.dto.UserRankingDTO
 import com.quddaz.stock_simulator.domain.position.dto.UserRankingResponse
 import com.quddaz.stock_simulator.domain.position.entitiy.QUserPosition
+import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.user.entity.QUser
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.LockModeType
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -16,25 +18,25 @@ class UserPositionRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : UserPositionRepositoryCustom {
     override fun findPortfolioByUser(userId: Long): PortfolioResponse {
-        val position = QUserPosition.userPosition
-        val company = QCompany.company
+        val p = QUserPosition.userPosition
+        val c = QCompany.company
 
         val result = queryFactory
             .select(
                 Projections.constructor(
                     PortfolioDTO::class.java,
-                    company.id,
-                    company.name,
-                    position.quantity,
-                    position.averagePrice,
-                    company.currentPrice,
-                    company.currentPrice.multiply(position.quantity),                            // 평가금액
-                    company.currentPrice.subtract(position.averagePrice).multiply(position.quantity)   // 미실현 손익
+                    c.id,
+                    c.name,
+                    p.quantity,
+                    p.averagePrice,
+                    c.currentPrice,
+                    c.currentPrice.multiply(p.quantity),                            // 평가금액
+                    c.currentPrice.subtract(p.averagePrice).multiply(p.quantity)   // 미실현 손익
                 )
             )
-            .from(position)
-            .join(position.company, company)
-            .where(position.user.id.eq(userId))
+            .from(p)
+            .join(p.company, c)
+            .where(p.user.id.eq(userId))
             .fetch()
 
         return PortfolioResponse(result)
@@ -69,4 +71,12 @@ class UserPositionRepositoryCustomImpl(
         return UserRankingResponse(result)
     }
 
+    override fun findByUserIdAndCompanyIdForUpdate(userId: Long, companyId: Long): UserPosition? {
+        val p = QUserPosition.userPosition
+        return queryFactory
+            .selectFrom(p)
+            .where(p.user.id.eq(userId).and(p.company.id.eq(companyId)))
+            .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+            .fetchOne()
+    }
 }

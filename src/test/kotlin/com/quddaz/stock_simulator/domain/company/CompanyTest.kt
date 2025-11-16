@@ -2,7 +2,7 @@ package com.quddaz.stock_simulator.domain.company
 
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.entity.Sector
-import com.quddaz.stock_simulator.domain.company.exception.CompanySharesException
+import com.quddaz.stock_simulator.domain.company.exception.CompanyDomainException
 import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErrorCode
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -52,7 +52,7 @@ class CompanyTest {
         val company = createCompany()
 
         // when
-        val exception = assertThrows<CompanySharesException> {
+        val exception = assertThrows<CompanyDomainException> {
             company.decreaseShares(1500)
         }
 

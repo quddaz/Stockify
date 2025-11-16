@@ -8,6 +8,7 @@ enum class CompanyErrorCode(
     override val message: String
 ) : ErrorCode {
     NOT_ENOUGH_SHARES(HttpStatus.BAD_REQUEST, "NOT_ENOUGH_SHARES"),
+    COMPANY_NOT_FOUND(HttpStatus.NOT_FOUND, "COMPANY_NOT_FOUND")
 
 
 
