@@ -1,5 +1,6 @@
 package com.quddaz.stock_simulator.global.util
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.domain.trade.dto.TradeEvent
@@ -7,6 +8,7 @@ import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.task.TaskGroup
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Component
+
 
 @Component
 class StockUpdatePublisher(
@@ -24,7 +26,9 @@ class StockUpdatePublisher(
         }
 
         if (companyStockInfo.isNotEmpty()) {
-            messagingTemplate.convertAndSend("/topic/price-update", companyStockInfo)
+            val mapper = ObjectMapper()
+            val json = mapper.writeValueAsString(companyStockInfo)
+            messagingTemplate.convertAndSend("/topic/price-update", json)
         }
     }
 
