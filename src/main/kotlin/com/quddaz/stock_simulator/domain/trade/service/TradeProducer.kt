@@ -1,7 +1,6 @@
 package com.quddaz.stock_simulator.domain.trade.service
 
 import com.quddaz.stock_simulator.domain.trade.dto.TradeEvent
-import com.quddaz.stock_simulator.global.util.task.PrioritizedTask
 import com.quddaz.stock_simulator.global.util.task.TaskGroup
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Value
@@ -24,7 +23,7 @@ class TradeProducer(
         send(TradeEvent.SellEvent(userId, stockId, quantity, price))
     }
 
-    fun sendScheduler(taskMainGroup : TaskGroup) {
+    fun sendScheduler(taskMainGroup: TaskGroup) {
         send(TradeEvent.SchedulerEvent(taskMainGroup))
     }
 }

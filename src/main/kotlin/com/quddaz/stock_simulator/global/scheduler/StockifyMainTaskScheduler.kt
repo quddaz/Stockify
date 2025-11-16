@@ -1,10 +1,7 @@
 package com.quddaz.stock_simulator.global.scheduler
 
 import com.quddaz.stock_simulator.domain.trade.service.TradeProducer
-import com.quddaz.stock_simulator.global.exception.SchedulerTaskException
-import com.quddaz.stock_simulator.global.exception.errorcode.SchedulerTaskErrorCode
 import com.quddaz.stock_simulator.global.log.Loggable
-import com.quddaz.stock_simulator.global.util.task.TaskExecutor
 import com.quddaz.stock_simulator.global.util.task.TaskSelector
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component

@@ -2,8 +2,6 @@ package com.quddaz.stock_simulator.domain.position.controller
 
 import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.position.service.UserPositionService
-import com.quddaz.stock_simulator.global.exception.GlobalException
-import com.quddaz.stock_simulator.global.exception.errorcode.GlobalErrorCode
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus

@@ -1,6 +1,5 @@
 package com.quddaz.stock_simulator.domain.trade.dto
 
-import com.quddaz.stock_simulator.global.util.task.PrioritizedTask
 import com.quddaz.stock_simulator.global.util.task.TaskGroup
 
 sealed class TradeEvent {
@@ -19,6 +18,6 @@ sealed class TradeEvent {
     ) : TradeEvent()
 
     data class SchedulerEvent(
-        val taskMainGroup : TaskGroup
+        val taskMainGroup: TaskGroup
     ) : TradeEvent()
 }
