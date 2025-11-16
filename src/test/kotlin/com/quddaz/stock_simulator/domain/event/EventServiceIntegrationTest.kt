@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
+import kotlin.test.assertTrue
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -23,10 +24,10 @@ class EventServiceIntegrationTest(
         eventService.initEvents("/data/test_events.yaml")
 
         // when
-        val companies = eventRepository.findAll()
+        val events = eventRepository.findAll()
 
         // then
-        assert(companies.isNotEmpty()) { "이벤트 초기화 실패" }
+        assertTrue(events.isNotEmpty(), "이벤트 초기화 실패")
     }
 
     @Test
@@ -39,6 +40,6 @@ class EventServiceIntegrationTest(
 
         // then
         assertNotNull(event)
-        assert(eventRepository.findAll().contains(event))
+        assertTrue(eventRepository.findAll().contains(event))
     }
 }

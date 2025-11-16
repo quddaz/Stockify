@@ -54,7 +54,7 @@ dependencies {
 
 	// Database
 	runtimeOnly("com.mysql:mysql-connector-j")
-	runtimeOnly("com.h2database:h2")
+	implementation("com.h2database:h2")
 
 	// QueryDSL
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
@@ -81,6 +81,9 @@ dependencies {
 
 	// Cache
 	implementation("org.springframework.boot:spring-boot-starter-cache")
+
+	// Kafka
+	implementation("org.springframework.kafka:spring-kafka")
 }
 
 kotlin {

@@ -8,5 +8,6 @@ enum class UserErrorCode(
     override val message: String
 ) : ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_NOT_FOUND"),
-    USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "USER_ALREADY_EXISTS");
+    USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "USER_ALREADY_EXISTS"),
+    USER_MONEY_INSUFFICIENT(HttpStatus.BAD_REQUEST, "USER_MONEY_INSUFFICIENT"),
 }

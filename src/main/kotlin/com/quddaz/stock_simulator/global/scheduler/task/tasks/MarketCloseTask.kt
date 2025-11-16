@@ -1,6 +1,6 @@
 package com.quddaz.stock_simulator.global.scheduler.task.tasks
 
-import com.quddaz.stock_simulator.domain.tradeHistory.service.TradeHistoryService
+import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.scheduler.task.PrioritizedTask
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 @Order(1)
 class MarketCloseTask(
-    private val tradeHistoryService: TradeHistoryService,
+    private val userPositionService: UserPositionService,
     private val userService: UserService,
     @Value("\${data.initial-user-money}")
     private val initialUserMoney: Long
@@ -28,7 +28,7 @@ class MarketCloseTask(
     }
 
     override fun execute() {
-        tradeHistoryService.getRankingTop10FromCache()
+        userPositionService.updateRankingTop10(initialUserMoney)
         userService.resetAllUserMoney(initialUserMoney)
         log.info("MarketCloseTask start executing")
     }

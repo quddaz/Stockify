@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.domain.tradeHistory.dto
+package com.quddaz.stock_simulator.domain.trade.dto
 
 data class PortfolioDto(
     val companyId: Long,
