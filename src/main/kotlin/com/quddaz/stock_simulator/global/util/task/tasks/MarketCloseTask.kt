@@ -1,10 +1,10 @@
-package com.quddaz.stock_simulator.global.scheduler.task.tasks
+package com.quddaz.stock_simulator.global.util.task.tasks
 
 import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import com.quddaz.stock_simulator.global.log.Loggable
-import com.quddaz.stock_simulator.global.scheduler.task.PrioritizedTask
-import com.quddaz.stock_simulator.global.scheduler.task.TaskGroup
+import com.quddaz.stock_simulator.global.util.task.PrioritizedTask
+import com.quddaz.stock_simulator.global.util.task.TaskGroup
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component

@@ -82,8 +82,8 @@ dependencies {
 	// Cache
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 
-	// Kafka
-	implementation("org.springframework.kafka:spring-kafka")
+	// RabbitMQ
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
 }
 
 kotlin {

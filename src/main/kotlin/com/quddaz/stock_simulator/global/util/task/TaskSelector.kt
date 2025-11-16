@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.scheduler.task
+package com.quddaz.stock_simulator.global.util.task
 
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -11,4 +11,6 @@ class TaskSelector(private val tasks: List<PrioritizedTask>) {
 
     fun getMainGroup(executableTasks: List<PrioritizedTask>): TaskGroup =
         executableTasks.first().mainTask
+
+    fun getAllTasks(): List<PrioritizedTask> = tasks
 }

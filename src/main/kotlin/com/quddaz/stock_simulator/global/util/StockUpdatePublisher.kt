@@ -1,9 +1,9 @@
-package com.quddaz.stock_simulator.global.scheduler
+package com.quddaz.stock_simulator.global.util
 
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.global.log.Loggable
-import com.quddaz.stock_simulator.global.scheduler.task.TaskGroup
+import com.quddaz.stock_simulator.global.util.task.TaskGroup
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Component
 
