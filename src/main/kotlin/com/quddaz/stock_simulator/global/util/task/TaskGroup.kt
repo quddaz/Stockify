@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.scheduler.task
+package com.quddaz.stock_simulator.global.util.task
 
 enum class TaskGroup {
     MARKET_CLOSE,

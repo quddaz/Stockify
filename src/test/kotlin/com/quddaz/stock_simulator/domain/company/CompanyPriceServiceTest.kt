@@ -34,7 +34,6 @@ class CompanyPriceServiceTest {
     fun `변동률 양수 계산`() {
         // given
         val company = Company(
-            id = 1L,
             name = "TestCorp",
             sector = Sector.IT,
             description = "desc",
@@ -58,7 +57,6 @@ class CompanyPriceServiceTest {
     fun `변동률 음수 계산`() {
         // given
         val company = Company(
-            id = 1L,
             name = "TestCorp",
             sector = Sector.IT,
             description = "desc",
@@ -82,7 +80,6 @@ class CompanyPriceServiceTest {
     fun `가격 업데이트 검증`() {
         // given
         val company = Company(
-            id = 1L,
             name = "TestCorp",
             sector = Sector.IT,
             description = "desc",

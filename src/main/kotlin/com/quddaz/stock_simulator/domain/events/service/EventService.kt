@@ -1,6 +1,8 @@
 package com.quddaz.stock_simulator.domain.events.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.quddaz.stock_simulator.domain.events.entity.Event
 import com.quddaz.stock_simulator.domain.events.entity.EventType
 import com.quddaz.stock_simulator.domain.events.repository.EventRepository
@@ -9,13 +11,13 @@ import org.springframework.stereotype.Service
 @Service
 class EventService(
     private val eventRepository: EventRepository,
-    private val objectMapper: ObjectMapper
 ) {
+    private val yamlMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
     /** 이벤트 초기화 */
     fun initEvents(yamlPath: String) {
         if (eventRepository.count() > 0) return
         val stream = javaClass.getResourceAsStream(yamlPath) ?: return
-        val events = objectMapper.readValue(stream, Array<Event>::class.java).toList()
+        val events = yamlMapper.readValue(stream, Array<Event>::class.java).toList()
         eventRepository.saveAll(events)
     }
 

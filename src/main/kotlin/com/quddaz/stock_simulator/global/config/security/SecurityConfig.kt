@@ -37,7 +37,8 @@ class SecurityConfig(
         "/webjars/**",
         "/global/**",
         "/actuator/**",
-        "/auth/**"
+        "/auth/**",
+        "/ws/**"
     )
 
     @Bean
