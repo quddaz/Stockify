@@ -18,15 +18,19 @@ class Trade(
     @JoinColumn(name = "company_id", nullable = false)
     val company: Company,
 
-    @Column(name = "share_count", nullable = false)
+    @Column(name = "quantity", nullable = false)
     val quantity: Long,
 
     @Column(name = "price", nullable = false)
     val price: Long,
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "trade_type", nullable = false)
+    val type: TradeType,
+
     @CreatedDate
     @Column(name = "record_at", nullable = false)
-    val record_at: LocalDateTime
+    val record_at: LocalDateTime? = LocalDateTime.now()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.scheduler.task
+package com.quddaz.stock_simulator.global.util.task
 
 import java.time.LocalDateTime
 

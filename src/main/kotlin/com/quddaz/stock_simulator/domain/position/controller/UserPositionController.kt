@@ -2,8 +2,6 @@ package com.quddaz.stock_simulator.domain.position.controller
 
 import com.quddaz.stock_simulator.domain.oauth.entity.CustomOAuth2User
 import com.quddaz.stock_simulator.domain.position.service.UserPositionService
-import com.quddaz.stock_simulator.global.exception.GlobalException
-import com.quddaz.stock_simulator.global.exception.errorcode.GlobalErrorCode
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
@@ -22,10 +20,9 @@ class UserPositionController(
     @GetMapping("/portfolio")
     @Operation(summary = "포트폴리오 조회", description = "유저의 포지션(포트폴리오)을 조회합니다")
     fun getPortfolio(
-        @AuthenticationPrincipal customOAuth2User: CustomOAuth2User?
+        @AuthenticationPrincipal customOAuth2User: CustomOAuth2User
     ): ResponseEntity<ResponseTemplate<*>> {
-        val userId = customOAuth2User?.id
-            ?: throw GlobalException(GlobalErrorCode.NOT_FOUND_USER)
+        val userId = customOAuth2User.id
         val portfolioResponse = userPositionService.getPortfolioByUser(userId)
         return ResponseEntity
             .status(HttpStatus.OK)

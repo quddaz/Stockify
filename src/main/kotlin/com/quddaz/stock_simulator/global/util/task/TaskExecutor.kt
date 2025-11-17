@@ -1,4 +1,4 @@
-package com.quddaz.stock_simulator.global.scheduler.task
+package com.quddaz.stock_simulator.global.util.task
 
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.retry
@@ -17,5 +17,4 @@ class TaskExecutor : Loggable {
                 }
             }
     }
-
 }

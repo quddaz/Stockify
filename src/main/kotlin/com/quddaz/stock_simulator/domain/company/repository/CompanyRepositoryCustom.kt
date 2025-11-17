@@ -4,6 +4,6 @@ import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.entity.Company
 
 interface CompanyRepositoryCustom {
-    fun findByIdForUpdate(id: Long): Company
+    fun findByNameForUpdate(companyName : String): Company
     fun findAllCompanyStockInfo(): List<CompanyStockInfoDTO>
 }

@@ -18,13 +18,13 @@ class EventHistory(
     val company: Company,
 
     @Column(name = "record_price", nullable = false)
-    val recordPrice: Long,
+    val recordPrice: Long, // 기록 시점 주가
 
     @Column(name = "change_price", nullable = false)
-    val changePrice: Long,
+    val changePrice: Long, // 변동된 주가
 
     @Column(name = "change_rate", nullable = false)
-    val changeRate: Double,
+    val changeRate: Double, // 변동률
 
     @CreatedDate
     @Column(name = "record_at", nullable = false)
