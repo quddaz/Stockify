@@ -2,6 +2,7 @@ package com.quddaz.stock_simulator.global.util.task.tasks
 
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
+import com.quddaz.stock_simulator.domain.company.service.RiskCalculator
 import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
 import com.quddaz.stock_simulator.domain.events.service.EventService
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
@@ -19,7 +20,8 @@ class ChangeTask(
     private val companyPriceService: CompanyPriceService,
     private val sectorThemeService: SectorThemeService,
     private val eventHistoryService: EventHistoryService,
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val riskCalculator: RiskCalculator
 ) : PrioritizedTask, Loggable {
 
     override val mainTask: TaskGroup = TaskGroup.CHANGE
@@ -39,7 +41,7 @@ class ChangeTask(
 
     private fun processCompany(company: Company, theme: SectorThemeDTO) {
         val baseRate = (-5..5).random().toDouble() * 0.01 // -5% ~ +5%
-        val rate = companyPriceService.calculateRate(company, theme, baseRate)
+        val rate = riskCalculator.calculateRate(company, theme, baseRate)
         val oldPrice = company.currentPrice
         val event = eventService.getDefaultEvent()
 
