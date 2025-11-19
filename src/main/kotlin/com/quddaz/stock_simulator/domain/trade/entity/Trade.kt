@@ -7,7 +7,9 @@ import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "trade")
+@Table(name = "trade", indexes = [
+    Index(name = "idx_trade_recorded_at", columnList = "record_at DESC") // 최근 거래 내역 조회 성능 향상
+])
 class Trade(
 
     @ManyToOne(fetch = FetchType.LAZY)
