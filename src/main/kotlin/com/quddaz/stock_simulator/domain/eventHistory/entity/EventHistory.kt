@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Table(
     name = "event_history",
     indexes = [
-        Index(name = "idx_recorded_at", columnList = "company_id ,record_at")
+        Index(name = "idx_recorded_at", columnList = "record_at DESC")
     ]
 )
 class EventHistory(
