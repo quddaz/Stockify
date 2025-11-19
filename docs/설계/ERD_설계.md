@@ -15,7 +15,7 @@
 ## 2. 테이블 DDL
     
 ```sql
-
+-- USERS
 CREATE TABLE users
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -23,10 +23,11 @@ CREATE TABLE users
     email       VARCHAR(255) NOT NULL,
     social_type VARCHAR(20)  NOT NULL,
     social_id   VARCHAR(255) NOT NULL,
-    role        ENUM('Role_USER', 'Role_ADMIN') NOT NULL,
+    role        ENUM('ROLE_USER', 'ROLE_ADMIN') NOT NULL,
     money       BIGINT       NOT NULL DEFAULT 0
 );
 
+-- COMPANY
 CREATE TABLE company
 (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -34,49 +35,53 @@ CREATE TABLE company
     sector        VARCHAR(255) NOT NULL,
     description   TEXT,
     current_price BIGINT       NOT NULL,
-    totalshares   BIGINT       NOT NULL,
-    positive_rate DOUBLE NOT NULL DEFAULT 1.0,
-    negative_rate DOUBLE NOT NULL DEFAULT 1.0,
+    total_shares  BIGINT       NOT NULL,
+    positive_rate DOUBLE       NOT NULL DEFAULT 1.0,
+    negative_rate DOUBLE       NOT NULL DEFAULT 1.0,
     created_at    DATETIME     NOT NULL,
     modified_at   DATETIME     NOT NULL
 );
 
+-- EVENT
 CREATE TABLE event
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     type        ENUM('POSITIVE', 'NEGATIVE') NOT NULL,
     impact_rate DOUBLE NOT NULL,
     description TEXT   NOT NULL,
-    weight      BIGINT NOT NULL,
+    weight      BIGINT NOT NULL
 );
 
+-- EVENT_HISTORY
 CREATE TABLE event_history
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
     company_id     BIGINT   NOT NULL,
-    event_id       BIGINT NULL,
+    event_id       BIGINT   NULL,
     recorded_price BIGINT   NOT NULL,
     changed_price  BIGINT   NOT NULL,
-    change_rate DOUBLE NOT NULL,
+    change_rate    DOUBLE   NOT NULL,
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
-    INDEX          idx_recorded_at (recorded_at)
+    INDEX idx_event_history_company_time (company_id ,recorded_at DESC) 
 );
 
+-- TRADE ( = 거래 내역 )
 CREATE TABLE trade
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id     BIGINT NOT NULL,
     company_id  BIGINT NOT NULL,
-    quantity BIGINT NOT NULL,
+    quantity    BIGINT NOT NULL,
     price       BIGINT NOT NULL,
     trade_type  ENUM('BUY', 'SELL') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id),
-    CREATE      INDEX idx_trade_history_user_company ON trade_history(user_id, company_id);
+    INDEX idx_trade_user_time ON trade(user_id, record_at DESC);
 );
 
+-- USER_POSITION (보유 주식)
 CREATE TABLE user_position
 (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -86,19 +91,20 @@ CREATE TABLE user_position
     average_price BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (company_id) REFERENCES company (id),
-    UNIQUE (user_id, company_id)
+    UNIQUE idx_user_position_user_company (user_id, company_id)
 );
 
-
+-- SECTOR_THEME
 CREATE TABLE sector_theme
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    sector_name VARCHAR(50) NOT NULL,
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sector_name   VARCHAR(50) NOT NULL,
     positive_rate DOUBLE NOT NULL,
     negative_rate DOUBLE NOT NULL,
-    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        INDEX idx_updated_at (updated_at DESC)
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_sector_theme_updated_at (updated_at DESC)
 );
+
 
 ```
 

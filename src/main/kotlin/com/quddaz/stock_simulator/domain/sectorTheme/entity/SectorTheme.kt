@@ -5,7 +5,12 @@ import java.time.LocalDateTime
 
 
 @Entity
-@Table(name = "sector_theme")
+@Table(
+    name = "sector_theme",
+    indexes = [
+        Index(name = "idx_sector_theme_updated_at", columnList = "updated_at DESC")
+    ]
+)
 data class SectorTheme(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
