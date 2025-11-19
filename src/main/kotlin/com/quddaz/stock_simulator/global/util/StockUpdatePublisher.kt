@@ -39,11 +39,23 @@ class StockUpdatePublisher(
         }
     }
 
+    /** 거래 성공 알림 */
     fun publishTradeUpdate(userId: Long, event: TradeEvent) {
+        // 성공 시 TradeEvent 혹은 성공 DTO 전송
         messagingTemplate.convertAndSendToUser(
             userId.toString(),
             "/queue/trade-result",
-            event
+            mapOf("status" to "SUCCESS", "data" to event)
+        )
+    }
+
+    /** 거래 실패 알림 */
+    fun publishTradeError(userId: Long, message: String) {
+        // 실패 시 에러 메시지 전송
+        messagingTemplate.convertAndSendToUser(
+            userId.toString(),
+            "/queue/trade-result",
+            mapOf("status" to "FAIL", "message" to message)
         )
     }
 }
