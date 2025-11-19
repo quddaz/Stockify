@@ -13,10 +13,14 @@ import kotlin.math.max
 @Component
 class RiskCalculator {
 
+    companion object {
+        private const val SCORE_MULTIPLIER = 50
+        private const val MAX_SCORE = 100
+        private const val MIN_SCORE = 0
+    }
 
     fun analyze(company: Company, theme: SectorThemeDTO): RiskMetrics {
         val maxSensitivity = calculateMaxSensitivity(company, theme)
-
         val score = evaluateScore(maxSensitivity)
         val level = evaluateRiskLevel(score)
         val volatility = evaluateVolatility(maxSensitivity)
@@ -38,24 +42,15 @@ class RiskCalculator {
         }
     }
 
-
     private fun evaluateScore(sensitivity: Double): Int {
-        return (sensitivity * 50).toInt().coerceIn(0, 100)
+        return (sensitivity * SCORE_MULTIPLIER).toInt().coerceIn(MIN_SCORE, MAX_SCORE)
     }
 
     private fun evaluateRiskLevel(score: Int): RiskLevel {
-        return when {
-            score >= 80 -> RiskLevel.HIGH
-            score >= 40 -> RiskLevel.MEDIUM
-            else -> RiskLevel.LOW
-        }
+        return RiskLevel.fromScore(score)
     }
 
     private fun evaluateVolatility(sensitivity: Double): Volatility {
-        return when {
-            sensitivity >= 1.5 -> Volatility.HIGH
-            sensitivity >= 1.1 -> Volatility.MEDIUM
-            else -> Volatility.LOW
-        }
+        return Volatility.fromSensitivity(sensitivity)
     }
 }
