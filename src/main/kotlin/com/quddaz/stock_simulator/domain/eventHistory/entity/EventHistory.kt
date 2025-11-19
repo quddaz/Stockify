@@ -7,7 +7,11 @@ import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "event_history")
+@Table(name = "event_history",
+    indexes = [
+        Index(name = "idx_recorded_at", columnList = "company_id ,record_at")
+    ]
+    )
 class EventHistory(
     @JoinColumn(name = "event_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)

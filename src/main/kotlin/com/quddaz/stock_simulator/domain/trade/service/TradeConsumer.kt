@@ -17,7 +17,6 @@ class TradeConsumer(
 ) {
 
     @RabbitListener(queues = ["\${trade.queue.name}"])
-    @Transactional
     fun consume(event: TradeEvent) {
         when (event) {
             is TradeEvent.BuyEvent -> handleBuy(event)
