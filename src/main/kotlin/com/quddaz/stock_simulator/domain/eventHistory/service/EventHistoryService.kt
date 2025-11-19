@@ -1,7 +1,6 @@
 package com.quddaz.stock_simulator.domain.eventHistory.service
 
 import com.quddaz.stock_simulator.domain.company.entity.Company
-import com.quddaz.stock_simulator.domain.company.entity.QCompany.company
 import com.quddaz.stock_simulator.domain.eventHistory.dto.StockChartDataResponse
 import com.quddaz.stock_simulator.domain.eventHistory.entity.EventHistory
 import com.quddaz.stock_simulator.domain.eventHistory.repository.EventHistoryRepository
@@ -15,7 +14,7 @@ import java.time.LocalDateTime
 class EventHistoryService(
     private val eventHistoryRepository: EventHistoryRepository
 ) {
-    fun getEventHistoryByCompany(name : String): List<StockChartDataResponse>? {
+    fun getEventHistoryByCompany(name: String): List<StockChartDataResponse>? {
         return eventHistoryRepository.findChartDataByCompanyName(name)
     }
 

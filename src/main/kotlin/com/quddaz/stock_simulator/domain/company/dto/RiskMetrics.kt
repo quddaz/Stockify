@@ -23,6 +23,7 @@ enum class Volatility(val minSensitivity: Double) {
         }
     }
 }
+
 data class RiskMetrics(
     val level: RiskLevel,
     val score: Int,

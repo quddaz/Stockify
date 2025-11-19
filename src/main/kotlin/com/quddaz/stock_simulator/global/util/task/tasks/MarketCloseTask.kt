@@ -28,7 +28,6 @@ class MarketCloseTask(
     }
 
     override fun execute() {
-        userPositionService.updateRankingTop10(initialUserMoney)
         userPositionService.removeAllPositions()
         userService.resetAllUserMoney(initialUserMoney)
         log.info("MarketCloseTask start executing")

@@ -3,13 +3,10 @@ package com.quddaz.stock_simulator.domain.company.service
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
-import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import kotlin.math.abs
-import kotlin.math.max
 
 @Service
 @Transactional(readOnly = true)

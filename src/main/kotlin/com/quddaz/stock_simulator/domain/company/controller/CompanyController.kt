@@ -5,7 +5,6 @@ import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.global.response.ResponseTemplate
 import io.swagger.v3.oas.annotations.Operation
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

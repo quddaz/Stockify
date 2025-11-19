@@ -10,7 +10,6 @@ import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErro
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,8 +21,9 @@ class CompanyService(
 ) {
     private val yamlMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
-    fun getCompanyPageResponse(name : String) : CompanyPageResponse{
-        val company = companyRepository.findByName(name) ?: throw CompanyDomainException(CompanyErrorCode.COMPANY_NOT_FOUND)
+    fun getCompanyPageResponse(name: String): CompanyPageResponse {
+        val company =
+            companyRepository.findByName(name)
         val chartData = eventHistoryService.getEventHistoryByCompany(name) ?: emptyList()
         val riskMetrics = riskCalculator.analyze(company, sectorThemeService.getCurrentSectorThemes())
 

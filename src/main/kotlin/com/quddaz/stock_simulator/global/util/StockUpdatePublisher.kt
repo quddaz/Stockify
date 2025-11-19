@@ -3,6 +3,7 @@ package com.quddaz.stock_simulator.global.util
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.quddaz.stock_simulator.domain.company.dto.CompanyStockInfoDTO
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
+import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.trade.dto.TradeEvent
 import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.task.TaskGroup
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component
 @Component
 class StockUpdatePublisher(
     private val companyPriceService: CompanyPriceService,
+    private val userPositionService: UserPositionService,
     private val messagingTemplate: SimpMessagingTemplate
 ) : Loggable {
 
@@ -20,6 +22,7 @@ class StockUpdatePublisher(
     fun publishStockUpdate() {
         val companyStockInfo = try {
             companyPriceService.setCompanyStockInfoCache()
+            userPositionService.updateRankingTop10()
         } catch (e: Exception) {
             log.error("캐시 업데이트 실패", e)
             emptyList<CompanyStockInfoDTO>()
@@ -41,7 +44,6 @@ class StockUpdatePublisher(
 
     /** 거래 성공 알림 */
     fun publishTradeUpdate(userId: Long, event: TradeEvent) {
-        // 성공 시 TradeEvent 혹은 성공 DTO 전송
         messagingTemplate.convertAndSendToUser(
             userId.toString(),
             "/queue/trade-result",
@@ -51,7 +53,6 @@ class StockUpdatePublisher(
 
     /** 거래 실패 알림 */
     fun publishTradeError(userId: Long, message: String) {
-        // 실패 시 에러 메시지 전송
         messagingTemplate.convertAndSendToUser(
             userId.toString(),
             "/queue/trade-result",

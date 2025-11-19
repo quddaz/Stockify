@@ -8,7 +8,6 @@ import com.quddaz.stock_simulator.domain.position.dto.UserRankingResponse
 import com.quddaz.stock_simulator.domain.position.entitiy.QUserPosition
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
-import com.quddaz.stock_simulator.domain.position.exception.errorCode.UserPositionErrorCode
 import com.quddaz.stock_simulator.domain.user.dto.UserDto
 import com.quddaz.stock_simulator.domain.user.entity.QUser
 import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode

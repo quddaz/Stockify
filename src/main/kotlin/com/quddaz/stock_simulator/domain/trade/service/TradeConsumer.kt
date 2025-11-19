@@ -5,10 +5,8 @@ import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.StockUpdatePublisher
 import com.quddaz.stock_simulator.global.util.task.TaskExecutor
 import com.quddaz.stock_simulator.global.util.task.TaskSelector
-import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradeConsumer(

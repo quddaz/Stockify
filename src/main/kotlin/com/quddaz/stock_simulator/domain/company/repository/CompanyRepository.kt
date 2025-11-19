@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CompanyRepository : JpaRepository<Company, Long>, CompanyRepositoryCustom{
-    fun findByName(companyName : String): Company
+interface CompanyRepository : JpaRepository<Company, Long>, CompanyRepositoryCustom {
+    fun findByName(companyName: String): Company
 }
