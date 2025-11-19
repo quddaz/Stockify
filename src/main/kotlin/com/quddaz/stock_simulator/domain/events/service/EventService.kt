@@ -13,6 +13,7 @@ class EventService(
     private val eventRepository: EventRepository,
 ) {
     private val yamlMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
+
     /** 이벤트 초기화 */
     fun initEvents(yamlPath: String) {
         if (eventRepository.count() > 0) return

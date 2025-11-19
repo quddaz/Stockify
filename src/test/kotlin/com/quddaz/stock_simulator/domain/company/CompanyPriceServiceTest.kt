@@ -4,6 +4,7 @@ import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.entity.Sector
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import com.quddaz.stock_simulator.domain.company.service.CompanyPriceService
+import com.quddaz.stock_simulator.domain.company.service.RiskCalculator
 import com.quddaz.stock_simulator.domain.sectorTheme.dto.SectorThemeDTO
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -24,6 +25,8 @@ class CompanyPriceServiceTest {
     lateinit var companyRepository: CompanyRepository
 
     lateinit var service: CompanyPriceService
+
+    lateinit var riskCalculator: RiskCalculator
 
     @BeforeEach
     fun setUp() {
@@ -47,7 +50,7 @@ class CompanyPriceServiceTest {
         val baseRate = 0.05 // 양수
 
         // when
-        val rate = service.calculateRate(company, theme, baseRate)
+        val rate = riskCalculator.calculateRate(company, theme, baseRate)
 
         // then
         assertEquals(baseRate * company.positiveRate * theme.positiveRate, rate)
@@ -70,7 +73,7 @@ class CompanyPriceServiceTest {
         val baseRate = -0.05 // 음수
 
         // when
-        val rate = service.calculateRate(company, theme, baseRate)
+        val rate = riskCalculator.calculateRate(company, theme, baseRate)
 
         // then
         assertEquals(baseRate * company.negativeRate * theme.negativeRate, rate)

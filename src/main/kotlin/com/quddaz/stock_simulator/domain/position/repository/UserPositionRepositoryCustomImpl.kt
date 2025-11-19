@@ -8,8 +8,9 @@ import com.quddaz.stock_simulator.domain.position.dto.UserRankingResponse
 import com.quddaz.stock_simulator.domain.position.entitiy.QUserPosition
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
-import com.quddaz.stock_simulator.domain.position.exception.errorCode.UserPositionErrorCode
+import com.quddaz.stock_simulator.domain.user.dto.UserDto
 import com.quddaz.stock_simulator.domain.user.entity.QUser
+import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.LockModeType
@@ -22,6 +23,18 @@ class UserPositionRepositoryCustomImpl(
     override fun findPortfolioByUser(userId: Long): PortfolioResponse {
         val p = QUserPosition.userPosition
         val c = QCompany.company
+        val u = QUser.user
+        val user = queryFactory
+            .select(
+                Projections.constructor(
+                    UserDto::class.java,
+                    u.name,
+                    u.money
+                )
+            )
+            .from(u)
+            .where(u.id.eq(userId))
+            .fetchOne() ?: throw UserPositionDomainException(UserErrorCode.USER_NOT_FOUND)
 
         val result = queryFactory
             .select(
@@ -41,7 +54,7 @@ class UserPositionRepositoryCustomImpl(
             .where(p.user.id.eq(userId))
             .fetch()
 
-        return PortfolioResponse(result)
+        return PortfolioResponse(result, user)
     }
 
     override fun findRankings(defaultMoney: Long): UserRankingResponse {

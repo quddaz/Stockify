@@ -24,6 +24,7 @@ class WebSocketConfig(
             .setAllowedOriginPatterns("http://localhost:3000")
             .withSockJS()
     }
+
     override fun configureClientInboundChannel(registration: ChannelRegistration) {
         registration.interceptors(jwtChannelInterceptor)
     }

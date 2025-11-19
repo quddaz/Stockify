@@ -1,6 +1,5 @@
 package com.quddaz.stock_simulator.domain.user.service
 
-import com.quddaz.stock_simulator.domain.user.entity.QUser.user
 import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
@@ -18,9 +17,10 @@ class UserService(
     private val em: EntityManager
 ) {
     @Transactional
-    fun save(user : User): User {
+    fun save(user: User): User {
         return userRepository.save(user)
     }
+
     fun findBySocialId(socialId: String) =
         userRepository.findBySocialId(socialId)
 

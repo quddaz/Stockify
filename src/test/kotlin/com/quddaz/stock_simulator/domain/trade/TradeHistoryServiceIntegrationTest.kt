@@ -7,6 +7,4 @@ import org.springframework.transaction.annotation.Transactional
 @ActiveProfiles("test")
 @SpringBootTest
 @Transactional
-class TradeHistoryServiceIntegrationTest(
-) {
-}
+class TradeHistoryServiceIntegrationTest

@@ -28,7 +28,7 @@ class TradeController(
         val userId = customOAuth2User.id
         tradeProducer.sendBuy(
             userId = userId,
-            stockId = request.companyId,
+            companyName = request.companyName,
             quantity = request.quantity,
             price = request.price
         )
@@ -44,7 +44,7 @@ class TradeController(
         val userId = customOAuth2User.id
         tradeProducer.sendSell(
             userId = userId,
-            stockId = request.companyId,
+            companyName = request.companyName,
             quantity = request.quantity,
             price = request.price
         )

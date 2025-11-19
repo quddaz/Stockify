@@ -5,7 +5,6 @@ import com.quddaz.stock_simulator.domain.oauth.service.JwtTokenProvider
 import com.quddaz.stock_simulator.global.config.jwt.JwtProperties
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
