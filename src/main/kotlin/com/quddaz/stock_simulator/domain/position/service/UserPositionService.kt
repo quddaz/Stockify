@@ -30,6 +30,11 @@ class UserPositionService(
         return cache.get(rankingCacheKey)?.get() as? List<UserRankingDTO>
     }
 
+    @Transactional
+    fun removeAllPositions() {
+        userPositionRepository.deleteAll()
+    }
+
     /** 장마감 시 랭킹 계산 후 캐시에 저장 */
     @CachePut(cacheNames = ["rankingTop10"], key = "'ranking'")
     fun updateRankingTop10(defaultMoney: Long = 10_000_000L): List<UserRankingDTO> {

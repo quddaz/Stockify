@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.math.abs
+import kotlin.math.max
 
 @Service
 @Transactional(readOnly = true)
@@ -16,15 +18,6 @@ class CompanyPriceService(
 ) {
     fun getAllCompanies(): List<Company> {
         return companyRepository.findAll()
-    }
-
-    fun calculateRate(company: Company, theme: SectorThemeDTO, baseRate: Double): Double {
-        if (baseRate >= 0) {
-            val positiveRate = company.positiveRate * theme.positiveRate
-            return baseRate * positiveRate
-        }
-        val negativeRate = company.negativeRate * theme.negativeRate
-        return baseRate * negativeRate
     }
 
     @Transactional

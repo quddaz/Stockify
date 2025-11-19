@@ -12,7 +12,7 @@ class EventHistoryRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : EventHistoryRepositoryCustom {
 
-    override fun findChartDataByCompanyName(companyName: String): List<StockChartDataResponse> {
+    override fun findChartDataByCompanyName(companyName: String): List<StockChartDataResponse>? {
         return queryFactory
             .select(
                 Projections.constructor(
