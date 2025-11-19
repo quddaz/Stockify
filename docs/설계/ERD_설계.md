@@ -64,7 +64,7 @@ CREATE TABLE event_history
     recorded_at    DATETIME NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (event_id) REFERENCES event (id),
-    INDEX idx_event_history_recorded_at (recorded_at DESC) 
+    INDEX idx_event_history_company_time (company_id ,recorded_at DESC) 
 );
 
 -- TRADE ( = 거래 내역 )

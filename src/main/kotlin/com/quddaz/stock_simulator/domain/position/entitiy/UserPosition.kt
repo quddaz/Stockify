@@ -12,7 +12,7 @@ import jakarta.persistence.*
     name = "user_position",
     indexes = [
         Index(
-            name = "uk_user_position_user_company",
+            name = "uk_user_position_user_company", // 유저-회사 조합에 대한 유니크 인덱스
             columnList = "user_id, company_id",
             unique = true
         )

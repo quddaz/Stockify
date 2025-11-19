@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 @Table(
     name = "event_history",
     indexes = [
-        Index(name = "idx_recorded_at", columnList = "record_at DESC")
+        Index(name = "idx_event_history_company_time", columnList = "company_id, record_at DESC") // 특정 회사의 최근 기록 조회 성능 향상
     ]
 )
 class EventHistory(
