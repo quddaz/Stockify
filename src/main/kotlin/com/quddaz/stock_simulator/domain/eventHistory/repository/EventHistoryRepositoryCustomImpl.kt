@@ -2,6 +2,7 @@ package com.quddaz.stock_simulator.domain.eventHistory.repository
 
 import com.quddaz.stock_simulator.domain.company.entity.QCompany.company
 import com.quddaz.stock_simulator.domain.eventHistory.dto.StockChartDataResponse
+import com.quddaz.stock_simulator.domain.eventHistory.entity.EventHistory
 import com.quddaz.stock_simulator.domain.eventHistory.entity.QEventHistory.eventHistory
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -27,5 +28,16 @@ class EventHistoryRepositoryCustomImpl(
             .orderBy(eventHistory.record_at.asc())
             .limit(100)
             .fetch()
+    }
+
+    override fun findLatestByCompanyName(companyName: String): Long? {
+        return queryFactory
+            .select(eventHistory.recordPrice)
+            .from(eventHistory)
+            .join(eventHistory.company, company).fetchJoin()
+            .where(company.name.eq(companyName))
+            .orderBy(eventHistory.record_at.desc())
+            .limit(1)
+            .fetchOne()
     }
 }

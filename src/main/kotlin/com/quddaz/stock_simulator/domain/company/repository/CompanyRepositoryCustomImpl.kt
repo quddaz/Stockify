@@ -46,8 +46,8 @@ class CompanyRepositoryCustomImpl(
                     company.name,
                     eventHistory.recordPrice, // previousPrice
                     eventHistory.recordPrice.add(eventHistory.changePrice), // currentPrice
-                    ((eventHistory.recordPrice.add(eventHistory.changePrice))
-                        .divide(eventHistory.recordPrice).castToNum(Double::class.java)), // changeRate
+                    eventHistory.changePrice.doubleValue()
+                        .divide(eventHistory.recordPrice.doubleValue()).multiply(100), // changeRate
                     company.sector.stringValue()
                 )
             )
@@ -56,6 +56,8 @@ class CompanyRepositoryCustomImpl(
             .where(eventHistory.id.`in`(latestEventSub))
             .fetch()
     }
+
+
 
 
 }
