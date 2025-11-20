@@ -35,7 +35,7 @@ class RiskCalculatorTest {
     }
     @Test
     fun `계산 베이스가 양수일때`() {
-        // given, when
+        // given & when
         val rate = calculator.calculateRate(company, theme, 1.0)
 
         // then
@@ -44,7 +44,7 @@ class RiskCalculatorTest {
 
     @Test
     fun `계산 베이스가 음수일때`() {
-        // given, when
+        // given & when
         val rate = calculator.calculateRate(company, theme, -1.0)
 
         // then
@@ -53,6 +53,7 @@ class RiskCalculatorTest {
 
     @Test
     fun `반응성 판별`() {
+        // given & when & then
         assertEquals(100, calculator.evaluateScore(3.0)) // 3*50 > 100
         assertEquals(0, calculator.evaluateScore(-1.0))  // -50 < 0
     }

@@ -12,6 +12,7 @@ import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.repository.UserRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertNotNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -38,6 +39,13 @@ class UserPositionServiceIntegrationTest(
         positiveRate = 1.2,
         negativeRate = 1.3
     )
+
+    @BeforeEach
+    fun setUp() {
+        userPositionRepository.deleteAll()
+        userRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
 
     @Test
     fun `포트폴리오 조회`() {
