@@ -42,7 +42,7 @@ class RiskCalculator {
         }
     }
 
-    private fun evaluateScore(sensitivity: Double): Int {
+    fun evaluateScore(sensitivity: Double): Int {
         return (sensitivity * SCORE_MULTIPLIER).toInt().coerceIn(MIN_SCORE, MAX_SCORE)
     }
 
