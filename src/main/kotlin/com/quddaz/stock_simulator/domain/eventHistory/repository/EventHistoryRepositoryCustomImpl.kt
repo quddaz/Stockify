@@ -29,14 +29,4 @@ class EventHistoryRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findLatestByCompanyName(companyName: String): Long? {
-        return queryFactory
-            .select(eventHistory.recordPrice)
-            .from(eventHistory)
-            .join(eventHistory.company, company).fetchJoin()
-            .where(company.name.eq(companyName))
-            .orderBy(eventHistory.record_at.desc())
-            .limit(1)
-            .fetchOne()
-    }
 }

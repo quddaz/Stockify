@@ -1,11 +1,13 @@
 package com.quddaz.stock_simulator.domain.user
 
+import com.quddaz.stock_simulator.domain.user.entity.QUser.user
 import com.quddaz.stock_simulator.domain.user.entity.Role
 import com.quddaz.stock_simulator.domain.user.entity.SocialType
 import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.exception.UserDomainException
 import com.quddaz.stock_simulator.domain.user.exception.errorcode.UserErrorCode
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,6 +15,7 @@ import kotlin.test.assertEquals
 
 @SpringBootTest
 class UserTest {
+
     fun createUser(): User = User(
         socialId = "socialId",
         email = "email",
@@ -20,6 +23,7 @@ class UserTest {
         socialType = SocialType.GOOGLE,
         role = Role.USER
     )
+
 
     @Test
     fun `프로필 업데이트`() {
