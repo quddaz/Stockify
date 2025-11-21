@@ -1,7 +1,12 @@
 package com.quddaz.stock_simulator.domain.position.service
 
+import com.quddaz.stock_simulator.domain.company.entity.Company
+import com.quddaz.stock_simulator.domain.company.entity.QCompany.company
 import com.quddaz.stock_simulator.domain.position.dto.UserRankingDTO
+import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
+import com.quddaz.stock_simulator.domain.user.entity.QUser.user
+import com.quddaz.stock_simulator.domain.user.entity.User
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.cache.CacheManager
@@ -55,5 +60,30 @@ class UserPositionService(
     @EventListener(ApplicationReadyEvent::class)
     fun initRankingCache() {
         updateRankingTop10() // 초기값 세팅
+    }
+
+    fun getOrCreatePosition(user : User, company : Company) : UserPosition {
+        return userPositionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!) ?:
+        UserPosition(
+            user = user,
+            company = company,
+            quantity = 0L,
+            averagePrice = 0L
+        )
+    }
+
+    fun findByUserIdAndCompanyIdForUpdate(userId: Long, companyId: Long): UserPosition? {
+        return userPositionRepository.findByUserIdAndCompanyIdForUpdate(userId, companyId)
+    }
+
+
+    @Transactional
+    fun save(userPosition: UserPosition) {
+        userPositionRepository.save(userPosition)
+    }
+
+    @Transactional
+    fun delete(userPosition: UserPosition) {
+        userPositionRepository.delete(userPosition)
     }
 }

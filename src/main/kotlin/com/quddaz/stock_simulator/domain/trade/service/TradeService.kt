@@ -1,13 +1,16 @@
 package com.quddaz.stock_simulator.domain.trade.service
 
+import com.quddaz.stock_simulator.domain.company.entity.Company
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
 import com.quddaz.stock_simulator.domain.position.exception.errorCode.UserPositionErrorCode
 import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
+import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.trade.entity.Trade
 import com.quddaz.stock_simulator.domain.trade.entity.TradeType
 import com.quddaz.stock_simulator.domain.trade.repository.TradeRepository
+import com.quddaz.stock_simulator.domain.user.entity.User
 import com.quddaz.stock_simulator.domain.user.service.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,81 +20,57 @@ import org.springframework.transaction.annotation.Transactional
 class TradeService(
     private val userService: UserService,
     private val companyService: CompanyService,
-    private val positionRepository: UserPositionRepository,
+    private val positionService: UserPositionService,
     private val tradeRepository: TradeRepository
 ) {
 
     @Transactional
     fun buy(userId: Long, companyName: String, quantity: Long) {
-        val user = userService.findById(userId)
-        val company = companyService.findByNameForUpdate(companyName)
+        val user = loadUser(userId)
+        val company = loadCompanyForUpdate(companyName)
+        val position = loadOrCreatePosition(user, company)
 
+        processBuy(user, company, position, quantity)
+    }
+    private fun processBuy(user: User, company: Company, position: UserPosition, quantity: Long) {
         val totalCost = quantity * company.currentPrice
 
-        // 유저 돈 차감
         user.spend(totalCost)
-
-        // 회사 주식 수 감소
         company.decreaseShares(quantity)
 
-        // 포지션 락 + 조회
-        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, company.id!!)
-            ?: UserPosition(
-                user = user,
-                company = company,
-                quantity = 0L,
-                averagePrice = 0L
-            )
-
-        // 포지션 매수
         position.buy(quantity, company.currentPrice)
+        if (position.id == null) positionService.save(position)
 
-        // 신규 생성 시 저장
-        if (position.id == null) {
-            positionRepository.save(position)
-        }
-
-        val trade = Trade(
-            user = user,
-            company = company,
-            quantity = quantity,
-            price = company.currentPrice,
-            type = TradeType.BUY
+        tradeRepository.save(
+            Trade(user = user, company = company, quantity = quantity, price = company.currentPrice, type = TradeType.BUY)
         )
-        tradeRepository.save(trade)
     }
+
+    private fun loadUser(userId: Long) = userService.findById(userId)
+    private fun loadCompanyForUpdate(name: String) = companyService.findByNameForUpdate(name)
+    private fun loadOrCreatePosition(user: User, company: Company) = positionService.getOrCreatePosition(user, company)
+
 
     @Transactional
     fun sell(userId: Long, companyName: String, quantity: Long, price: Long) {
-        val user = userService.findById(userId)
-        val company = companyService.findByNameForUpdate(companyName)
+        val user = loadUser(userId)
+        val company = loadCompanyForUpdate(companyName)
+        val position = loadPositionOrThrow(user, company)
 
-        // 포지션 락 + 조회
-        val position = positionRepository.findByUserIdAndCompanyIdForUpdate(userId, company.id!!)
+        processSell(user, company, position, quantity, price)
+    }
+
+    private fun loadPositionOrThrow(user: User, company: Company) =
+        positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)
             ?: throw UserPositionDomainException(UserPositionErrorCode.POSITION_NOT_FOUND)
 
-        // 매도
+    private fun processSell(user: User, company: Company, position: UserPosition, quantity: Long, price: Long) {
         position.sell(quantity)
-
-        // 매도 금액 획득
         user.earn(quantity * price)
-
-        // 회사 주식 수 증가
         company.increaseShares(quantity)
 
+        if (position.quantity == 0L) positionService.delete(position)
 
-        // 비어있으면 제거
-        if (position.quantity == 0L) {
-            positionRepository.delete(position)
-        }
-
-        val trade = Trade(
-            user = user,
-            company = company,
-            quantity = quantity,
-            price = price,
-            type = TradeType.SELL
-        )
-        tradeRepository.save(trade)
+        tradeRepository.save(Trade(user = user, company = company, quantity = quantity, price = price, type = TradeType.SELL))
     }
 }
