@@ -11,6 +11,7 @@
 ### Frontend
 <img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/styled--components-DB7093?style=flat-square&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/sockjs-000000?style=flat-square&logo=socket.io&logoColor=white"> <img src="https://img.shields.io/badge/recharts-22B5BF?style=flat-square&logo=apache-echarts&logoColor=white">
 
+
 ### Backend
 
 #### FrameWork & Database
@@ -27,14 +28,19 @@
 
 ## [요구사항 명세서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD_%EB%AA%85%EC%84%B8%EC%84%9C.md)
 
+---
+
 ## 시스템 설계
 - [ERD 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/ERD_%EC%84%A4%EA%B3%84.md)
-- [확장 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md) 
+- [확장 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md)
+
+---
 
 ## Kotlin 학습
 - [Kotlin 학습 - 자바와 비교한 코틀린 기본 학습](https://quddnd.tistory.com/309)
 - [Kotlin 학습 - 자바와 비교한 코틀린 심화 학습](https://quddnd.tistory.com/310)
 
+---
 
 ## 트러블슈팅
 - [코틀린과 JPA의 패러다임 불일치](https://github.com/quddaz/Stockify/blob/main/docs/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85/%EC%BD%94%ED%8B%80%EB%A6%B0%EA%B3%BC%20JPA.md)
@@ -42,7 +48,10 @@
 - [주식 매수/매도 동시성과 메시지 큐의 양립](https://github.com/quddaz/Stockify/blob/main/docs/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85/%EC%A3%BC%EC%8B%9D%EB%A7%A4%EC%88%98%EB%A7%A4%EB%8F%84%20%EB%8F%99%EC%8B%9C%EC%84%B1%EA%B3%BC%20%EB%A9%94%EC%8B%9C%EC%A7%80%20%ED%81%90.md)
 - [WebSocket과 Filter 처리](https://github.com/quddaz/Stockify/blob/main/docs/%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85/WebSocket%EA%B3%BC%20Filter.md)
 
+---
+
 ## 시연 영상
 
 https://github.com/user-attachments/assets/a531b267-436a-44a9-a2c4-95a469fa458c
 
+## 프로젝트 구조
