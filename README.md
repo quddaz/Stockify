@@ -55,3 +55,253 @@
 https://github.com/user-attachments/assets/a531b267-436a-44a9-a2c4-95a469fa458c
 
 ## 프로젝트 구조
+
+```
+stock-simulator
+ ├─ 📂 docs
+ │   ├─ 📂 설계
+ │   │   ├─ 📜 ERD_설계.md
+ │   │   ├─ 📜 요구사항_명세서.md
+ │   │   └─ 📜 확장설계.md
+ │   ├─ 📜 코드컨벤션.md
+ │   └─ 📂 트러블슈팅
+ │       ├─ 📜 WebSocket과 Filter.md
+ │       ├─ 📜 스케줄러구현의 여정.md
+ │       ├─ 📜 주식매수매도 동시성과 메시지 큐.md
+ │       └─ 📜 코틀린과 JPA.md
+ └─ 📂 src
+     ├─ 📂 main
+     │   ├─ 📂 kotlin
+     │   │   └─ 📂 com
+     │   │      └─ 📂 quddaz
+     │   │         └─ 📂 stock_simulator
+     │   │             ├─ 📂 domain
+     │   │             │   ├─ 📂 company
+     │   │             │   │   ├─ 📂 controller
+     │   │             │   │   │   └─ 📜 CompanyController.kt
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   ├─ 📜 CompanyPageResponse.kt
+     │   │             │   │   │   ├─ 📜 CompanyStockInfoDTO.kt
+     │   │             │   │   │   └─ 📜 RiskMetrics.kt
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   ├─ 📜 Company.kt
+     │   │             │   │   │   └─ 📜 Sector.kt
+     │   │             │   │   ├─ 📂 exception
+     │   │             │   │   │   ├─ 📜 CompanyDomainException.kt
+     │   │             │   │   │   └─ 📂 errorCode
+     │   │             │   │   │       └─ 📜 CompanyErrorCode.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   ├─ 📜 CompanyRepository.kt
+     │   │             │   │   │   ├─ 📜 CompanyRepositoryCustom.kt
+     │   │             │   │   │   └─ 📜 CompanyRepositoryCustomImpl.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       ├─ 📜 CompanyPriceService.kt
+     │   │             │   │       ├─ 📜 CompanyService.kt
+     │   │             │   │       └─ 📜 RiskCalculator.kt // 회사 주가 변동률 계산
+     │   │             │   ├─ 📂 eventHistory
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   └─ 📜 StockChartDataResponse.kt
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   └─ 📜 EventHistory.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   ├─ 📜 EventHistoryRepository.kt
+     │   │             │   │   │   ├─ 📜 EventHistoryRepositoryCustom.kt
+     │   │             │   │   │   └─ 📜 EventHistoryRepositoryCustomImpl.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       └─ 📜 EventHistoryService.kt
+     │   │             │   ├─ 📂 events
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   ├─ 📜 Event.kt
+     │   │             │   │   │   └─ 📜 EventType.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   └─ 📜 EventRepository.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       └─ 📜 EventService.kt
+     │   │             │   ├─ 📂 oauth
+     │   │             │   │   ├─ 📂 controller
+     │   │             │   │   │   └─ 📜 AuthController.kt
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   └─ 📜 TokenResponse.kt
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   └─ 📜 CustomOAuth2User.kt
+     │   │             │   │   ├─ 📂 exception
+     │   │             │   │   │   ├─ 📂 errorcode
+     │   │             │   │   │   │   └─ 📜 AuthErrorCode.kt
+     │   │             │   │   │   ├─ 📜 LoginTypeNotSupportException.kt
+     │   │             │   │   │   └─ 📜 TokenNotValidException.kt
+     │   │             │   │   ├─ 📂 format
+     │   │             │   │   │   ├─ 📜 GoogleResponse.kt
+     │   │             │   │   │   └─ 📜 Oauth2Response.kt
+     │   │             │   │   ├─ 📜 main.java
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       ├─ 📜 AuthService.kt
+     │   │             │   │       ├─ 📜 CustomOAuth2UserService.kt
+     │   │             │   │       └─ 📜 JwtTokenProvider.kt
+     │   │             │   ├─ 📂 position
+     │   │             │   │   ├─ 📂 controller
+     │   │             │   │   │   └─ 📜 UserPositionController.kt
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   ├─ 📜 PortfolioDTO.kt
+     │   │             │   │   │   ├─ 📜 PortfolioResponse.kt
+     │   │             │   │   │   ├─ 📜 UserRankingDTO.kt
+     │   │             │   │   │   └─ 📜 UserRankingResponse.kt
+     │   │             │   │   ├─ 📂 entitiy
+     │   │             │   │   │   └─ 📜 UserPosition.kt
+     │   │             │   │   ├─ 📂 exception
+     │   │             │   │   │   ├─ 📂 errorCode
+     │   │             │   │   │   │   └─ 📜 UserPositionErrorCode.kt
+     │   │             │   │   │   └─ 📜 UserPositionDomainException.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   ├─ 📜 UserPositionRepository.kt
+     │   │             │   │   │   ├─ 📜 UserPositionRepositoryCustom.kt
+     │   │             │   │   │   └─ 📜 UserPositionRepositoryCustomImpl.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       └─ 📜 UserPositionService.kt
+     │   │             │   ├─ 📂 sectorTheme
+     │   │             │   │   ├─ 📂 controller
+     │   │             │   │   │   └─ 📜 SectorThemeController.kt
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   └─ 📜 SectorThemeDTO.kt
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   └─ 📜 SectorTheme.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   ├─ 📜 SectorThemeRepository.kt
+     │   │             │   │   │   ├─ 📜 SectorThemeRepositoryCustom.kt
+     │   │             │   │   │   └─ 📜 SectorThemeRepositoryCustomImpl.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       └─ 📜 SectorThemeService.kt
+     │   │             │   ├─ 📂 trade
+     │   │             │   │   ├─ 📂 controller
+     │   │             │   │   │   └─ 📜 TradeController.kt
+     │   │             │   │   ├─ 📂 dto
+     │   │             │   │   │   ├─ 📜 TradeBuyRequest.kt
+     │   │             │   │   │   ├─ 📜 TradeEvent.kt
+     │   │             │   │   │   ├─ 📜 TradeResult.kt
+     │   │             │   │   │   └─ 📜 TradeSellRequest.kt
+     │   │             │   │   ├─ 📂 entity
+     │   │             │   │   │   ├─ 📜 Trade.kt
+     │   │             │   │   │   └─ 📜 TradeType.kt
+     │   │             │   │   ├─ 📂 repository
+     │   │             │   │   │   └─ 📜 TradeRepository.kt
+     │   │             │   │   └─ 📂 service
+     │   │             │   │       ├─ 📜 TradeConsumer.kt // RabbitMQ의 작업을 처리
+     │   │             │   │       ├─ 📜 TradeProducer.kt // RabbitMQ에 메시지 발행
+     │   │             │   │       └─ 📜 TradeService.kt
+     │   │             │   └─ 📂 user
+     │   │             │       ├─ 📂 dto
+     │   │             │       │   └─ 📜 UserDto.kt
+     │   │             │       ├─ 📂 entity
+     │   │             │       │   ├─ 📜 Role.kt
+     │   │             │       │   ├─ 📜 SocialType.kt
+     │   │             │       │   └─ 📜 User.kt
+     │   │             │       ├─ 📂 exception
+     │   │             │       │   ├─ 📂 errorcode
+     │   │             │       │   │   └─ 📜 UserErrorCode.kt
+     │   │             │       │   └─ 📜 UserDomainException.kt
+     │   │             │       ├─ 📂 repository
+     │   │             │       │   ├─ 📜 UserRepository.kt
+     │   │             │       │   ├─ 📜 UserRepositoryCustom.kt
+     │   │             │       │   └─ 📜 UserRepositoryCustomImpl.kt
+     │   │             │       └─ 📂 service
+     │   │             │           └─ 📜 UserService.kt
+     │   │             ├─ 📂 global
+     │   │             │   ├─ 📂 config
+     │   │             │   │   ├─ 📂 cache
+     │   │             │   │   ├─ 📜 ConfigurationPropsConfig.kt
+     │   │             │   │   ├─ 📂 cors
+     │   │             │   │   │   └─ 📜 CorsConfig.kt
+     │   │             │   │   ├─ 📂 jpa
+     │   │             │   │   │   └─ 📜 JPAQueryFactoryConfig.kt
+     │   │             │   │   ├─ 📂 jwt
+     │   │             │   │   │   └─ 📜 JwtProperties.kt
+     │   │             │   │   ├─ 📂 queryDsl
+     │   │             │   │   │   └─ 📜 QueryDslConfig.kt
+     │   │             │   │   ├─ 📂 rabbitMQ
+     │   │             │   │   │   └─ 📜 RabbitMQConfig.kt
+     │   │             │   │   ├─ 📂 security
+     │   │             │   │   │   └─ 📜 SecurityConfig.kt
+     │   │             │   │   ├─ 📂 swagger
+     │   │             │   │   │   └─ 📜 SwaggerConfig.kt
+     │   │             │   │   └─ 📂 websocket
+     │   │             │   │       └─ 📜 WebSocketConfig.kt
+     │   │             │   ├─ 📂 entity
+     │   │             │   │   └─ 📜 BaseTimeEntity.kt
+     │   │             │   ├─ 📂 exception
+     │   │             │   │   ├─ 📂 errorcode
+     │   │             │   │   │   ├─ 📜 ErrorCode.kt
+     │   │             │   │   │   ├─ 📜 GlobalErrorCode.kt
+     │   │             │   │   │   └─ 📜 SchedulerTaskErrorCode.kt
+     │   │             │   │   ├─ 📜 GlobalException.kt
+     │   │             │   │   ├─ 📜 GlobalExceptionHandler.kt
+     │   │             │   │   └─ 📜 SchedulerTaskException.kt
+     │   │             │   ├─ 📂 initializer
+     │   │             │   │   └─ 📜 GameDataInitializer.kt // 게임 초기 데이터(이벤트, 회사) 자동 추가자
+     │   │             │   ├─ 📂 log
+     │   │             │   │   └─ 📜 Loggable.kt
+     │   │             │   ├─ 📂 response
+     │   │             │   │   └─ 📜 ResponseTemplate.kt
+     │   │             │   ├─ 📂 scheduler
+     │   │             │   │   └─ 📜 StockifyMainTaskScheduler.kt // 게임 진행 스케줄러
+     │   │             │   ├─ 📂 security
+     │   │             │   │   ├─ 📜 AuthenticationMaker.kt
+     │   │             │   │   ├─ 📂 filter
+     │   │             │   │   │   └─ 📜 JwtAuthenticationFilter.kt
+     │   │             │   │   ├─ 📂 handler
+     │   │             │   │   │   ├─ 📜 CustomOAuth2SuccessHandler.kt
+     │   │             │   │   │   ├─ 📜 JwtAccessDeniedHandler.kt
+     │   │             │   │   │   └─ 📜 JwtAuthenticationEntryPoint.kt
+     │   │             │   │   └─ 📜 JwtChannelInterceptor.kt // WebSocket에서 사용자를 식별하기 위한 인터셉터
+     │   │             │   └─ 📂 util
+     │   │             │       ├─ 📜 retry.kt
+     │   │             │       ├─ 📜 StockUpdatePublisher.kt // MQ 처리 후 WebSocket에 메시지 발행
+     │   │             │       └─ 📂 task // 스케줄러 이벤트 테스크
+     │   │             │           ├─ 📜 PrioritizedTask.kt // 테스크 인터페이스
+     │   │             │           ├─ 📜 TaskExecutor.kt // 테스크 순차 실행 및 오류 제어 클래스
+     │   │             │           ├─ 📜 TaskGroup.kt // 테스크 그룹 정의 Enum
+     │   │             │           ├─ 📜 TaskSelector.kt // 테스크를 필터링하는 클래스
+     │   │             │           └─ 📂 tasks
+     │   │             │               ├─ 📜 ChangeTask.kt
+     │   │             │               ├─ 📜 EventTask.kt
+     │   │             │               ├─ 📜 MarketCloseTask.kt
+     │   │             │               └─ 📜 SectorThemeTask.kt
+     │   │             └─ 📜 StockSimulatorApplication.kt
+     │   └─ 📂 resources
+     │       ├─ 📂 data
+     │       │   ├─ 📜 companies.yaml
+     │       │   ├─ 📜 events.yaml
+     │       │   ├─ 📜 test_companies.yaml
+     │       │   └─ 📜 test_events.yaml
+     │       ├─ 📂 static
+     │       ├─ 📂 templates
+     │       ├─ 📜 application.yaml
+     │       └─ 📜 application-test.yaml
+     └─ 📂 test
+         └─ 📂 kotlin
+             └─ 📂 com
+                └─ 📂 quddaz
+                   └─ 📂 stock_simulator
+                       ├─ 📂 domain
+                       │   ├─ 📂 company
+                       │   │   ├─ 📜 CompanyPriceServiceTest.kt
+                       │   │   ├─ 📜 CompanyServiceIntegrationTest.kt
+                       │   │   ├─ 📜 CompanyTest.kt
+                       │   │   └─ 📜 RiskCalculatorTest.kt
+                       │   ├─ 📂 event
+                       │   │   └─ 📜 EventServiceIntegrationTest.kt
+                       │   ├─ 📂 eventHistory
+                       │   │   └─ 📜 EventHistoryServiceIntegrationTest.kt
+                       │   ├─ 📂 oauth
+                       │   │   └─ 📜 AuthServiceTest.kt
+                       │   ├─ 📂 sectorTheme
+                       │   │   └─ 📜 SectorThemeServiceIntegrationTest.kt
+                       │   ├─ 📂 trade
+                       │   │   ├─ 📜 TradeServiceIntegrationTest.kt
+                       │   │   └─ 📜 TradeServiceTest.kt
+                       │   ├─ 📂 user
+                       │   │   ├─ 📜 UserServiceIntegrationTest.kt
+                       │   │   └─ 📜 UserTest.kt
+                       │   └─ 📂 userPosition
+                       │       ├─ 📜 UserPositionServiceIntegrationTest.kt
+                       │       └─ 📜 UserPositionTest.kt
+                       └─ 📜 StockSimulatorApplicationTests.kt
+```
