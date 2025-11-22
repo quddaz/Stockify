@@ -32,7 +32,7 @@
 
 ## 시스템 설계
 - [ERD 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/ERD_%EC%84%A4%EA%B3%84.md)
-- [확장 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md)
+- [추후 확장 계획서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md)
 
 ---
 
@@ -305,3 +305,4 @@ stock-simulator
                        │       └─ 📜 UserPositionTest.kt
                        └─ 📜 StockSimulatorApplicationTests.kt
 ```
+
