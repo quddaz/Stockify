@@ -29,7 +29,8 @@ class TradeConsumer(
 
             if (event is TradeEvent.BuyEvent) {
                 stockUpdatePublisher.publishTradeError(event.userId, e.message ?: "매수 중 시스템 오류가 발생했습니다.")
-            } else if (event is TradeEvent.SellEvent) {
+            }
+            if (event is TradeEvent.SellEvent) {
                 stockUpdatePublisher.publishTradeError(event.userId, e.message ?: "매도 중 시스템 오류가 발생했습니다.")
             }
         }
