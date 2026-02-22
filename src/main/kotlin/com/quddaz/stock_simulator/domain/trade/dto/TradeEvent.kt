@@ -6,15 +6,13 @@ sealed class TradeEvent {
     data class BuyEvent(
         val userId: Long,
         val companyName: String,
-        val quantity: Long,
-        val price: Long
+        val quantity: Long
     ) : TradeEvent()
 
     data class SellEvent(
         val userId: Long,
         val companyName: String,
-        val quantity: Long,
-        val price: Long
+        val quantity: Long
     ) : TradeEvent()
 
     data class SchedulerEvent(

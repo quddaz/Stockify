@@ -8,8 +8,5 @@ data class TradeSellRequest(
     val companyName: String,
 
     @field:Min(1, message = "수량은 1 이상이어야 합니다.")
-    val quantity: Long,
-
-    @field:Min(1, message = "가격은 1 이상이어야 합니다.")
-    val price: Long
+    val quantity: Long
 )

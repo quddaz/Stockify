@@ -85,6 +85,10 @@ dependencies {
 
 	// RabbitMQ
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
+
+	// Retry
+	implementation("org.springframework.retry:spring-retry")
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 }
 
 kotlin {
