@@ -8,7 +8,7 @@
 - JPA 성능 개선 및 쿼리 최적화를 통해 데이터 처리 안정성 강화
 
 # Stokify 기술스택
-### Frontend
+### [Frontend](https://github.com/quddaz/Stockify_Front)
 <img src="https://img.shields.io/badge/react-61DAFB?style=flat-square&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/styled--components-DB7093?style=flat-square&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"> <img src="https://img.shields.io/badge/sockjs-000000?style=flat-square&logo=socket.io&logoColor=white"> <img src="https://img.shields.io/badge/recharts-22B5BF?style=flat-square&logo=apache-echarts&logoColor=white">
 
 
@@ -32,7 +32,7 @@
 
 ## 시스템 설계
 - [ERD 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/ERD_%EC%84%A4%EA%B3%84.md)
-- [확장 설계서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md)
+- [추후 확장 계획서](https://github.com/quddaz/Stockify/blob/main/docs/%EC%84%A4%EA%B3%84/%ED%99%95%EC%9E%A5%EC%84%A4%EA%B3%84.md)
 
 ---
 
@@ -306,3 +306,5 @@ stock-simulator
                        │       └─ 📜 UserPositionTest.kt
                        └─ 📜 StockSimulatorApplicationTests.kt
 ```
+
+
