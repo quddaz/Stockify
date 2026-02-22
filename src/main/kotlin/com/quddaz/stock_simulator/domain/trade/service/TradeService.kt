@@ -62,7 +62,7 @@ class TradeService(
     }
 
     @Transactional
-    fun sell(userId: Long, companyName: String, quantity: Long, price: Long) {
+    fun sell(userId: Long, companyName: String, quantity: Long) {
         val user = userService.findById(userId)
         val company = companyService.findByNameForUpdate(companyName)
 
@@ -73,8 +73,8 @@ class TradeService(
         // 매도
         position.sell(quantity)
 
-        // 매도 금액 획득
-        user.earn(quantity * price)
+        // 매도 금액 획득 (서버 기준 현재가 사용)
+        user.earn(quantity * company.currentPrice)
 
         // 회사 주식 수 증가
         company.increaseShares(quantity)
@@ -89,7 +89,7 @@ class TradeService(
             user = user,
             company = company,
             quantity = quantity,
-            price = price,
+            price = company.currentPrice,
             type = TradeType.SELL
         )
         tradeRepository.save(trade)
