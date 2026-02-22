@@ -1,16 +1,13 @@
 package com.quddaz.stock_simulator.domain.position.service
 
 import com.quddaz.stock_simulator.domain.company.entity.Company
-import com.quddaz.stock_simulator.domain.company.entity.QCompany.company
 import com.quddaz.stock_simulator.domain.position.dto.UserRankingDTO
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
-import com.quddaz.stock_simulator.domain.user.entity.QUser.user
 import com.quddaz.stock_simulator.domain.user.entity.User
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.cache.CacheManager
-import org.springframework.cache.annotation.CachePut
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -62,9 +59,8 @@ class UserPositionService(
         updateRankingTop10() // 초기값 세팅
     }
 
-    fun getOrCreatePosition(user : User, company : Company) : UserPosition {
-        return userPositionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!) ?:
-        UserPosition(
+    fun getOrCreatePosition(user: User, company: Company): UserPosition {
+        return userPositionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!) ?: UserPosition(
             user = user,
             company = company,
             quantity = 0L,

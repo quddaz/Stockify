@@ -142,7 +142,7 @@ class TradeServiceTest {
         whenever(positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
 
         // when
-        tradeService.sell(user.id!!, company.name, 5L, 1_100L)
+        tradeService.sell(user.id!!, company.name, 5L)
 
         // then
         assertThat(user.money).isEqualTo(100_000L - 10 * 1_000L + 5 * 1_100L)
@@ -161,7 +161,7 @@ class TradeServiceTest {
 
         // when & then
         assertThrows<UserPositionDomainException> {
-            tradeService.sell(user.id!!, company.name, 100L, 1_100L)
+            tradeService.sell(user.id!!, company.name, 100L)
         }
     }
 
@@ -174,7 +174,7 @@ class TradeServiceTest {
         whenever(positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
 
         // when
-        tradeService.sell(user.id!!, company.name, 10L, 1_100L)
+        tradeService.sell(user.id!!, company.name, 10L)
 
         // then
         assertThat(position.quantity).isEqualTo(0L)

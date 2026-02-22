@@ -5,7 +5,6 @@ import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
 import com.quddaz.stock_simulator.domain.position.exception.errorCode.UserPositionErrorCode
-import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
 import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.trade.entity.Trade
 import com.quddaz.stock_simulator.domain.trade.entity.TradeType
@@ -32,6 +31,7 @@ class TradeService(
 
         processBuy(user, company, position, quantity)
     }
+
     private fun processBuy(user: User, company: Company, position: UserPosition, quantity: Long) {
         val totalCost = quantity * company.currentPrice
 
@@ -42,7 +42,13 @@ class TradeService(
         if (position.id == null) positionService.save(position)
 
         tradeRepository.save(
-            Trade(user = user, company = company, quantity = quantity, price = company.currentPrice, type = TradeType.BUY)
+            Trade(
+                user = user,
+                company = company,
+                quantity = quantity,
+                price = company.currentPrice,
+                type = TradeType.BUY
+            )
         )
     }
 
@@ -52,25 +58,34 @@ class TradeService(
 
 
     @Transactional
-    fun sell(userId: Long, companyName: String, quantity: Long, price: Long) {
+    fun sell(userId: Long, companyName: String, quantity: Long) {
         val user = loadUser(userId)
         val company = loadCompanyForUpdate(companyName)
         val position = loadPositionOrThrow(user, company)
 
-        processSell(user, company, position, quantity, price)
+        processSell(user, company, position, quantity)
     }
 
     private fun loadPositionOrThrow(user: User, company: Company) =
         positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)
             ?: throw UserPositionDomainException(UserPositionErrorCode.POSITION_NOT_FOUND)
 
-    private fun processSell(user: User, company: Company, position: UserPosition, quantity: Long, price: Long) {
+    private fun processSell(user: User, company: Company, position: UserPosition, quantity: Long) {
         position.sell(quantity)
-        user.earn(quantity * price)
+        // 매도 금액 획득 (서버 기준 현재가 사용)
+        user.earn(quantity * company.currentPrice)
         company.increaseShares(quantity)
 
         if (position.quantity == 0L) positionService.delete(position)
 
-        tradeRepository.save(Trade(user = user, company = company, quantity = quantity, price = price, type = TradeType.SELL))
+        tradeRepository.save(
+            Trade(
+                user = user,
+                company = company,
+                quantity = quantity,
+                price = company.currentPrice,
+                type = TradeType.SELL
+            )
+        )
     }
 }

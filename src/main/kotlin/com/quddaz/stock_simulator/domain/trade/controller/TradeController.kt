@@ -29,8 +29,7 @@ class TradeController(
         tradeProducer.sendBuy(
             userId = userId,
             companyName = request.companyName,
-            quantity = request.quantity,
-            price = request.price
+            quantity = request.quantity
         )
         return ResponseEntity.ok(ResponseTemplate.success("매수 요청이 큐에 전송되었습니다."))
     }
@@ -45,8 +44,7 @@ class TradeController(
         tradeProducer.sendSell(
             userId = userId,
             companyName = request.companyName,
-            quantity = request.quantity,
-            price = request.price
+            quantity = request.quantity
         )
         return ResponseEntity.ok(ResponseTemplate.success("매도 요청이 큐에 전송되었습니다."))
     }
