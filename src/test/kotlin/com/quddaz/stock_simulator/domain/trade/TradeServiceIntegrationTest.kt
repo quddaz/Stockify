@@ -103,7 +103,7 @@ class TradeServiceIntegrationTest(
         tradeService.buy(savedUser.id!!, savedCompany.name, 10L)
 
         // when
-        tradeService.sell(savedUser.id!!, savedCompany.name, 5L, 1_100L)
+        tradeService.sell(savedUser.id!!, savedCompany.name, 5L)
 
         // then
         val updatedUser = userRepository.findById(savedUser.id!!).get()
@@ -125,7 +125,7 @@ class TradeServiceIntegrationTest(
         tradeService.buy(savedUser.id!!, savedCompany.name, 10L)
 
         // when
-        tradeService.sell(savedUser.id!!, savedCompany.name, 10L, 1_100L)
+        tradeService.sell(savedUser.id!!, savedCompany.name, 10L)
 
         // then
         val position = positionRepository.findByUserIdAndCompanyIdForUpdate(savedUser.id!!, savedCompany.id!!)

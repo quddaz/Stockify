@@ -7,14 +7,12 @@ sealed class TradeEvent {
         val userId: Long,
         val companyName: String,
         val quantity: Long,
-        val price: Long
     ) : TradeEvent()
 
     data class SellEvent(
         val userId: Long,
         val companyName: String,
         val quantity: Long,
-        val price: Long
     ) : TradeEvent()
 
     data class SchedulerEvent(

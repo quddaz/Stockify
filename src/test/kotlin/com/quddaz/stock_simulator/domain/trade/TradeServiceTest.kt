@@ -6,7 +6,7 @@ import com.quddaz.stock_simulator.domain.company.exception.CompanyDomainExceptio
 import com.quddaz.stock_simulator.domain.company.service.CompanyService
 import com.quddaz.stock_simulator.domain.position.entitiy.UserPosition
 import com.quddaz.stock_simulator.domain.position.exception.UserPositionDomainException
-import com.quddaz.stock_simulator.domain.position.repository.UserPositionRepository
+import com.quddaz.stock_simulator.domain.position.service.UserPositionService
 import com.quddaz.stock_simulator.domain.trade.repository.TradeRepository
 import com.quddaz.stock_simulator.domain.trade.service.TradeService
 import com.quddaz.stock_simulator.domain.user.entity.Role
@@ -35,7 +35,7 @@ class TradeServiceTest {
     lateinit var companyService: CompanyService
 
     @Mock
-    lateinit var positionRepository: UserPositionRepository
+    lateinit var positionService: UserPositionService
 
     @Mock
     lateinit var tradeRepository: TradeRepository
@@ -49,7 +49,7 @@ class TradeServiceTest {
 
     @BeforeEach
     fun setUp() {
-        // given: 테스트용 유저, 회사, 포지션 초기화
+        // 테스트용 유저 초기화
         user = User(
             socialId = "socialId",
             email = "email@test.com",
@@ -59,6 +59,7 @@ class TradeServiceTest {
             money = 100_000L
         ).apply { id = 1L }
 
+        // 테스트용 회사 초기화
         company = Company(
             name = "TestCorp",
             sector = Sector.IT,
@@ -69,6 +70,7 @@ class TradeServiceTest {
             negativeRate = 1.3
         ).apply { id = 1L }
 
+        // 테스트용 포지션 초기화
         position = UserPosition(
             user = user,
             company = company,
@@ -82,8 +84,8 @@ class TradeServiceTest {
         // given
         whenever(userService.findById(user.id!!)).thenReturn(user)
         whenever(companyService.findByNameForUpdate(company.name)).thenReturn(company)
-        whenever(positionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(null)
-        whenever(positionRepository.save(any())).thenAnswer { it.arguments[0] }
+        whenever(positionService.getOrCreatePosition(user, company)).thenReturn(position)
+        whenever(positionService.save(any())).thenAnswer { it.arguments[0] }
 
         // when
         tradeService.buy(user.id!!, company.name, 10L)
@@ -91,7 +93,7 @@ class TradeServiceTest {
         // then
         assertThat(user.money).isEqualTo(100_000L - 10 * 1_000L)
         assertThat(company.totalShares).isEqualTo(1_000L - 10L)
-        verify(positionRepository).save(any())
+        verify(positionService).save(any())
         verify(tradeRepository).save(any())
     }
 
@@ -100,6 +102,7 @@ class TradeServiceTest {
         // given
         whenever(userService.findById(user.id!!)).thenReturn(user)
         whenever(companyService.findByNameForUpdate(company.name)).thenReturn(company)
+        whenever(positionService.getOrCreatePosition(user, company)).thenReturn(position)
 
         // when & then
         assertThrows<UserDomainException> {
@@ -110,7 +113,7 @@ class TradeServiceTest {
     @Test
     fun `buy 시 회사 보유 주식 수보다 많이 사용`() {
         // given
-        val Tcompany = Company(
+        val smallCompany = Company(
             name = "TestCorp",
             sector = Sector.IT,
             description = "테스트 회사",
@@ -121,27 +124,28 @@ class TradeServiceTest {
         ).apply { id = 1L }
 
         whenever(userService.findById(user.id!!)).thenReturn(user)
-        whenever(companyService.findByNameForUpdate(Tcompany.name)).thenReturn(Tcompany)
+        whenever(companyService.findByNameForUpdate(smallCompany.name)).thenReturn(smallCompany)
+        whenever(positionService.getOrCreatePosition(user, smallCompany)).thenReturn(position)
 
         // when & then
         assertThrows<CompanyDomainException> {
-            tradeService.buy(user.id!!, Tcompany.name, 11L)
+            tradeService.buy(user.id!!, smallCompany.name, 11L)
         }
     }
 
     @Test
     fun `sell 메서드 정상 동작`() {
-        // given: 포지션 구매
+        // given
         position.buy(10L, 1_000L)
         whenever(userService.findById(user.id!!)).thenReturn(user)
         whenever(companyService.findByNameForUpdate(company.name)).thenReturn(company)
-        whenever(positionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
+        whenever(positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
 
         // when
-        tradeService.sell(user.id!!, company.name, 5L, 1_100L)
+        tradeService.sell(user.id!!, company.name, 5L)
 
         // then
-        assertThat(user.money).isEqualTo(100_000L - 10*1_000L + 5*1_100L)
+        assertThat(user.money).isEqualTo(100_000L - 10 * 1_000L + 5 * 1_100L)
         assertThat(company.totalShares).isEqualTo(1_000L - 10 + 5)
         assertThat(position.quantity).isEqualTo(5L)
         verify(tradeRepository).save(any())
@@ -153,11 +157,11 @@ class TradeServiceTest {
         position.buy(10L, 1_000L)
         whenever(userService.findById(user.id!!)).thenReturn(user)
         whenever(companyService.findByNameForUpdate(company.name)).thenReturn(company)
-        whenever(positionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
+        whenever(positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
 
         // when & then
         assertThrows<UserPositionDomainException> {
-            tradeService.sell(user.id!!, company.name, 100L, 1_100L)
+            tradeService.sell(user.id!!, company.name, 100L)
         }
     }
 
@@ -167,14 +171,14 @@ class TradeServiceTest {
         position.buy(10L, 1_000L)
         whenever(userService.findById(user.id!!)).thenReturn(user)
         whenever(companyService.findByNameForUpdate(company.name)).thenReturn(company)
-        whenever(positionRepository.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
+        whenever(positionService.findByUserIdAndCompanyIdForUpdate(user.id!!, company.id!!)).thenReturn(position)
 
         // when
-        tradeService.sell(user.id!!, company.name, 10L, 1_100L)
+        tradeService.sell(user.id!!, company.name, 10L)
 
         // then
         assertThat(position.quantity).isEqualTo(0L)
-        verify(positionRepository).delete(position)
+        verify(positionService).delete(position)
         verify(tradeRepository).save(any())
     }
 }

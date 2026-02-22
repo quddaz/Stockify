@@ -5,6 +5,7 @@ import com.quddaz.stock_simulator.global.log.Loggable
 import com.quddaz.stock_simulator.global.util.StockUpdatePublisher
 import com.quddaz.stock_simulator.global.util.task.TaskExecutor
 import com.quddaz.stock_simulator.global.util.task.TaskSelector
+import org.springframework.amqp.AmqpRejectAndDontRequeueException
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Service
 
@@ -24,14 +25,12 @@ class TradeConsumer(
                 is TradeEvent.SellEvent -> handleSell(event)
                 is TradeEvent.SchedulerEvent -> handleScheduler(event)
             }
-        } catch (e: Exception) {
-            log.error("메시지 처리 중 알 수 없는 에러 발생: ${e.message}", e)
-
-            if (event is TradeEvent.BuyEvent) {
-                stockUpdatePublisher.publishTradeError(event.userId, e.message ?: "매수 중 시스템 오류가 발생했습니다.")
-            } else if (event is TradeEvent.SellEvent) {
-                stockUpdatePublisher.publishTradeError(event.userId, e.message ?: "매도 중 시스템 오류가 발생했습니다.")
-            }
+        } catch (e: IllegalArgumentException) {
+            log.warn("유효하지 않은 요청으로 메시지 처리 실패: ${e.message}")
+            publishTradeError(event, e.message ?: "잘못된 요청입니다.")
+            log.error("메시지 처리 중 시스템 에러 발생: ${e.message}", e)
+            publishTradeError(event, "시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            throw AmqpRejectAndDontRequeueException("메시지 처리 실패", e)
         }
     }
 
@@ -41,13 +40,19 @@ class TradeConsumer(
     }
 
     private fun handleSell(event: TradeEvent.SellEvent) {
-        tradeService.sell(event.userId, event.companyName, event.quantity, event.price)
+        tradeService.sell(event.userId, event.companyName, event.quantity)
         stockUpdatePublisher.publishTradeUpdate(event.userId, event)
+    }
+    private fun publishTradeError(event: TradeEvent, message: String) {
+        when (event) {
+            is TradeEvent.BuyEvent -> stockUpdatePublisher.publishTradeError(event.userId, message)
+            is TradeEvent.SellEvent -> stockUpdatePublisher.publishTradeError(event.userId, message)
+            is TradeEvent.SchedulerEvent -> Unit
+        }
     }
 
     private fun handleScheduler(event: TradeEvent.SchedulerEvent) {
         val tasks = taskSelector.getAllTasks()
-
 
         taskExecutor.executeGroupTasks(tasks, event.taskMainGroup)
 
