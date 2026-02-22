@@ -5,8 +5,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.quddaz.stock_simulator.domain.company.dto.CompanyPageResponse
 import com.quddaz.stock_simulator.domain.company.entity.Company
-import com.quddaz.stock_simulator.domain.company.exception.CompanyDomainException
-import com.quddaz.stock_simulator.domain.company.exception.errorCode.CompanyErrorCode
 import com.quddaz.stock_simulator.domain.company.repository.CompanyRepository
 import com.quddaz.stock_simulator.domain.eventHistory.service.EventHistoryService
 import com.quddaz.stock_simulator.domain.sectorTheme.service.SectorThemeService
